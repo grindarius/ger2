@@ -4,6 +4,7 @@
 .vscode/settings.json
 .history
 .yarn
+.eslintrc.cjs
 bazel-*
 bazel-bin
 bazel-out
