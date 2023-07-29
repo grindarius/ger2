@@ -50,6 +50,9 @@ importers:
       daisyui:
         specifier: ^3.5.0
         version: 3.5.0
+      primer-octicons-qwik:
+        specifier: ^0.0.1
+        version: 0.0.1
     devDependencies:
       '@auth/core':
         specifier: ^0.7.1
@@ -3028,6 +3031,11 @@ packages:
   /pretty-format@3.8.0:
     resolution: {integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==}
     dev: true
+
+  /primer-octicons-qwik@0.0.1:
+    resolution: {integrity: sha512-lGq4DmwsAr7FY0UecPH9EPii/8pqiuY/kfaJu0kraR/VZsAhPG8l+Ybu4EMkOMyhe5Y1GYJHE4uQsUYKboTNtw==}
+    engines: {node: '>=15.0.0'}
+    dev: false
 
   /property-information@6.2.0:
     resolution: {integrity: sha512-kma4U7AFCTwpqq5twzC1YVIDXSqg6qQK6JN0smOw8fgRy1OkMi0CYSzFmsy6dnqSenamAtj0CyXMUJ1Mf6oROg==}
