@@ -34,6 +34,7 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
-    "daisyui": "^3.5.0"
+    "daisyui": "^3.5.0",
+    "primer-octicons-qwik": "^0.0.1"
   }
 }
