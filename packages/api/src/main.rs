@@ -8,8 +8,10 @@ mod telemetry;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // load environment variables
     dotenvy::dotenv().expect("Cannot load environment variables file.");
 
+    // initialize telemetry
     let _guard = telemetry::init_telemetry();
 
     tracing::info!("Starting the server at \"{}\"", *envs::API_LINK);
