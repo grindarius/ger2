@@ -1,0 +1,15 @@
+create table major (
+    id varchar(32) not null unique,
+    curriculum_id varchar(32) not null,
+    academic_year_id varchar(32) not null,
+    name text not null,
+    minimum_credit int not null,
+    year_amount smallint not null,
+    minimum_grade numeric(3, 2) not null,
+    created_at timestamptz not null default now(),
+    primary key (id),
+    foreign key (curriculum_id) references curriculum(id)
+);
+
+comment on table major is 'Stores data about the major. A major can have same name but different academic year because of program change of some sort.';
+comment on column major.minimum_grade is 'The minimum grade that a student is required to surpass the class, They will be forced to take a drop when their grade is not higher than this value.';
