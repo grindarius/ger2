@@ -937,16 +937,20 @@ dependencies = [
  "actix-web",
  "argon2",
  "deadpool-postgres",
+ "derive_more",
  "dotenvy",
+ "futures-util",
  "geo-types",
  "once_cell",
  "opentelemetry",
  "opentelemetry-jaeger",
+ "paste",
  "randoid",
  "refinery",
  "rust_decimal",
  "serde",
  "serde_json",
+ "serde_variant",
  "time",
  "tokio-pg-mapper",
  "tokio-pg-mapper-derive",
@@ -1999,6 +2003,15 @@ dependencies = [
  "form_urlencoded",
  "itoa",
  "ryu",
+ "serde",
+]
+
+[[package]]
+name = "serde_variant"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "47a8ec0b2fd0506290348d9699c0e3eb2e3e8c0498b5a9a6158b3bd4d6970076"
+dependencies = [
  "serde",
 ]
 
