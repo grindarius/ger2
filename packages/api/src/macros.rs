@@ -10,6 +10,7 @@ macro_rules! load_envs {
     };
 }
 
+/// Set default value of enum in swagger documentation.
 macro_rules! openapi_enum_default {
     ($enum_name: ident) => {
         ::paste::paste! {
@@ -32,5 +33,18 @@ macro_rules! openapi_enum_default {
     };
 }
 
+/// Create example error response for swagger api
+macro_rules! example_error_response {
+    ($status_code: ident, $message: stmt) => {
+        ::paste::paste! {
+            pub static [<EXAMPLE_ $status_code _RESPONSE>]: ::once_cell::sync::Lazy<$crate::errors::ErrorResponse> = ::once_cell::sync::Lazy::new(|| $crate::errors::ErrorResponse {
+                status_code: ::actix_web::http::StatusCode::$status_code.as_u16(),
+                error: ::actix_web::http::StatusCode::$status_code.canonical_reason().unwrap_or("").to_string(),
+                message: $message.to_string(),
+            });
+        }
+    }
+}
+
+pub(crate) use example_error_response;
 pub(crate) use load_envs;
-pub(crate) use openapi_enum_default;

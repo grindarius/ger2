@@ -5,6 +5,9 @@
     ),
     components(
         schemas(
+            crate::routes::auth::signin::SigninRequestBody,
+            crate::routes::auth::signin::SigninResponseBody,
+            crate::constants::Role,
             crate::errors::ErrorResponse
         )
     ),
