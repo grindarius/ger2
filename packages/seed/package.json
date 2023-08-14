@@ -1,0 +1,20 @@
+{
+  "name": "ger2-seeders",
+  "description": "seeders for the database",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "reset": "pnpm src/reset.mjs",
+    "migrate": "cd ../api && refinery -c ../api/refinery.toml -p -p ../api/migrations",
+    "seed": "pnpm seed"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/dotenv-flow": "^3.2.0",
+    "@types/pg": "^8.10.2"
+  },
+  "dependencies": {
+    "dotenv-flow": "^3.2.0",
+    "pg": "^8.11.2"
+  }
+}
