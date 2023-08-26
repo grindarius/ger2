@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  postgres:
+    build: ./postgres
+    image: grindarius/postgres
+    container_name: ger2-postgres-server
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.d:/docker-entrypoint-initdb.d
+    ports:
+      - 7321:5432
+    environment:
+      - POSTGRES_DB=ger2
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  postgres_data:
