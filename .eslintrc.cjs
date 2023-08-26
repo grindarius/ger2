@@ -6,37 +6,19 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:qwik/strict',
-    'standard-with-typescript'
+    'standard'
   ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    tsconfigRootDir: __dirname,
-    project: ['./packages/website/tsconfig.json', './packages/seed/tsconfig.json'],
-    ecmaVersion: 2021,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
   plugins: [
-    '@typescript-eslint',
     'simple-import-sort',
-    'import',
-    'unused-imports'
+    'unused-imports',
+    'import'
   ],
+  parserOptions: {
+    ecmaversion: 2021
+  },
   rules: {
-    'jsx-quotes': ['error', 'prefer-double'],
     'space-before-function-paren': 'off',
     'dot-notation': 'off',
-    '@typescript-eslint/dot-notation': 'error',
-    '@typescript-eslint/space-before-function-paren': ['error', 'always'],
-    '@typescript-eslint/no-unused-vars': ['error'],
-    '@typescript-eslint/consistent-type-imports': ['error'],
-    '@typescript-eslint/array-type': ['error', {
-      default: 'generic',
-      readonly: 'generic'
-    }],
     'simple-import-sort/imports': [
       'error',
       {
@@ -47,7 +29,46 @@ module.exports = {
     'unused-imports/no-unused-imports': 'error',
     'import/newline-after-import': ['error', { count: 1 }],
     'key-spacing': 'off',
-    '@typescript-eslint/key-spacing': 'off',
-    '@typescript-eslint/restrict-plus-operands': 'error'
-  }
+  },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      env: {
+        es2021: true,
+        browser: true,
+        node: true,
+
+      },
+      extends: [
+        'plugin:qwik/strict',
+        'standard-with-typescript'
+      ],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        project: ['./packages/website/tsconfig.json'],
+        ecmaVersion: 2021,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      plugins: [
+        '@typescript-eslint'
+      ],
+      rules: {
+        'jsx-quotes': ['error', 'prefer-double'],
+        '@typescript-eslint/dot-notation': 'error',
+        '@typescript-eslint/space-before-function-paren': ['error', 'always'],
+        '@typescript-eslint/no-unused-vars': ['error'],
+        '@typescript-eslint/consistent-type-imports': ['error'],
+        '@typescript-eslint/array-type': ['error', {
+          default: 'generic',
+          readonly: 'generic'
+        }],
+        '@typescript-eslint/key-spacing': 'off',
+        '@typescript-eslint/restrict-plus-operands': 'error'
+      }
+    }
+  ]
 }

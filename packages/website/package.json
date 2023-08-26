@@ -35,6 +35,8 @@
   },
   "dependencies": {
     "daisyui": "^3.5.0",
+    "ky": "^0.33.3",
+    "ky-universal": "^0.12.0",
     "primer-octicons-qwik": "^0.0.1"
   }
 }

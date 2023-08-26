@@ -1,3 +1,4 @@
 packages:
   - 'packages/website'
   - 'packages/seed'
+  - 'package/scripts'

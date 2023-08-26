@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "university registration, redefined",
   "private": true,
-  "keywords": ["university"],
+  "keywords": [
+    "university"
+  ],
   "author": "Bhattarapong Somwong",
   "license": "MIT",
+  "scripts": {
+    "reset": "cd ./packages/seed && node ./src/reset.mjs",
+    "migrate": "cd ./packages/api && refinery migrate -c ./refinery.toml -p ./migrations",
+    "copy-server-types": "cd ./packages/scripts && pnpm copy-server-types"
+  },
   "devDependencies": {
     "@tsconfig/node-lts": "^18.12.3",
     "@tsconfig/strictest": "^2.0.1",
@@ -14,6 +21,7 @@
     "@typescript-eslint/eslint-plugin": "5.61.0",
     "@typescript-eslint/parser": "5.61.0",
     "eslint": "8.44.0",
+    "eslint-config-standard": "^17.1.0",
     "eslint-config-standard-with-typescript": "^37.0.0",
     "eslint-plugin-qwik": "1.2.6",
     "eslint-plugin-simple-import-sort": "^10.0.0",
