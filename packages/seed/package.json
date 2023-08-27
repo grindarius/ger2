@@ -3,18 +3,16 @@
   "description": "seeders for the database",
   "type": "module",
   "private": true,
-  "scripts": {
-    "reset": "pnpm src/reset.mjs",
-    "migrate": "cd ../api && refinery -c ../api/refinery.toml -p -p ../api/migrations",
-    "seed": "pnpm seed"
-  },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "@types/dotenv-flow": "^3.2.0",
     "@types/pg": "^8.10.2"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
+    "dayjs": "^1.11.9",
     "dotenv-flow": "^3.2.0",
-    "pg": "^8.11.2"
+    "pg": "^8.11.2",
+    "ulid": "^2.3.0"
   }
 }

@@ -9,4 +9,4 @@ create table name (
     foreign key (user_id) references account(id)
 );
 
-comment on column name.name_language is 'ISO 639-1 language code in all lowercase.';
+comment on column name.name_language is 'ISO 639-1 alpha-2 language code in all lowercase.';
