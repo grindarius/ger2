@@ -3,7 +3,7 @@ create table major_subject_group (
     major_id varchar(32) not null,
     parent_id varchar(32),
     name text not null,
-    minimum_credit smallint,
+    minimum_credit numeric(4, 1),
     primary key (id),
     foreign key (major_id) references major(id)
 );
