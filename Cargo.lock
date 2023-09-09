@@ -1092,7 +1092,6 @@ dependencies = [
  "actix-multipart",
  "actix-web",
  "argon2",
- "cornflake",
  "deadpool-postgres",
  "derive_more",
  "dotenvy",
