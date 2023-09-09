@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { ulid } from 'ulid'
+import ulid from 'ulid'
 
 import { faker } from '@faker-js/faker'
 
@@ -38,7 +38,7 @@ export class Point {
 
 export const generateBuilding = () => {
   // TLV
-  const coordinate = Point(63.00247547162684, 25.699322998379134)
+  const coordinate = new Point(63.00247547162684, 25.699322998379134)
 
   return Array.from({ length: faker.number.int({ min: 10, max: 20 }) }, () => {
     return {
@@ -46,7 +46,7 @@ export const generateBuilding = () => {
       name: faker.commerce.productName(),
       description: faker.lorem.words(20),
       // INFO: who the fuck use miles tbh
-      coordinates: Point(faker.location.nearbyGPSCoordinate({ origin: coordinate.asArray(), radius: 100, isMetric: true })),
+      coordinates: new Point(...faker.location.nearbyGPSCoordinate({ origin: coordinate.asArray(), radius: 100, isMetric: true })).asPostgresPoint(),
       created_at: dayjs().toISOString(),
       building_created_at: dayjs(faker.date.past({ years: 20 })).toISOString()
     }

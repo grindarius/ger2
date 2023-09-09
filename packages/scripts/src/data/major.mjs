@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { ulid } from 'ulid'
+import ulid from 'ulid'
 
 import { faker } from '@faker-js/faker'
 
