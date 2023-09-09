@@ -1,13 +1,3 @@
-create type day_of_week as enum (
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday'
-);
-
 create table subject (
     id varchar(32) not null unique,
     name text not null,
