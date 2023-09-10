@@ -4,7 +4,7 @@ create table student_transaction (
     student_id varchar(32) not null,
     price numeric(8, 2) not null,
     created_at timestamptz not null default now(),
-    updated_at timestamptz not null default now(),
+    updated_at timestamptz,
     primary key (id),
     foreign key (semester_id) references semester(id),
     foreign key (student_id) references student(id)
