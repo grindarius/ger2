@@ -36,3 +36,14 @@ pub enum DayOfWeek {
     #[postgres(name = "saturday")]
     Saturday,
 }
+
+#[derive(Debug, Deserialize, Serialize, ToSchema, TS, FromSql, ToSql)]
+#[postgres(name = "semester_type")]
+#[serde(rename_all = "lowercase")]
+#[ts(export)]
+pub enum SemesterType {
+    #[postgres(name = "midterm")]
+    Midterm,
+    #[postgres(name = "final")]
+    Final,
+}

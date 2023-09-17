@@ -38,10 +38,10 @@ async fn main() -> std::io::Result<()> {
     // initialize database pool
     let pool = create_pool();
 
-    tracing::info!("Starting the server at \"{}\"", *envs::API_LINK);
+    tracing::info!("Starting the server at \"{}\"", *envs::FULL_API_LINK);
     tracing::info!(
         "Starting the documentation server at \"{}/documentation/\"",
-        *envs::API_LINK
+        *envs::FULL_API_LINK
     );
 
     HttpServer::new(move || {
@@ -125,6 +125,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/documentation",
                 web::get().to(crate::routes::docs::redirect::handler),
+            )
+            .route(
+                "/curriculums",
+                web::get().to(crate::routes::curriculums::get_curriculums::handler),
             )
             .service(
                 SwaggerUi::new("/documentation/{_:.*}")

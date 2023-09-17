@@ -60,7 +60,7 @@ impl Default for GetCurriculumsResponseBodyInner {
 
 top_level_array_ts_type!(GetCurriculumsResponseBody, GetCurriculumsResponseBodyInner);
 
-/// API route to return all data of all faculty, curriculums, and majors in the school/university.
+/// API route to return all data of all faculties, curriculums, and majors in the school/university.
 #[utoipa::path(
     get,
     path = "/curriculums",
