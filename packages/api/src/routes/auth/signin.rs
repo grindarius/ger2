@@ -20,17 +20,41 @@ use crate::{
 #[derive(Deserialize, ToSchema, TS)]
 #[ts(export)]
 pub struct SigninRequestBody {
+    #[schema(example = "messterms@gmail.com")]
     pub username_or_email: String,
+    #[schema(example = "lksmdvk2094nl123r*")]
     pub password: String,
+}
+
+impl Default for SigninRequestBody {
+    fn default() -> Self {
+        Self {
+            username_or_email: "messteam@gmail.com".to_string(),
+            password: "mOYbayHGK2zZZKA".to_string(),
+        }
+    }
 }
 
 #[derive(Serialize, ToSchema, TS)]
 #[ts(export)]
 pub struct SigninResponseBody {
     access_token: String,
+    id: String,
     username: String,
     email: String,
     role: Role,
+}
+
+impl Default for SigninResponseBody {
+    fn default() -> Self {
+        Self {
+            access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzNDU2Nzg5LCJuYW1lIjoiSm9zZXBoIn0.OpOSSw7e485LOP5PrzScxHb7SR6sAOMRckfFwi4rp7o".to_string(),
+            id: "01HAH50XG6GQYVXGJNGWYJQ9DA".to_string(),
+            username: "grimreaper1023".to_string(),
+            email: "messteam@gmail.com".to_string(),
+            role: Role::Admin,
+        }
+    }
 }
 
 #[utoipa::path(
@@ -43,7 +67,8 @@ pub struct SigninResponseBody {
         (
             status = 200,
             description = "signin successful",
-            body = SigninResponseBody
+            body = SigninResponseBody,
+            example = json!(SigninResponseBody::default())
         ),
         (
             status = 400,
@@ -53,7 +78,7 @@ pub struct SigninResponseBody {
         ),
         (
             status = 404,
-            description = "user not found",
+            description = "something went missing",
             body = ErrorResponse,
             example = json!(*EXAMPLE_NOT_FOUND_RESPONSE)
         ),
@@ -85,6 +110,7 @@ pub async fn handler(
         .prepare_typed_cached(
             r##"
             select
+                id,
                 username,
                 email,
                 password,
@@ -122,6 +148,7 @@ pub async fn handler(
     let access_token = encode(&HEADER, &claims, &ENCODING_KEY)?;
 
     Ok(HttpResponse::Ok().json(SigninResponseBody {
+        id: query_result.get::<&str, String>("id"),
         username: query_result.get::<&str, String>("username"),
         email: query_result.get::<&str, String>("email"),
         role: query_result.get::<&str, Role>("role"),
