@@ -3,7 +3,7 @@ create table student (
     major_id varchar(32) not null,
     academic_year_id varchar(32) not null,
     professor_id varchar(32) not null,
-    student_id int not null,
+    student_id text not null,
     student_nid text not null,
     previous_gpa numeric(3, 2) not null,
     primary key (id),
