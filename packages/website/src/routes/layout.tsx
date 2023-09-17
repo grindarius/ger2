@@ -30,7 +30,7 @@ export default component$(() => {
       <aside class="drawer-side">
         <label for="main-drawer" class="drawer-overlay" />
         <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
-          <li><a href="">Sidebar 1</a></li>
+          <li><a href="/curriculums">Curriculums</a></li>
           <li><a href="">Sidebar 2</a></li>
         </ul>
       </aside>
