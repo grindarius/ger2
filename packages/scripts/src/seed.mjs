@@ -1,6 +1,11 @@
 import chalk from 'chalk'
 
+import { faker } from '@faker-js/faker'
+
 import { generateAcademicYear } from './data/academic-year.mjs'
+import { generateAdmin } from './data/account/admin.mjs'
+import { generateProfessor } from './data/account/professor.mjs'
+import { generateStudent } from './data/account/student.mjs'
 import { generateBuilding } from './data/building.mjs'
 import { generateCurriculum } from './data/curriculum.mjs'
 import { generateFaculty } from './data/faculty.mjs'
@@ -9,13 +14,14 @@ import { generateMajorSubject } from './data/major-subject.mjs'
 import { generateMajorSubjectGroup } from './data/major-subject-group.mjs'
 import { generateRoom } from './data/room.mjs'
 import { generateSemester } from './data/semester.mjs'
-import { generateSemesterExam } from './data/semester-exam.mjs'
-import { generateSemesterRegistration } from './data/semester-registration.mjs'
+import { generateSemesterTerm } from './data/semester-term.mjs'
 import { generateSubject } from './data/subject.mjs'
 import { k } from './postgres/index.mjs'
 import { toJson } from './seed/save-json-file.mjs'
 
 const chunk = 100
+
+faker.seed(3312503)
 
 console.log(chalk.blueBright('Started generating data'))
 
@@ -25,8 +31,7 @@ console.log(chalk.greenBright('- Successfully generated academic years data'))
 
 console.log(chalk.yellow('- Generating semesters data'))
 const semesters = generateSemester(academicYears)
-const semesterExams = generateSemesterExam(semesters)
-const semesterRegistrations = generateSemesterRegistration(semesters)
+const semesterTerms = generateSemesterTerm(semesters)
 console.log(chalk.greenBright('- Successfully generated semesters data'))
 
 console.log(chalk.yellow('- Generating faculties and majors data'))
@@ -38,7 +43,6 @@ console.log(chalk.greenBright('- Successfully generated faculties and majors dat
 console.log(chalk.yellow('- Generating subjects data'))
 const subjects = generateSubject()
 const majorSubjectGroups = generateMajorSubjectGroup(majors)
-const majorSubjects = generateMajorSubject(majors, subjects)
 console.log(chalk.greenBright('- Successfully generated subjects data'))
 
 console.log(chalk.yellow('- Generating buildings data'))
@@ -46,13 +50,18 @@ const buildings = generateBuilding()
 const rooms = generateRoom(buildings)
 console.log(chalk.greenBright('- Successfully generated buildings data'))
 
+console.log(chalk.yellow('- Generating people\'s data'))
+const admins = generateAdmin()
+const professors = generateProfessor()
+const students = generateStudent(majors, academicYears, professors.map(p => p.professor))
+console.log(chalk.greenBright('- Successfully generated people\'s data'))
+
 console.log()
 console.log(chalk.blueBright('Started saving data'))
 
 await toJson(academicYears, 'academic-year')
 await toJson(semesters, 'semester')
-await toJson(semesterExams, 'semester-exam')
-await toJson(semesterRegistrations, 'semester-registration')
+await toJson(semesterTerms, 'semester-term')
 await toJson(faculties, 'faculty')
 await toJson(curriculums, 'curriculum')
 await toJson(majors, 'major')
@@ -70,8 +79,7 @@ console.log(chalk.greenBright('- Successfully inserted academic years data'))
 
 console.log(chalk.yellow('- Inserting semesters data'))
 await k.batchInsert('semester', semesters, chunk)
-await k.batchInsert('semester_exam', semesterExams, chunk)
-await k.batchInsert('semester_registration', semesterRegistrations, chunk)
+await k.batchInsert('semester_term', semesterTerms, chunk)
 console.log(chalk.greenBright('- Successfylly inserted semesters data'))
 
 console.log(chalk.yellow('- Inserting faculties and majors data'))
@@ -83,6 +91,8 @@ console.log(chalk.greenBright('- Successfully inserted faculties and majors data
 console.log(chalk.yellow('- Inserting subjects data'))
 await k.batchInsert('subject', subjects, chunk)
 await k.batchInsert('major_subject_group', majorSubjectGroups, chunk)
+const majorSubjects = await generateMajorSubject(majors, subjects)
+
 await k.batchInsert('major_subject', majorSubjects, chunk)
 console.log(chalk.greenBright('- Successfully inserted subjects data'))
 
@@ -90,6 +100,12 @@ console.log(chalk.yellow('- Inserting buildings data'))
 await k.batchInsert('building', buildings, chunk)
 await k.batchInsert('room', rooms, chunk)
 console.log(chalk.greenBright('- Successfully inserted buildings data'))
+
+console.log(chalk.yellow('- Inserting people\'s data'))
+await k.batchInsert('account', [...admins, ...professors.map(p => p.account), ...students.map(s => s.account)])
+await k.batchInsert('professor', [...professors.map(p => p.professor)])
+await k.batchInsert('student', [...students.map(s => s.student)])
+console.log(chalk.greenBright('- Successfully inserted people\'s data'))
 
 console.log(chalk.bgGreenBright(chalk.black('Done!')))
 

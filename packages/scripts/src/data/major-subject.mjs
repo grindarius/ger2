@@ -34,14 +34,14 @@ export const generateMajorSubject = async (majors, subjects) => {
     `, [major.id])
 
     return majorSubjectGroups.rows.map(leaf => {
-      return Array.from({ length: 5 }, () => {
+      return faker.helpers.arrayElements(subjects, 5).map(subject => {
         return {
           major_subject_group_id: leaf.id,
-          subject_id: faker.helpers.arrayElement(subjects).id
+          subject_id: subject.id
         }
       })
     })
   }))
 
-  return flatten(majorSubjects)
+  return flatten(majorSubjects.filter(m => m.status === 'fulfilled').map(m => m.value))
 }

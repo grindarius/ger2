@@ -9,22 +9,15 @@ export const generateSemester = (academicYears) => {
       {
         id: ulid.ulid(),
         academic_year_id: year.id,
-        start_at: dayjs(`${start.get('year')}-03-01T00:00:00.000+07:00`).toISOString(),
-        end_at: dayjs(`${start.get('year')}-04-30T23:59:59.999+07:00`).toISOString(),
+        start_at: dayjs(`${start.year()}-03-01T00:00:00.000+07:00`).toISOString(),
+        end_at: dayjs(`${start.year()}-05-31T23:59:59.999+07:00`).toISOString(),
         created_at: dayjs().toISOString()
       },
       {
         id: ulid.ulid(),
         academic_year_id: year.id,
-        start_at: dayjs(`${start.get('year')}-06-01T00:00:00.000+07:00`).toISOString(),
-        end_at: dayjs(`${start.get('year')}-07-31T23:59:59.999+07:00`).toISOString(),
-        created_at: dayjs().toISOString()
-      },
-      {
-        id: ulid.ulid(),
-        academic_year_id: year.id,
-        start_at: dayjs(`${start.get('year')}-09-01T00:00:00.000+07:00`).toISOString(),
-        end_at: dayjs(`${start.get('year')}-10-31T23:59:59.999+07:00`).toISOString(),
+        start_at: dayjs(`${start.year()}-07-01T00:00:00.000+07:00`).toISOString(),
+        end_at: dayjs(`${start.year()}-09-30T23:59:59.999+07:00`).toISOString(),
         created_at: dayjs().toISOString()
       }
     ]
