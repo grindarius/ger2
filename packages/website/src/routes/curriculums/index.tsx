@@ -25,7 +25,7 @@ export default component$(() => {
         Object.entries(faculties.value).map(f => {
           return (
             <>
-              <h1 class="text-3xl font-bold">{f[0]}</h1>
+              <h1 class="text-3xl font-bold">{f[1][0].faculty_name}</h1>
               <div class="overflow-x-auto">
                 <table class="table w-full">
                   <thead>
