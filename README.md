@@ -5,7 +5,7 @@ The successor of ger. It used to be my main repository for project that simulate
 ### Requirements
 
 You need some things to properly run this project
-- [docker](docker.com)
-- [node v18](nodejs.org)
-- [pnpm v8](pnpm.io)
-- [rust v1.70](rustup.rs)
+- [docker](https://docker.com)
+- [node v18](https://nodejs.org)
+- [pnpm v8](https://pnpm.io)
+- [rust v1.70](https://rustup.rs)
