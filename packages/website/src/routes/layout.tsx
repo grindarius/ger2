@@ -1,9 +1,8 @@
-import { ListUnorderedIcon } from 'primer-octicons-qwik'
-
 import { component$, Slot } from '@builder.io/qwik'
 import type { RequestHandler } from '@builder.io/qwik-city'
 
 import { Navbar } from '~/components/navbar/navbar'
+import { RadixIconsListBullet } from '~/components/radix-icons/list-bullet/list-bullet'
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -23,15 +22,23 @@ export default component$(() => {
       <main class="drawer-content min-h-screen">
         <Navbar />
         <Slot />
-        <label for="main-drawer" class="btn btn-primary drawer-button rounded-full absolute bottom-4 right-4">
-          <ListUnorderedIcon size={16} />
+        <label for="main-drawer" class="btn btn-primary drawer-button rounded-full fixed bottom-4 right-4">
+          <RadixIconsListBullet />
         </label>
       </main>
       <aside class="drawer-side">
         <label for="main-drawer" class="drawer-overlay" />
         <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
-          <li><a href="/curriculums">Curriculums</a></li>
-          <li><a href="">Sidebar 2</a></li>
+          <li>
+            <a href="/programs">
+              Programs
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Sidebar 2
+            </a>
+          </li>
         </ul>
       </aside>
     </div>

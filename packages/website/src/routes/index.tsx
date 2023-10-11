@@ -12,7 +12,7 @@ export default component$(() => {
     <>
       <h1>who dis</h1>
       <h1>Session: {JSON.stringify(session.value)}</h1>
-      <h1>Expires: {dayjs(session.value.expires).format()}</h1>
+      <h1>Expires: {dayjs(session.value?.expires).format()}</h1>
     </>
   )
 })
