@@ -5,7 +5,7 @@ export default component$(() => {
   const location = useLocation()
 
   return (
-    <main class="container w-full mx-auto bg-base-100 pt-4">
+    <main class="container pt-4 mx-auto w-full bg-base-100">
       Major ID {location.params.majorId}
     </main>
   )

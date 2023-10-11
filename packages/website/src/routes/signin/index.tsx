@@ -8,9 +8,9 @@ export default component$(() => {
   const signIn = useAuthSignin()
 
   return (
-    <main class="hero min-h-screen bg-base-200">
-      <div class="hero-content flex-col lg:flex-row-reverse">
-        <div class="card flex-shrink-0 w-full shadow-2xl bg-base-100">
+    <main class="min-h-screen hero bg-base-200">
+      <div class="flex-col lg:flex-row-reverse hero-content">
+        <div class="flex-shrink-0 w-full shadow-2xl card bg-base-100">
           <Form action={signIn} class="card-body">
             <div class="form-control">
               <input type="hidden" name="providerId" value="credentials" />
@@ -29,7 +29,7 @@ export default component$(() => {
                 <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
               </label>
             </div>
-            <div class="form-control mt-6">
+            <div class="mt-6 form-control">
               <button type="submit" class="btn btn-primary">Sign in</button>
             </div>
           </Form>

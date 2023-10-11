@@ -14,7 +14,7 @@ export const SignedInUser = component$(() => {
               <img alt="bro" width="48" height="48" />
             </div>
           </label>
-          <ul tabIndex={0} class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+          <ul tabIndex={0} class="p-2 mt-3 w-52 shadow z-[1] menu menu-sm dropdown-content bg-base-100 rounded-box">
             <li>
               <a class="justify-between">
                 Profile

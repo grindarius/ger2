@@ -19,13 +19,13 @@ export default component$(() => {
   })
 
   return (
-    <main class="container w-full mx-auto bg-base-100 pt-4">
+    <main class="container pt-4 mx-auto w-full bg-base-100">
 
       {
         Object.entries(faculties.value).map(f => {
           return (
             <>
-              <h1 class="text-3xl font-bold mt-8 mb-6">{f[1][0].faculty_name}</h1>
+              <h1 class="mt-8 mb-6 text-3xl font-bold">{f[1][0].faculty_name}</h1>
               <div class="overflow-x-auto">
                 <table class="table w-full">
                   <thead>
@@ -45,7 +45,7 @@ export default component$(() => {
                         <tbody key={c[0]}>
                           <tr>
                             <td colSpan={6}>
-                              <h4 class="font-bold text-xl">
+                              <h4 class="text-xl font-bold">
                                 {c[1][0].curriculum_name}
                               </h4>
                             </td>

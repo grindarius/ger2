@@ -19,16 +19,16 @@ export default component$(() => {
   return (
     <div class="drawer">
       <input id="main-drawer" type="checkbox" class="drawer-toggle" />
-      <main class="drawer-content min-h-screen">
+      <main class="min-h-screen drawer-content">
         <Navbar />
         <Slot />
-        <label for="main-drawer" class="btn btn-primary drawer-button rounded-full fixed bottom-4 right-4">
+        <label for="main-drawer" class="fixed right-4 bottom-4 rounded-full btn btn-primary drawer-button">
           <RadixIconsListBullet />
         </label>
       </main>
       <aside class="drawer-side">
         <label for="main-drawer" class="drawer-overlay" />
-        <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
+        <ul class="p-4 w-80 h-full menu bg-base-200 text-base-content">
           <li>
             <a href="/programs">
               Programs
