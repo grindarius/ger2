@@ -18,13 +18,15 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
+    "test.e2e": "playwright test",
     "qwik": "qwik"
   },
   "devDependencies": {
     "@auth/core": "^0.14.0",
-    "@builder.io/qwik": "^1.2.11",
+    "@builder.io/qwik": "^1.2.12",
     "@builder.io/qwik-auth": "~0.1.1",
-    "@builder.io/qwik-city": "^1.2.11",
+    "@builder.io/qwik-city": "^1.2.12",
+    "@playwright/test": "1.36.2",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
     "prettier": "3.0.3",
@@ -37,7 +39,6 @@
     "daisyui": "^3.7.4",
     "dayjs": "^1.11.9",
     "just-group-by": "^2.2.0",
-    "ky": "^1.0.1",
-    "primer-octicons-qwik": "^0.0.1"
+    "ky": "^1"
   }
 }
