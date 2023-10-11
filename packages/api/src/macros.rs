@@ -34,10 +34,24 @@ macro_rules! openapi_enum_default {
 }
 
 /// Create example error response for swagger api
+///
+/// # Params:
+/// - `$name`: Put the name of the example variable in.
+/// - `$status_code`: Any imports from [`actix_web::http::StatusCode`].
+/// - `$message`: String literal you want to put as error message of the response.
+///
+/// # Example:
+/// ```rust
+/// use crate::macros::example_error_response;
+///
+/// example_error_response!(INVALID_SWAGGER_KEY, BAD_REQUEST, "property \"x\" cannot be an empty string");
+/// ```
+///
+/// Then you can import that in other module as `crate::EXAMPLE_BAD_REQUEST_RESPONSE`
 macro_rules! example_error_response {
-    ($status_code: ident, $message: stmt) => {
+    ($name: ident, $status_code: ident, $message: stmt) => {
         ::paste::paste! {
-            pub static [<EXAMPLE_ $status_code _RESPONSE>]: ::once_cell::sync::Lazy<$crate::errors::error_response::ErrorResponse> = ::once_cell::sync::Lazy::new(|| $crate::errors::error_response::ErrorResponse {
+            pub static [<EXAMPLE_ $name _RESPONSE>]: ::once_cell::sync::Lazy<$crate::errors::error_response::ErrorResponse> = ::once_cell::sync::Lazy::new(|| $crate::errors::error_response::ErrorResponse {
                 status_code: ::actix_web::http::StatusCode::$status_code.as_u16(),
                 error: ::actix_web::http::StatusCode::$status_code.canonical_reason().unwrap_or("").to_string(),
                 message: $message.to_string(),

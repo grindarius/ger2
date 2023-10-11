@@ -23,6 +23,7 @@ pub struct SigninRequestBody {
     #[schema(example = "messterms@gmail.com")]
     pub username_or_email: String,
     #[schema(example = "lksmdvk2094nl123r*")]
+    #[schema(format = Password)]
     pub password: String,
 }
 
@@ -39,6 +40,7 @@ impl Default for SigninRequestBody {
 #[ts(export)]
 pub struct SigninResponseBody {
     access_token: String,
+    #[schema(format = Ulid)]
     id: String,
     username: String,
     email: String,
@@ -57,6 +59,9 @@ impl Default for SigninResponseBody {
     }
 }
 
+/// # Route to log user in to the website
+///
+/// responses some user credentials and jwt token.
 #[utoipa::path(
     post,
     path = "/auth/signin",
@@ -105,7 +110,6 @@ pub async fn handler(
     }
 
     let client = data.pool.get().await?;
-
     let statement = client
         .prepare_typed_cached(
             r##"

@@ -23,8 +23,8 @@ pub static DECODING_KEY: Lazy<DecodingKey> = Lazy::new(|| {
         .expect("cannot create new jwt decoding key")
 });
 
-/// 12 hours in seconds
-pub const EXPIRES: i64 = 43200;
+/// 15 minutes in seconds
+pub const EXPIRES: i64 = 900;
 
 #[derive(Serialize, Deserialize)]
 pub struct Claims {

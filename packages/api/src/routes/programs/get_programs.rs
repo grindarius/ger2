@@ -3,7 +3,6 @@ use actix_web::{
     web, HttpResponse,
 };
 use postgres_from_row::FromRow;
-use rust_decimal::Decimal;
 use serde::Serialize;
 use ts_rs::TS;
 use utoipa::ToSchema;
@@ -16,21 +15,24 @@ use crate::{
 
 #[derive(Serialize, ToSchema)]
 #[serde(transparent)]
-pub struct GetCurriculumsResponseBody(Vec<GetCurriculumsResponseBodyInner>);
+pub struct GetProgramsResponseBody(Vec<GetProgramsResponseBodyInner>);
 
-impl Default for GetCurriculumsResponseBody {
+impl Default for GetProgramsResponseBody {
     fn default() -> Self {
-        Self(vec![GetCurriculumsResponseBodyInner::default()])
+        Self(vec![GetProgramsResponseBodyInner::default()])
     }
 }
 
 #[derive(Serialize, ToSchema, TS, FromRow)]
 #[ts(export)]
-pub struct GetCurriculumsResponseBodyInner {
+pub struct GetProgramsResponseBodyInner {
+    #[schema(format = Ulid)]
     faculty_id: String,
     faculty_name: String,
+    #[schema(format = Ulid)]
     curriculum_id: String,
     curriculum_name: String,
+    #[schema(format = Ulid)]
     major_id: String,
     major_name: String,
     year: i32,
@@ -38,10 +40,10 @@ pub struct GetCurriculumsResponseBodyInner {
     year_amount: i16,
     #[ts(type = "string")]
     #[serde(with = "rust_decimal::serde::str")]
-    minimum_gpa: Decimal,
+    minimum_gpa: rust_decimal::Decimal,
 }
 
-impl Default for GetCurriculumsResponseBodyInner {
+impl Default for GetProgramsResponseBodyInner {
     fn default() -> Self {
         Self {
             faculty_id: "01HAH59BXPW9M7VXHG52H0R13M".to_string(),
@@ -53,28 +55,28 @@ impl Default for GetCurriculumsResponseBodyInner {
             year: 2020,
             minimum_credit: 120,
             year_amount: 4,
-            minimum_gpa: Decimal::new(25, 1),
+            minimum_gpa: rust_decimal::Decimal::new(25, 1),
         }
     }
 }
 
-top_level_array_ts_type!(GetCurriculumsResponseBody, GetCurriculumsResponseBodyInner);
+top_level_array_ts_type!(GetProgramsResponseBody, GetProgramsResponseBodyInner);
 
 /// API route to return all data of all faculties, curriculums, and majors in the school/university.
 #[utoipa::path(
     get,
-    path = "/curriculums",
-    tag = "curriculums",
-    operation_id = "get_curriculums",
+    path = "/programs",
+    tag = "programs",
+    operation_id = "get_programs",
     responses(
         (
             status = 200,
-            description = "you get list of curriculums",
-            body = GetCurriculumsResponseBody,
-            example = json!(GetCurriculumsResponseBody::default())
+            description = "you get list of programs",
+            body = GetProgramsResponseBody,
+            example = json!(GetProgramsResponseBody::default())
         ),
         (
-            status = 500,
+            status = "5XX",
             description = "something wrong on our end",
             body = ErrorResponse,
             example = json!(*EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE)
@@ -109,13 +111,13 @@ pub async fn handler(data: web::Data<SharedAppData>) -> Result<HttpResponse, Htt
     let rows = client.query(&statement, &[]).await?;
     let curriculums = rows
         .iter()
-        .map(|r| GetCurriculumsResponseBodyInner::try_from_row(r))
-        .collect::<Result<Vec<GetCurriculumsResponseBodyInner>, tokio_postgres::Error>>()?;
+        .map(|r| GetProgramsResponseBodyInner::try_from_row(r))
+        .collect::<Result<Vec<GetProgramsResponseBodyInner>, tokio_postgres::Error>>()?;
 
     Ok(HttpResponse::Ok()
         .insert_header(header::CacheControl(vec![
             CacheDirective::Public,
             CacheDirective::SMaxAge(43200),
         ]))
-        .json(GetCurriculumsResponseBody(curriculums)))
+        .json(GetProgramsResponseBody(curriculums)))
 }

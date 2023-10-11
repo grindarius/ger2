@@ -127,8 +127,12 @@ async fn main() -> std::io::Result<()> {
                 web::get().to(crate::routes::docs::redirect::handler),
             )
             .route(
-                "/curriculums",
-                web::get().to(crate::routes::curriculums::get_curriculums::handler),
+                "/programs",
+                web::get().to(crate::routes::programs::get_programs::handler),
+            )
+            .route(
+                "/programs/{major_id}",
+                web::get().to(crate::routes::programs::get_program::handler),
             )
             .service(
                 SwaggerUi::new("/documentation/{_:.*}")

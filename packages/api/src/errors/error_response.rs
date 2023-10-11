@@ -11,7 +11,7 @@ pub struct ErrorResponse {
 
 #[derive(Debug, derive_more::Display, derive_more::Error, Clone)]
 pub enum HttpError {
-    #[display(fmt = "{field} not found")]
+    #[display(fmt = "{} missing", field)]
     NotFound { field: &'static str },
     #[display(fmt = "invalid swagger api key")]
     InvalidSwaggerApiKey,
@@ -21,6 +21,8 @@ pub enum HttpError {
     InternalServerError { cause: String },
     #[display(fmt = "invalid password")]
     InvalidPassword,
+    #[display(fmt = "data not found with given \"{field}\"")]
+    QueryNotFound { field: &'static str },
 }
 
 impl HttpError {
@@ -31,6 +33,7 @@ impl HttpError {
             HttpError::CannotBeEmpty { .. } => StatusCode::BAD_REQUEST,
             HttpError::InternalServerError { .. } => StatusCode::INTERNAL_SERVER_ERROR,
             HttpError::InvalidPassword => StatusCode::BAD_REQUEST,
+            HttpError::QueryNotFound { .. } => StatusCode::NOT_FOUND,
         }
     }
 }
