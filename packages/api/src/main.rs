@@ -1,6 +1,6 @@
 use actix_web::{
     http::{header, StatusCode},
-    web, App, HttpResponse, HttpServer,
+    web, App, HttpRequest, HttpResponse, HttpServer,
 };
 use once_cell::sync::Lazy;
 use serde_json::json;
@@ -8,12 +8,14 @@ use tracing_actix_web::TracingLogger;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
+use crate::errors::ErrorResponse;
 use crate::openapi::apidoc::ApiDoc;
 use crate::pool::create_pool;
 use crate::shared::SharedAppData;
 
 mod argon2;
 mod constants;
+mod default_service;
 mod envs;
 mod errors;
 mod jwt;
@@ -109,6 +111,17 @@ async fn main() -> std::io::Result<()> {
             .app_data(path_deserialize_config)
             .app_data(query_deserialize_config)
             .app_data(web::Data::new(SharedAppData::new(pool.clone())))
+            .default_service(web::to(|req: HttpRequest| async move {
+                HttpResponse::NotFound().json(ErrorResponse {
+                    status_code: 404,
+                    error: "Not Found".to_string(),
+                    message: format!(
+                        "uri {}{} is invalid, it could be totally wrong or you have trailing slash at the end.",
+                        Lazy::force(&envs::FULL_API_LINK),
+                        req.uri()
+                    ),
+                })
+            }))
             .route(
                 "/",
                 web::get()
@@ -133,6 +146,10 @@ async fn main() -> std::io::Result<()> {
             .route(
                 "/programs/{major_id}",
                 web::get().to(crate::routes::programs::get_program::handler),
+            )
+            .route(
+                "/programs/{major_id}/subjects",
+                web::get().to(crate::routes::programs::get_program_subjects::handler),
             )
             .service(
                 SwaggerUi::new("/documentation/{_:.*}")
