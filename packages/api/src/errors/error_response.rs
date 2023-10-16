@@ -13,14 +13,19 @@ pub struct ErrorResponse {
 pub enum HttpError {
     #[display(fmt = "{} missing", field)]
     NotFound { field: &'static str },
+
     #[display(fmt = "invalid swagger api key")]
     InvalidSwaggerApiKey,
+
     #[display(fmt = "field \"{field}\" cannot be empty")]
     CannotBeEmpty { field: &'static str },
+
     #[display(fmt = "{}", cause)]
     InternalServerError { cause: String },
+
     #[display(fmt = "invalid password")]
     InvalidPassword,
+
     #[display(fmt = "data not found with given \"{field}\"")]
     QueryNotFound { field: &'static str },
 }

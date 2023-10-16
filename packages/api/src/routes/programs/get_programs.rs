@@ -38,6 +38,7 @@ pub struct GetProgramsResponseBodyInner {
     year: i32,
     minimum_credit: i32,
     year_amount: i16,
+    #[schema(format = Double)]
     #[ts(type = "string")]
     #[serde(with = "rust_decimal::serde::str")]
     minimum_gpa: rust_decimal::Decimal,

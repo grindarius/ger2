@@ -4,7 +4,8 @@
         crate::routes::auth::signin::handler,
         crate::routes::docs::redirect::handler,
         crate::routes::programs::get_programs::handler,
-        crate::routes::programs::get_program::handler
+        crate::routes::programs::get_program::handler,
+        crate::routes::programs::get_program_subjects::handler,
     ),
     components(
         schemas(
@@ -14,6 +15,9 @@
             crate::routes::programs::get_programs::GetProgramsResponseBodyInner,
             crate::routes::programs::get_program::GetProgramRequestParams,
             crate::routes::programs::get_program::GetProgramResponseBody,
+            crate::routes::programs::get_program_subjects::GetProgramSubjectsRequestParams,
+            crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBody,
+            crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBodyInner,
             crate::constants::Role,
             crate::errors::error_response::ErrorResponse
         )

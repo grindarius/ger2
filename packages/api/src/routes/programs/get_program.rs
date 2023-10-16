@@ -12,24 +12,30 @@ use crate::{
     shared::SharedAppData,
 };
 
-#[derive(Deserialize, ToSchema, IntoParams)]
+#[derive(Deserialize, ToSchema, IntoParams, TS)]
+#[ts(export)]
 pub struct GetProgramRequestParams {
-    /// Will return 404 if this is not passed
     #[into_params(parameter_in = Path)]
-    major_id: Option<String>,
+    #[schema(format = Ulid)]
+    major_id: String,
 }
 
 #[derive(Serialize, ToSchema, FromRow, TS)]
 #[ts(export)]
 pub struct GetProgramResponseBody {
+    #[schema(format = Ulid)]
     id: String,
     name: String,
+    #[schema(format = Ulid)]
     academic_year_id: String,
     year: i32,
+    #[schema(format = Double)]
+    #[serde(with = "rust_decimal::serde::str")]
     #[ts(type = "string")]
     minimum_gpa: rust_decimal::Decimal,
     year_amount: i16,
     minimum_credit: i32,
+    #[schema(format = DateTime)]
     #[serde(with = "time::serde::iso8601")]
     #[ts(type = "string")]
     created_at: time::OffsetDateTime,
@@ -82,10 +88,6 @@ pub async fn handler(
     params: web::Path<GetProgramRequestParams>,
     data: web::Data<SharedAppData>,
 ) -> Result<HttpResponse, HttpError> {
-    let Some(ref major_id) = params.major_id else {
-        return Err(HttpError::NotFound { field: "major_id" });
-    };
-
     let client = data.pool.get().await?;
     let statement = client
         .prepare_typed(
@@ -108,7 +110,7 @@ pub async fn handler(
         .await?;
 
     let major = client
-        .query_one(&statement, &[major_id])
+        .query_one(&statement, &[&params.major_id])
         .await
         .map_err(|_e| HttpError::QueryNotFound { field: "major_id" })?;
     let major = GetProgramResponseBody::try_from_row(&major)?;
