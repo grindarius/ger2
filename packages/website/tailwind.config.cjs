@@ -8,12 +8,29 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        ger2: {
-          primary: '#8457d1',
-          secondary: '#0b0514',
-          accent: '#6131b4',
-          'base-100': '#090410',
-          neutral: '#2d1452'
+        'ger2-light': {
+          primary: '#F564a9',
+          secondary: '#9ACD32',
+          accent: '#333574',
+          neutral: '#d6d3d1',
+          'base-100': '#f4f3f2',
+          info: '#9CFFFA',
+          success: '#04bf4c',
+          warning: '#faac0a',
+          error: '#c73e1d'
+        }
+      },
+      {
+        'ger2-dark': {
+          primary: '#F564a9',
+          secondary: '#9ACD32',
+          accent: '#333574',
+          neutral: '#292524',
+          'base-100': '#121212',
+          info: '#9CFFFA',
+          success: '#04bf4c',
+          warning: '#faac0a',
+          error: '#c73e1d'
         }
       }
     ]
