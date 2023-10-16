@@ -57,7 +57,7 @@ export default component$(() => {
                                 <tr key={m.major_id}>
                                   <th>{i + 1}</th>
                                   <td>
-                                    <a href={`/programs/${m.major_id}`} class="link">
+                                    <a href={`/programs/${m.major_id}`} class="link link-hover">
                                       {m.major_name}
                                     </a>
                                   </td>

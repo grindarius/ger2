@@ -1,8 +1,8 @@
 import { component$, Slot } from '@builder.io/qwik'
 import type { RequestHandler } from '@builder.io/qwik-city'
 
+import { RadixIconsListBullet } from '~/components/icons/radix-icons/list-bullet'
 import { Navbar } from '~/components/navbar/navbar'
-import { RadixIconsListBullet } from '~/components/radix-icons/list-bullet/list-bullet'
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -22,7 +22,7 @@ export default component$(() => {
       <main class="min-h-screen drawer-content">
         <Navbar />
         <Slot />
-        <label for="main-drawer" class="fixed right-4 bottom-4 rounded-full btn btn-primary drawer-button">
+        <label for="main-drawer" class="fixed right-4 bottom-4 rounded-full lg:right-20 lg:bottom-20 btn btn-primary drawer-button">
           <RadixIconsListBullet />
         </label>
       </main>
