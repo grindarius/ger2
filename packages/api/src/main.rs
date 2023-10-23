@@ -1,3 +1,4 @@
+use actix_multipart::form::tempfile::TempFileConfig;
 use actix_web::{
     http::{header, StatusCode},
     web, App, HttpRequest, HttpResponse, HttpServer,
@@ -10,12 +11,11 @@ use utoipa_swagger_ui::SwaggerUi;
 
 use crate::errors::ErrorResponse;
 use crate::openapi::apidoc::ApiDoc;
-use crate::pool::create_pool;
+use crate::pool::{create_file_server_pool, create_main_pool};
 use crate::shared::SharedAppData;
 
 mod argon2;
 mod constants;
-mod default_service;
 mod envs;
 mod errors;
 mod jwt;
@@ -38,7 +38,8 @@ async fn main() -> std::io::Result<()> {
     let openapi = ApiDoc::openapi();
 
     // initialize database pool
-    let pool = create_pool();
+    let main_pool = create_main_pool();
+    let file_server_pool = create_file_server_pool();
 
     tracing::info!("Starting the server at \"{}\"", *envs::FULL_API_LINK);
     tracing::info!(
@@ -46,9 +47,14 @@ async fn main() -> std::io::Result<()> {
         *envs::FULL_API_LINK
     );
 
+    // create folder for temp files.
+    std::fs::create_dir_all("./tmp")?;
+    std::fs::create_dir_all("./files")?;
+
     HttpServer::new(move || {
         let cors = actix_cors::Cors::default()
             .allowed_origin(envs::WEBSITE_URL.as_str())
+            .allowed_origin(envs::FULL_API_LINK.as_str())
             .supports_credentials()
             .allowed_header(header::COOKIE)
             .allowed_header(header::CONTENT_TYPE);
@@ -107,10 +113,11 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(cors)
             .wrap(TracingLogger::default())
+            .app_data(TempFileConfig::default().directory("./tmp"))
             .app_data(json_deserialize_config)
             .app_data(path_deserialize_config)
             .app_data(query_deserialize_config)
-            .app_data(web::Data::new(SharedAppData::new(pool.clone())))
+            .app_data(web::Data::new(SharedAppData::new(main_pool.clone(), file_server_pool.clone())))
             .default_service(web::to(|req: HttpRequest| async move {
                 HttpResponse::NotFound().json(ErrorResponse {
                     status_code: 404,
@@ -148,8 +155,11 @@ async fn main() -> std::io::Result<()> {
                 web::get().to(crate::routes::programs::get_program::handler),
             )
             .route(
-                "/programs/{major_id}/subjects",
-                web::get().to(crate::routes::programs::get_program_subjects::handler),
+                "/programs/{major_id}/subjects", web::get().to(crate::routes::programs::get_program_subjects::handler),
+            )
+            .route(
+                "/files/upload",
+                web::post().to(crate::routes::files::upload_files::handler)
             )
             .service(
                 SwaggerUi::new("/documentation/{_:.*}")

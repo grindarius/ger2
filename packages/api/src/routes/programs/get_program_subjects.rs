@@ -147,8 +147,6 @@ pub async fn handler(
     path: web::Path<GetProgramSubjectsRequestParams>,
     data: web::Data<SharedAppData>,
 ) -> Result<HttpResponse, HttpError> {
-    println!("{}", path.major_id);
-
     let client = data.pool.get().await?;
     let statement = client.prepare_typed(r##"
         select

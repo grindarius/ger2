@@ -6,6 +6,7 @@
         crate::routes::programs::get_programs::handler,
         crate::routes::programs::get_program::handler,
         crate::routes::programs::get_program_subjects::handler,
+        crate::routes::files::upload_files::handler
     ),
     components(
         schemas(
@@ -18,6 +19,9 @@
             crate::routes::programs::get_program_subjects::GetProgramSubjectsRequestParams,
             crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBody,
             crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBodyInner,
+            crate::routes::files::upload_files::UploadFilesRequestBody,
+            crate::routes::files::upload_files::UploadFilesResponseBody,
+            crate::routes::files::upload_files::FileMetadata,
             crate::constants::Role,
             crate::errors::error_response::ErrorResponse
         )
@@ -31,6 +35,9 @@
         ),
         (
             name = "programs"
+        ),
+        (
+            name = "files"
         )
     )
 )]

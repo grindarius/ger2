@@ -13,6 +13,7 @@ derive_more = { version = "0.99.17", default-features = false, features = ["disp
 dotenvy = "0.15"
 futures-util = "0.3"
 geo-types = { version = "0.7", features = ["serde"] }
+image = "0.24.7"
 jsonwebtoken = "8"
 once_cell = "1"
 opentelemetry = { version = "0.19", features = ["rt-tokio"] }

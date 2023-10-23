@@ -27,6 +27,9 @@ pub struct GetProgramResponseBody {
     id: String,
     name: String,
     #[schema(format = Ulid)]
+    curriculum_id: String,
+    curriculum_name: String,
+    #[schema(format = Ulid)]
     academic_year_id: String,
     year: i32,
     #[schema(format = Double)]
@@ -46,6 +49,8 @@ impl Default for GetProgramResponseBody {
         return Self {
             id: "01HCD9J08N58KWQA479S1M6G0C".to_string(),
             name: "Bachelor of Software Engineer, \"A\" version".to_string(),
+            curriculum_id: "01HCD9J08N58KWQA479S1M6G0X".to_string(),
+            curriculum_name: "Science".to_string(),
             academic_year_id: "01HCD9P06P61BPY9Q3BDSRWWW6".to_string(),
             year: 2022,
             minimum_gpa: rust_decimal::Decimal::new(20, 1),
@@ -95,6 +100,8 @@ pub async fn handler(
                 select
                     major.id as id,
                     major.name as name,
+                    curriculum.id as curriculum_id,
+                    curriculum.name as curriculum_name,
                     major.academic_year_id as academic_year_id,
                     academic_year.year as year,
                     major.minimum_gpa as minimum_gpa,
@@ -103,6 +110,7 @@ pub async fn handler(
                     major.created_at as created_at
                 from major
                 inner join academic_year on major.academic_year_id = academic_year.id
+                inner join curriculum on major.curriculum_id = curriculum.id
                 where major.id = $1
             "##,
             &[Type::TEXT],

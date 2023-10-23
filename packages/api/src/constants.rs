@@ -47,3 +47,18 @@ pub enum SemesterType {
     #[postgres(name = "final")]
     Final,
 }
+
+#[derive(Debug, Deserialize, Serialize, ToSchema, TS, FromSql, ToSql)]
+#[postgres(name = "job_status")]
+#[serde(rename_all = "lowercase")]
+#[ts(export)]
+pub enum JobStatus {
+    #[postgres(name = "queued")]
+    Queued,
+    #[postgres(name = "running")]
+    Running,
+    #[postgres(name = "failed")]
+    Failed,
+    #[postgres(name = "cancelled")]
+    Cancelled,
+}

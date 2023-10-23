@@ -14,5 +14,18 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  file-server-database:
+    image: postgres:16-alpine
+    container_name: ger2-file-server-database
+    volumes:
+      - file_server_data:/var/lib/postgresql/data
+    ports:
+      - 7421:5432
+    environment:
+      - POSTGRES_DB=ger2_file_server
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
 volumes:
   postgres_data:
+  file_server_data:

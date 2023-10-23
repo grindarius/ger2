@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "reset": "cd ./packages/scripts && node ./src/reset.mjs",
-    "migrate": "cd ./packages/api && refinery migrate -c ./refinery.toml -p ./migrations",
+    "migrate": "cd ./packages/api && refinery migrate -c ./main_refinery.toml -p ./migrations/main",
     "seed": "cd ./packages/scripts && node ./src/seed.mjs",
     "rms": "pnpm reset && pnpm migrate && pnpm seed",
     "copy-server-types": "cd ./packages/scripts && node ./src/move-typings.mjs"
