@@ -6,7 +6,7 @@ import {
 } from '@builder.io/qwik-city'
 
 import { RouterHead } from './components/router-head/router-head'
-import { useThemeProvider } from './theme-provider'
+import { useThemeProvider } from './providers/theme-provider'
 
 import './global.css'
 

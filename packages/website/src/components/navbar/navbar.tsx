@@ -1,9 +1,9 @@
 import { component$, useContext } from '@builder.io/qwik'
 
-import { SignedInUser } from '~/components/signed-in-user/signed-in-user'
-import { ThemeContext } from '~/theme-provider'
+import { ThemeContext } from '~/providers/theme-provider'
 import { MaterialSymbolsDarkModeOutlineRounded } from '../icons/mateiral-symbols/dark-mode-outline-rounded'
 import { MaterialSymbolsWbSunny } from '../icons/mateiral-symbols/wb-sunny'
+import { SignedInUser } from './signed-in-user'
 
 export const Navbar = component$(() => {
   const themeContext = useContext(ThemeContext)

@@ -1,4 +1,4 @@
-import { Signal, createContextId, useContext, useContextProvider, useSignal, useStore, useVisibleTask$ } from '@builder.io/qwik'
+import { createContextId, type Signal, useContext, useContextProvider, useSignal, useVisibleTask$ } from '@builder.io/qwik'
 
 export type ThemeType = 'ger2-dark' | 'ger2-light' | ''
 

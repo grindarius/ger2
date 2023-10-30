@@ -10,7 +10,7 @@ export const SignedInUser = component$(() => {
       <div class="dropdown dropdown-end">
         <label tabIndex={0} class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
-            <img alt="bro" width="48" height="48" />
+            <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/331450763/small.jpg" alt="bro" width="48" height="48" />
           </div>
         </label>
         <ul tabIndex={0} class="p-2 mt-3 w-52 shadow z-[1] menu menu-sm dropdown-content bg-base-100 rounded-box">

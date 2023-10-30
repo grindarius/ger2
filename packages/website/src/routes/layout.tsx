@@ -3,6 +3,8 @@ import type { RequestHandler } from '@builder.io/qwik-city'
 
 import { RadixIconsListBullet } from '~/components/icons/radix-icons/list-bullet'
 import { Navbar } from '~/components/navbar/navbar'
+import { NotificationGroup } from '~/components/notification/notification-group'
+import { useNotificationsProvider } from '~/components/notification/notification-provider'
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -16,6 +18,8 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 }
 
 export default component$(() => {
+  useNotificationsProvider()
+
   return (
     <div class="drawer">
       <input id="main-drawer" type="checkbox" class="drawer-toggle" />
@@ -25,6 +29,7 @@ export default component$(() => {
         <label for="main-drawer" class="fixed right-4 bottom-4 rounded-full lg:right-20 lg:bottom-20 btn btn-primary drawer-button">
           <RadixIconsListBullet />
         </label>
+        <NotificationGroup />
       </main>
       <aside class="drawer-side">
         <label for="main-drawer" class="drawer-overlay" />
