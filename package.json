@@ -9,6 +9,8 @@
   "author": "Bhattarapong Somwong",
   "license": "MIT",
   "scripts": {
+    "docker-up": "docker compose up -d",
+    "docker-down": "docker compose down",
     "reset": "cd ./packages/scripts && node ./src/reset.mjs",
     "migrate": "cd ./packages/api && refinery migrate -c ./main_refinery.toml -p ./migrations/main",
     "seed": "cd ./packages/scripts && node ./src/seed.mjs",

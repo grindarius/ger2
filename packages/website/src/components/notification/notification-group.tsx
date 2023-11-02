@@ -8,7 +8,7 @@ export const NotificationGroup = component$(() => {
 
   return (
     <div id="notifications" class="toast toast-end toast-top">
-      {notifications.value.map(n => <Notification key={n.id} id={n.id} message={n.content} duration={n.duration} type={n.style} />)}
+      {notifications.value.map(n => <Notification key={n.id} id={n.id} content={n.content} duration={n.duration} style={n.style} />)}
     </div>
   )
 })

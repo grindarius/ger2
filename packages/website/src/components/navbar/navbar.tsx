@@ -1,8 +1,8 @@
 import { component$, useContext } from '@builder.io/qwik'
 
 import { ThemeContext } from '~/providers/theme-provider'
-import { MaterialSymbolsDarkModeOutlineRounded } from '../icons/mateiral-symbols/dark-mode-outline-rounded'
-import { MaterialSymbolsWbSunny } from '../icons/mateiral-symbols/wb-sunny'
+import { MaterialSymbolsDarkModeOutlineRounded } from '../icons/material-symbols/dark-mode-outline-rounded'
+import { MaterialSymbolsWbSunny } from '../icons/material-symbols/wb-sunny'
 import { SignedInUser } from './signed-in-user'
 
 export const Navbar = component$(() => {
