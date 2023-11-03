@@ -27,7 +27,7 @@ export default component$(() => {
             <>
               <h1 class="mt-8 mb-6 text-3xl font-bold">{f[1][0].faculty_name}</h1>
               <div class="overflow-x-auto">
-                <table class="table w-full">
+                <table class="table">
                   <thead>
                     <tr>
                       <th></th>
@@ -56,7 +56,7 @@ export default component$(() => {
                               return (
                                 <tr key={m.major_id}>
                                   <th>{i + 1}</th>
-                                  <td>
+                                  <td class="w-96">
                                     <a href={`/programs/${m.major_id}`} class="link link-hover">
                                       {m.major_name}
                                     </a>

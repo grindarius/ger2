@@ -3,7 +3,7 @@ import ky from 'ky'
 import { component$ } from '@builder.io/qwik'
 import { type DocumentHead, routeLoader$ } from '@builder.io/qwik-city'
 
-import { Tree } from '~/components/major-information-tree/major-information-tree'
+import { MajorSubjectsTree } from '~/components/major-information-tree/major-information-tree'
 import { type GetProgramResponseBody } from '~/types/server/GetProgramResponseBody'
 import { type GetProgramSubjectsResponseBody } from '~/types/server/GetProgramSubjectsResponseBody'
 
@@ -36,7 +36,7 @@ export default component$(() => {
       </section>
 
       <section>
-        <Tree nodes={subjects} />
+        <MajorSubjectsTree nodes={subjects} />
       </section>
     </main>
   )

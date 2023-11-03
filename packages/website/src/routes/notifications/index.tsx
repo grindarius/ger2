@@ -7,7 +7,7 @@ export default component$(() => {
   const notifs = useContext(NotificationsContext)
 
   const addToast = $(() => {
-    void notifications.add('who')
+    void notifications.add('longggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggblahblahblahblahblah', { style: 'warning' })
   })
 
   return (
