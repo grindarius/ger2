@@ -3,7 +3,7 @@ use utoipa::{
     Modify,
 };
 
-use crate::envs::SWAGGER_API_KEY_NAME;
+use crate::environment_variables::SWAGGER_API_KEY_NAME;
 
 pub struct SecurityAddon;
 
@@ -15,9 +15,9 @@ impl Modify for SecurityAddon {
             .expect("no components assigned in the utoipa::path");
 
         components.add_security_scheme(
-            "api_key",
+            "api-key",
             SecurityScheme::ApiKey(ApiKey::Header(ApiKeyValue::new(
-                SWAGGER_API_KEY_NAME.to_string(),
+                SWAGGER_API_KEY_NAME.to_owned(),
             ))),
         )
     }

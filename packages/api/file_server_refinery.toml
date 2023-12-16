@@ -1,8 +1,0 @@
-[main]
-db_type = "Postgres"
-db_host = "127.0.0.1"
-db_port = "7421"
-db_user = "postgres"
-db_pass = "postgres"
-db_name = "ger2_file_server"
-trust_cert = false

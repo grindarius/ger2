@@ -1,4 +1,3 @@
 pub mod auth;
-pub mod docs;
-pub mod files;
+pub mod hello_world;
 pub mod programs;

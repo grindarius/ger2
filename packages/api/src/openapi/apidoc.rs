@@ -1,44 +1,45 @@
+use crate::openapi::security_addon::SecurityAddon;
+
 #[derive(utoipa::OpenApi)]
 #[openapi(
     paths(
-        crate::routes::auth::signin::handler,
-        crate::routes::docs::redirect::handler,
+        crate::routes::hello_world::handler,
+        crate::routes::auth::get_user::handler,
+        crate::routes::auth::get_session_and_user::handler,
         crate::routes::programs::get_programs::handler,
         crate::routes::programs::get_program::handler,
-        crate::routes::programs::get_program_subjects::handler,
-        crate::routes::files::upload_files::handler
+        crate::routes::programs::get_program_subjects::handler
     ),
     components(
         schemas(
-            crate::routes::auth::signin::SigninRequestBody,
-            crate::routes::auth::signin::SigninResponseBody,
+            crate::routes::hello_world::GetHelloWorldResponseBody,
+            crate::routes::auth::get_user::GetUserRequestQueries,
+            crate::routes::auth::get_user::GetUserResponseBody,
+            crate::routes::auth::get_session_and_user::GetSessionAndUserRequestQueries,
+            crate::routes::auth::get_session_and_user::GetSessionAndUserResponseBody,
+            crate::routes::auth::get_session_and_user::GetSessionAndUserResponseBodyUser,
+            crate::routes::auth::get_session_and_user::GetSessionAndUserResponseBodySession,
             crate::routes::programs::get_programs::GetProgramsResponseBody,
             crate::routes::programs::get_programs::GetProgramsResponseBodyInner,
             crate::routes::programs::get_program::GetProgramRequestParams,
             crate::routes::programs::get_program::GetProgramResponseBody,
             crate::routes::programs::get_program_subjects::GetProgramSubjectsRequestParams,
             crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBody,
-            crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBodySubject,
             crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBodyTree,
-            crate::routes::files::upload_files::UploadFilesRequestBody,
-            crate::routes::files::upload_files::UploadFilesResponseBody,
-            crate::routes::files::upload_files::FileMetadata,
-            crate::constants::Role,
-            crate::errors::error_response::ErrorResponse
+            crate::routes::programs::get_program_subjects::GetProgramSubjectsResponseBodySubject,
+            crate::errors::ErrorResponse
         )
     ),
+    modifiers(&SecurityAddon),
     tags(
         (
-            name = "auth"
+            name = "docs", description = "Documentation redirects routes"
         ),
         (
-            name = "docs"
+            name = "programs", description = "Programs related routes"
         ),
         (
-            name = "programs"
-        ),
-        (
-            name = "files"
+            name = "auth", description = "lucia auth routes"
         )
     )
 )]

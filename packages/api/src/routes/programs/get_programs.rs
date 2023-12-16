@@ -1,16 +1,21 @@
-use actix_web::{
-    http::header::{self, CacheDirective},
-    web, HttpResponse,
+use axum::{
+    extract::State,
+    http::{header::CACHE_CONTROL, HeaderMap, StatusCode},
+    response::IntoResponse,
+    Json,
 };
 use postgres_from_row::FromRow;
+use rust_decimal::Decimal;
+use sea_query::{Alias, Expr, JoinType, PostgresQueryBuilder, Query};
 use serde::Serialize;
 use ts_rs::TS;
 use utoipa::ToSchema;
 
 use crate::{
-    errors::{HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE},
+    database::schema::{AcademicYearsIden, CurriculumsIden, FacultiesIden, MajorsIden},
+    errors::HttpError,
     macros::top_level_array_ts_type,
-    shared::SharedAppData,
+    state::SharedState,
 };
 
 #[derive(Serialize, ToSchema)]
@@ -22,6 +27,8 @@ impl Default for GetProgramsResponseBody {
         Self(vec![GetProgramsResponseBodyInner::default()])
     }
 }
+
+top_level_array_ts_type!(GetProgramsResponseBody, GetProgramsResponseBodyInner);
 
 #[derive(Serialize, ToSchema, TS, FromRow)]
 #[ts(export)]
@@ -41,7 +48,7 @@ pub struct GetProgramsResponseBodyInner {
     #[schema(format = Double)]
     #[ts(type = "string")]
     #[serde(with = "rust_decimal::serde::str")]
-    minimum_gpa: rust_decimal::Decimal,
+    minimum_gpa: Decimal,
 }
 
 impl Default for GetProgramsResponseBodyInner {
@@ -56,69 +63,105 @@ impl Default for GetProgramsResponseBodyInner {
             year: 2020,
             minimum_credit: 120,
             year_amount: 4,
-            minimum_gpa: rust_decimal::Decimal::new(25, 1),
+            minimum_gpa: Decimal::new(25, 1),
         }
     }
 }
 
-top_level_array_ts_type!(GetProgramsResponseBody, GetProgramsResponseBodyInner);
-
-/// API route to return all data of all faculties, curriculums, and majors in the school/university.
 #[utoipa::path(
     get,
-    path = "/programs",
-    tag = "programs",
+    path = "v1/programs",
     operation_id = "get_programs",
+    tag = "programs",
     responses(
         (
             status = 200,
-            description = "you get list of programs",
+            description = "list of programs",
             body = GetProgramsResponseBody,
             example = json!(GetProgramsResponseBody::default())
         ),
         (
             status = "5XX",
-            description = "something wrong on our end",
-            body = ErrorResponse,
-            example = json!(*EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE)
+            description = "something is wrong on our end",
+            body = ErrorResponse
         )
     )
 )]
-pub async fn handler(data: web::Data<SharedAppData>) -> Result<HttpResponse, HttpError> {
-    let client = data.pool.get().await?;
+pub async fn handler(State(state): State<SharedState>) -> Result<impl IntoResponse, HttpError> {
+    let client = state.pool.get().await.unwrap();
 
-    let statement = client
-        .prepare(
-            r##"
-            select
-                faculty.id as faculty_id,
-                faculty.name as faculty_name,
-                curriculum.id as curriculum_id,
-                curriculum.name as curriculum_name,
-                major.id as major_id,
-                major.name as major_name,
-                academic_year.year as year,
-                major.minimum_credit as minimum_credit,
-                major.year_amount as year_amount,
-                major.minimum_gpa as minimum_gpa
-            from major
-            inner join curriculum on major.curriculum_id = curriculum.id
-            inner join faculty on curriculum.faculty_id = faculty.id
-            inner join academic_year on major.academic_year_id = academic_year.id
-            "##,
+    let mut query = Query::select();
+    query
+        .expr_as(
+            Expr::col((FacultiesIden::Table, FacultiesIden::Id)),
+            Alias::new("faculty_id"),
         )
-        .await?;
+        .expr_as(
+            Expr::col((FacultiesIden::Table, FacultiesIden::Name)),
+            Alias::new("faculty_name"),
+        )
+        .expr_as(
+            Expr::col((CurriculumsIden::Table, CurriculumsIden::Id)),
+            Alias::new("curriculum_id"),
+        )
+        .expr_as(
+            Expr::col((CurriculumsIden::Table, CurriculumsIden::Name)),
+            Alias::new("curriculum_name"),
+        )
+        .expr_as(
+            Expr::col((MajorsIden::Table, MajorsIden::Id)),
+            Alias::new("major_id"),
+        )
+        .expr_as(
+            Expr::col((MajorsIden::Table, MajorsIden::Name)),
+            Alias::new("major_name"),
+        )
+        .expr_as(
+            Expr::col((AcademicYearsIden::Table, AcademicYearsIden::Year)),
+            Alias::new("year"),
+        )
+        .expr_as(
+            Expr::col((MajorsIden::Table, MajorsIden::MinimumCredit)),
+            Alias::new("minimum_credit"),
+        )
+        .expr_as(
+            Expr::col((MajorsIden::Table, MajorsIden::YearAmount)),
+            Alias::new("year_amount"),
+        )
+        .expr_as(
+            Expr::col((MajorsIden::Table, MajorsIden::MinimumGpa)),
+            Alias::new("minimum_gpa"),
+        )
+        .from(MajorsIden::Table)
+        .join(
+            JoinType::InnerJoin,
+            CurriculumsIden::Table,
+            Expr::col((MajorsIden::Table, MajorsIden::CurriculumId)).equals(CurriculumsIden::Id),
+        )
+        .join(
+            JoinType::InnerJoin,
+            FacultiesIden::Table,
+            Expr::col((CurriculumsIden::Table, CurriculumsIden::FacultyId))
+                .equals(FacultiesIden::Id),
+        )
+        .join(
+            JoinType::InnerJoin,
+            AcademicYearsIden::Table,
+            Expr::col((MajorsIden::Table, MajorsIden::AcademicYearId))
+                .equals(AcademicYearsIden::Id),
+        );
+    let querystring = query.to_string(PostgresQueryBuilder);
 
+    let statement = client.prepare(&querystring).await?;
     let rows = client.query(&statement, &[]).await?;
     let curriculums = rows
         .iter()
         .map(|r| GetProgramsResponseBodyInner::try_from_row(r))
         .collect::<Result<Vec<GetProgramsResponseBodyInner>, tokio_postgres::Error>>()?;
 
-    Ok(HttpResponse::Ok()
-        .insert_header(header::CacheControl(vec![
-            CacheDirective::Public,
-            CacheDirective::SMaxAge(43200),
-        ]))
-        .json(GetProgramsResponseBody(curriculums)))
+    let mut headers = HeaderMap::new();
+    headers.insert(CACHE_CONTROL, "public, s-maxage=43200".parse().unwrap());
+    let body = GetProgramsResponseBody(curriculums);
+
+    Ok((StatusCode::OK, headers, Json(body)).into_response())
 }

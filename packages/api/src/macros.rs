@@ -1,62 +1,25 @@
-/// Load environment variable at the start of the program. Crash the program when the environment
-/// variable is not found
+/// Macro to load multiple environment variables into the program. The macro generates the code
+/// that will crash the program when the environment variable is not found.
+///
+/// You would write this code in a file to load environment variable
+/// ```rust
+/// // envs.rs
+/// use macros::load_envs;
+///
+/// load_envs!(API_URL);
+/// ```
+///
+/// Then you can import them like
+/// ```rust
+/// use envs::API_URL;
+/// ```
 macro_rules! load_envs {
-    ($($env_name: ident),*) => {
+    ($($env_name: ident), *) => {
         $(
             pub static $env_name: ::once_cell::sync::Lazy<::std::string::String> = ::once_cell::sync::Lazy::new(|| {
                 dotenvy::var(stringify!($env_name)).expect(format!("Could not get environment variable \"{}\"", stringify!($env_name)).as_str())
             });
         )*
-    };
-}
-
-/// Set default value of enum in swagger documentation.
-macro_rules! openapi_enum_default {
-    ($enum_name: ident) => {
-        ::paste::paste! {
-            pub struct [<$enum_name Modifier>];
-
-            impl ::utoipa::Modify for [<$enum_name Modifier>] {
-                fn modify(&self, openapi: &mut ::utoipa::openapi::OpenApi) {
-                    openapi.components.as_mut().map(|v| {
-                        v.schemas.get_mut(stringify!($enum_name)).map(|z| {
-                            if let ::utoipa::openapi::RefOr::T(schema) = z {
-                                if let ::utoipa::openapi::Schema::Object(obj) = schema {
-                                    obj.default = Some(::serde_json::json!(::serde_variant::to_variant_name(&$enum_name::default()).unwrap()))
-                                }
-                            }
-                        })
-                    });
-                }
-            }
-        }
-    };
-}
-
-/// Create example error response for swagger api
-///
-/// # Params:
-/// - `$name`: Put the name of the example variable in.
-/// - `$status_code`: Any imports from [`actix_web::http::StatusCode`].
-/// - `$message`: String literal you want to put as error message of the response.
-///
-/// # Example:
-/// ```rust
-/// use crate::macros::example_error_response;
-///
-/// example_error_response!(INVALID_SWAGGER_KEY, BAD_REQUEST, "property \"x\" cannot be an empty string");
-/// ```
-///
-/// Then you can import that in other module as `crate::EXAMPLE_BAD_REQUEST_RESPONSE`
-macro_rules! example_error_response {
-    ($name: ident, $status_code: ident, $message: stmt) => {
-        ::paste::paste! {
-            pub static [<EXAMPLE_ $name _RESPONSE>]: ::once_cell::sync::Lazy<$crate::errors::error_response::ErrorResponse> = ::once_cell::sync::Lazy::new(|| $crate::errors::error_response::ErrorResponse {
-                status_code: ::actix_web::http::StatusCode::$status_code.as_u16(),
-                error: ::actix_web::http::StatusCode::$status_code.canonical_reason().unwrap_or("").to_string(),
-                message: $message.to_string(),
-            });
-        }
     }
 }
 
@@ -150,7 +113,33 @@ macro_rules! top_level_array_ts_type {
     };
 }
 
-pub(crate) use example_error_response;
+/// Create example error response for swagger api
+///
+/// # Params:
+/// - `$name`: Put the name of the example variable in.
+/// - `$status_code`: Any imports from [`axum::http::StatusCode`].
+/// - `$message`: String literal you want to put as error message of the response.
+///
+/// # Example:
+/// ```rust
+/// use crate::macros::example_error_response;
+///
+/// example_error_response!(INVALID_SWAGGER_KEY, BAD_REQUEST, "property \"x\" cannot be an empty string");
+/// ```
+///
+/// Then you can import that in other module as `crate::EXAMPLE_INVALID_SWAGGER_KEY_RESPONSE`
+macro_rules! error_example {
+    ($name: ident, $status_code: ident, $message: stmt) => {
+        ::paste::paste! {
+            pub static [<EXAMPLE_ $name _RESPONSE>]: ::once_cell::sync::Lazy<$crate::errors::ErrorResponse> = ::once_cell::sync::Lazy::new(|| $crate::errors::ErrorResponse {
+                status_code: ::axum::http::StatusCode::$status_code.as_u16(),
+                error: ::axum::http::StatusCode::$status_code.canonical_reason().unwrap_or("Unknown Canonical Reason").to_string(),
+                message: $message.to_string(),
+            });
+        }
+    }
+}
+
+pub(crate) use error_example;
 pub(crate) use load_envs;
-pub(crate) use openapi_enum_default;
 pub(crate) use top_level_array_ts_type;

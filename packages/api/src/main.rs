@@ -1,172 +1,120 @@
-use actix_multipart::form::tempfile::TempFileConfig;
-use actix_web::{
+use axum::{
     http::{header, StatusCode},
-    web, App, HttpRequest, HttpResponse, HttpServer,
+    middleware,
+    routing::get,
+    Router,
 };
 use once_cell::sync::Lazy;
-use serde_json::json;
-use tracing_actix_web::TracingLogger;
+use tower_http::trace::TraceLayer;
 use utoipa::OpenApi;
-use utoipa_swagger_ui::SwaggerUi;
+use utoipa_rapidoc::RapiDoc;
 
-use crate::errors::ErrorResponse;
-use crate::openapi::apidoc::ApiDoc;
-use crate::pool::{create_file_server_pool, create_main_pool};
-use crate::shared::SharedAppData;
+use crate::{
+    environment_variables::API_URL,
+    errors::global_not_found,
+    openapi::apidoc::ApiDoc,
+    openapi::apikey_middleware::require_apikey_middleware,
+    pool::create_pool,
+    state::SharedState,
+    telemetry::{init_telemetry, make_span, on_failure, on_request, on_response},
+};
 
-mod argon2;
-mod constants;
-mod envs;
+mod database;
+mod environment_variables;
 mod errors;
-mod jwt;
 mod macros;
 mod openapi;
 mod pool;
 mod routes;
-mod shared;
+mod state;
 mod telemetry;
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    // load environment variables
-    dotenvy::dotenv().expect("Cannot load environment variables file.");
+#[tokio::main]
+async fn main() {
+    // telemetry setup
+    let _guard = init_telemetry();
 
-    // initialize telemetry
-    let _guard = telemetry::init_telemetry();
+    // database setup
+    let pool = create_pool();
 
-    // initialize openapi
-    let openapi = ApiDoc::openapi();
+    // App state setup
+    let state = SharedState::new(pool);
 
-    // initialize database pool
-    let main_pool = create_main_pool();
-    let file_server_pool = create_file_server_pool();
+    let routes = Router::new()
+        .route(
+            "/",
+            get(|| async {
+                (
+                    StatusCode::PERMANENT_REDIRECT,
+                    [(
+                        header::LOCATION,
+                        Lazy::force(&environment_variables::FULL_API_URL),
+                    )],
+                )
+            }),
+        )
+        .route(
+            "/documentation",
+            get(|| async {
+                (
+                    StatusCode::PERMANENT_REDIRECT,
+                    [(
+                        header::LOCATION,
+                        Lazy::force(&environment_variables::FULL_API_URL),
+                    )],
+                )
+            }),
+        )
+        .route(
+            "/auth/session-user",
+            get(crate::routes::auth::get_session_and_user::handler),
+        )
+        .route("/auth/user", get(crate::routes::auth::get_user::handler))
+        .route(
+            "/programs",
+            get(crate::routes::programs::get_programs::handler),
+        )
+        .route(
+            "/programs/:major_id",
+            get(crate::routes::programs::get_program::handler),
+        )
+        .route(
+            "/programs/:major_id/subjects",
+            get(crate::routes::programs::get_program_subjects::handler),
+        );
 
-    tracing::info!("Starting the server at \"{}\"", *envs::FULL_API_LINK);
+    let app = Router::new()
+        .route("/", get(crate::routes::hello_world::handler))
+        .nest("/v1", routes)
+        .merge(
+            RapiDoc::with_openapi("/api-docs/openapi2.json", ApiDoc::openapi())
+                .path("/documentation"),
+        )
+        .layer(middleware::from_fn(require_apikey_middleware))
+        .layer(
+            TraceLayer::new_for_http()
+                .make_span_with(make_span)
+                .on_request(on_request)
+                .on_response(on_response)
+                .on_body_chunk(())
+                .on_eos(())
+                .on_failure(on_failure),
+        )
+        .with_state(state)
+        .fallback(global_not_found);
+
+    let listener = tokio::net::TcpListener::bind(Lazy::force(&API_URL))
+        .await
+        .unwrap();
+
     tracing::info!(
-        "Starting the documentation server at \"{}/documentation/\"",
-        *envs::FULL_API_LINK
+        "listening on {}",
+        Lazy::force(&environment_variables::FULL_API_URL)
+    );
+    tracing::info!(
+        "documentation server started at http://{}/documentation",
+        listener.local_addr().unwrap()
     );
 
-    // create folder for temp files.
-    std::fs::create_dir_all("./tmp")?;
-    std::fs::create_dir_all("./files")?;
-
-    HttpServer::new(move || {
-        let cors = actix_cors::Cors::default()
-            .allowed_origin(envs::WEBSITE_URL.as_str())
-            .allowed_origin(envs::FULL_API_LINK.as_str())
-            .supports_credentials()
-            .allowed_header(header::COOKIE)
-            .allowed_header(header::CONTENT_TYPE);
-
-        let json_deserialize_config =
-            web::JsonConfig::default().error_handler(|error, _request| {
-                let message = Clone::clone(&error.to_string());
-
-                actix_web::error::InternalError::from_response(
-                    error,
-                    actix_web::HttpResponse::build(StatusCode::BAD_REQUEST).json(
-                        crate::errors::ErrorResponse {
-                            status_code: 400,
-                            error: "json deserialize error".to_string(),
-                            message,
-                        },
-                    ),
-                )
-                .into()
-            });
-
-        let path_deserialize_config =
-            web::PathConfig::default().error_handler(|error, _request| {
-                let message = Clone::clone(&error.to_string());
-
-                actix_web::error::InternalError::from_response(
-                    error,
-                    actix_web::HttpResponse::build(StatusCode::BAD_REQUEST).json(
-                        crate::errors::ErrorResponse {
-                            status_code: 400,
-                            error: "path deserialize error".to_string(),
-                            message,
-                        },
-                    ),
-                )
-                .into()
-            });
-
-        let query_deserialize_config =
-            web::QueryConfig::default().error_handler(|error, _request| {
-                let message = Clone::clone(&error.to_string());
-
-                actix_web::error::InternalError::from_response(
-                    error,
-                    actix_web::HttpResponse::build(StatusCode::BAD_REQUEST).json(
-                        crate::errors::ErrorResponse {
-                            status_code: 400,
-                            error: "query deserialize error".to_string(),
-                            message,
-                        },
-                    ),
-                )
-                .into()
-            });
-
-        App::new()
-            .wrap(cors)
-            .wrap(TracingLogger::default())
-            .app_data(TempFileConfig::default().directory("./tmp"))
-            .app_data(json_deserialize_config)
-            .app_data(path_deserialize_config)
-            .app_data(query_deserialize_config)
-            .app_data(web::Data::new(SharedAppData::new(main_pool.clone(), file_server_pool.clone())))
-            .default_service(web::to(|req: HttpRequest| async move {
-                HttpResponse::NotFound().json(ErrorResponse {
-                    status_code: 404,
-                    error: "Not Found".to_string(),
-                    message: format!(
-                        "uri {}{} is invalid, it could be totally wrong or you have trailing slash at the end.",
-                        Lazy::force(&envs::FULL_API_LINK),
-                        req.uri()
-                    ),
-                })
-            }))
-            .route(
-                "/",
-                web::get()
-                    .to(|| async { HttpResponse::Ok().json(json!({ "message": "Welcome!" })) }),
-            )
-            .route(
-                "/auth/signin",
-                web::post().to(crate::routes::auth::signin::handler),
-            )
-            .route(
-                "/docs",
-                web::get().to(crate::routes::docs::redirect::handler),
-            )
-            .route(
-                "/documentation",
-                web::get().to(crate::routes::docs::redirect::handler),
-            )
-            .route(
-                "/programs",
-                web::get().to(crate::routes::programs::get_programs::handler),
-            )
-            .route(
-                "/programs/{major_id}",
-                web::get().to(crate::routes::programs::get_program::handler),
-            )
-            .route(
-                "/programs/{major_id}/subjects", web::get().to(crate::routes::programs::get_program_subjects::handler),
-            )
-            .route(
-                "/files/upload",
-                web::post().to(crate::routes::files::upload_files::handler)
-            )
-            .service(
-                SwaggerUi::new("/documentation/{_:.*}")
-                    .url("/openapi/openapi.json", openapi.clone()),
-            )
-    })
-    .bind(Lazy::force(&envs::API_LINK))?
-    .run()
-    .await
+    axum::serve(listener, app).await.unwrap();
 }
