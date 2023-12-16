@@ -3,7 +3,9 @@ import ulid from 'ulid'
 
 import { faker } from '@faker-js/faker'
 
-export const generateSubject = () => {
+import { type NewSubjects } from '../types/index.js'
+
+export const generateSubject = (): Array<NewSubjects> => {
   return Array.from({ length: faker.number.int({ min: 100, max: 130 }) }, () => {
     return {
       id: ulid.ulid(),

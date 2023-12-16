@@ -3,7 +3,9 @@ import ulid from 'ulid'
 
 import { faker } from '@faker-js/faker'
 
-export const generateMajor = (curriculums, academicYears) => {
+import { type NewAcademicYears, type NewCurriculums, type NewMajors } from '../types/index.js'
+
+export const generateMajor = (curriculums: Array<NewCurriculums>, academicYears: Array<NewAcademicYears>): Array<NewMajors> => {
   return curriculums.map(curriculum => {
     return Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () => {
       return {

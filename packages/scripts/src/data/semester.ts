@@ -1,7 +1,9 @@
 import dayjs from 'dayjs'
 import ulid from 'ulid'
 
-export const generateSemester = (academicYears) => {
+import { type NewAcademicYears, type NewSemesters } from '../types/index.js'
+
+export const generateSemester = (academicYears: Array<NewAcademicYears>): Array<NewSemesters> => {
   return academicYears.map(year => {
     const start = dayjs(year.start_at)
 

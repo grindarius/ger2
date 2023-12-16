@@ -3,7 +3,9 @@ import ulid from 'ulid'
 
 import { faker } from '@faker-js/faker'
 
-export const generateRoom = (buildings) => {
+import { type NewBuildings, type NewRooms } from '../types/index.js'
+
+export const generateRoom = (buildings: Array<NewBuildings>): Array<NewRooms> => {
   const levels = faker.number.int({ min: 1, max: 8 })
   const roomsPerFloor = faker.number.int({ min: 8, max: 13 })
 

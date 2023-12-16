@@ -4,9 +4,10 @@ import ulid from 'ulid'
 import { faker } from '@faker-js/faker'
 import { hashSync } from '@node-rs/argon2'
 
-import { argon2Options, rawPassword } from '../../argon2.mjs'
+import { argon2Options, rawPassword } from '../../argon2.js'
+import { type NewAccounts } from '../../types/index.js'
 
-export const generateAdmin = () => {
+export const generateAdmin = (): Array<NewAccounts> => {
   return Array.from({ length: faker.number.int({ min: 5, max: 10 }) }, () => {
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()

@@ -2,24 +2,22 @@ import chalk from 'chalk'
 
 import { faker } from '@faker-js/faker'
 
-import { generateAcademicYear } from './data/academic-year.mjs'
-import { generateAdmin } from './data/account/admin.mjs'
-import { generateProfessor } from './data/account/professor.mjs'
-import { generateStudent } from './data/account/student.mjs'
-import { generateBuilding } from './data/building.mjs'
-import { generateCurriculum } from './data/curriculum.mjs'
-import { generateFaculty } from './data/faculty.mjs'
-import { generateMajor } from './data/major.mjs'
-import { generateMajorSubject } from './data/major-subject.mjs'
-import { generateMajorSubjectGroup } from './data/major-subject-group.mjs'
-import { generateRoom } from './data/room.mjs'
-import { generateSemester } from './data/semester.mjs'
-import { generateSemesterTerm } from './data/semester-term.mjs'
-import { generateSubject } from './data/subject.mjs'
-import { k } from './postgres/index.mjs'
-import { toJson } from './seed/save-json-file.mjs'
-
-const chunk = 100
+import { generateAcademicYear } from './data/academic-year.js'
+import { generateAdmin } from './data/account/admin.js'
+import { generateProfessor } from './data/account/professor.js'
+import { generateStudent } from './data/account/student.js'
+import { generateBuilding } from './data/building.js'
+import { generateCurriculum } from './data/curriculum.js'
+import { generateFaculty } from './data/faculty.js'
+import { generateMajor } from './data/major.js'
+import { generateMajorSubject } from './data/major-subject.js'
+import { generateMajorSubjectGroup } from './data/major-subject-group.js'
+import { generateRoom } from './data/room.js'
+import { generateSemester } from './data/semester.js'
+import { generateSemesterTerm } from './data/semester-term.js'
+import { generateSubject } from './data/subject.js'
+import { k } from './postgres/index.js'
+import { toJson } from './seed/save-json-file.js'
 
 faker.seed(3312503)
 
@@ -74,39 +72,38 @@ console.log()
 console.log(chalk.blueBright('Started inserting data'))
 
 console.log(chalk.yellow('- Inserting academic years data'))
-await k.batchInsert('academic_year', academicYears, chunk)
+await k.insertInto('academic_years').values(academicYears).execute()
 console.log(chalk.greenBright('- Successfully inserted academic years data'))
 
 console.log(chalk.yellow('- Inserting semesters data'))
-await k.batchInsert('semester', semesters, chunk)
-await k.batchInsert('semester_term', semesterTerms, chunk)
+await k.insertInto('semesters').values(semesters).execute()
+await k.insertInto('semester_terms').values(semesterTerms).execute()
 console.log(chalk.greenBright('- Successfylly inserted semesters data'))
 
 console.log(chalk.yellow('- Inserting faculties and majors data'))
-await k.batchInsert('faculty', faculties, chunk)
-await k.batchInsert('curriculum', curriculums, chunk)
-await k.batchInsert('major', majors, chunk)
+await k.insertInto('faculties').values(faculties).execute()
+await k.insertInto('curriculums').values(curriculums).execute()
+await k.insertInto('majors').values(majors).execute()
 console.log(chalk.greenBright('- Successfully inserted faculties and majors data'))
 
 console.log(chalk.yellow('- Inserting subjects data'))
-await k.batchInsert('subject', subjects, chunk)
-await k.batchInsert('major_subject_group', majorSubjectGroups, chunk)
+await k.insertInto('subjects').values(subjects).execute()
+await k.insertInto('major_subject_groups').values(majorSubjectGroups).execute()
 const majorSubjects = await generateMajorSubject(majors, subjects)
 
-await k.batchInsert('major_subject', majorSubjects, chunk)
+await k.insertInto('major_subjects').values(majorSubjects).execute()
 console.log(chalk.greenBright('- Successfully inserted subjects data'))
 
 console.log(chalk.yellow('- Inserting buildings data'))
-await k.batchInsert('building', buildings, chunk)
-await k.batchInsert('room', rooms, chunk)
+await k.insertInto('buildings').values(buildings).execute()
+await k.insertInto('rooms').values(rooms).execute()
 console.log(chalk.greenBright('- Successfully inserted buildings data'))
 
 console.log(chalk.yellow('- Inserting people\'s data'))
-await k.batchInsert('account', [...admins, ...professors.map(p => p.account), ...students.map(s => s.account)])
-await k.batchInsert('professor', [...professors.map(p => p.professor)])
-await k.batchInsert('student', [...students.map(s => s.student)])
+await k.insertInto('accounts').values([...admins, ...professors.map(p => p.account), ...students.map(s => s.account)]).execute()
+await k.insertInto('professors').values([...professors.map(p => p.professor)]).execute()
+await k.insertInto('students').values([...students.map(s => s.student)]).execute()
 console.log(chalk.greenBright('- Successfully inserted people\'s data'))
 
 console.log(chalk.bgGreenBright(chalk.black('Done!')))
-
 process.exit()
