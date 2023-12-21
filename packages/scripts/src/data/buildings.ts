@@ -9,46 +9,46 @@ export class Point {
   latitude: number
   longitude: number
 
-  constructor (lat: number, lng: number) {
+  constructor(lat: number, lng: number) {
     this.latitude = lat
     this.longitude = lng
   }
 
-  asObject (): { latitude: number, longitude: number } {
+  asObject(): { latitude: number; longitude: number } {
     return {
       latitude: this.latitude,
-      longitude: this.longitude
+      longitude: this.longitude,
     }
   }
 
-  asXYObject (): { x: number, y: number } {
+  asXYObject(): { x: number; y: number } {
     return {
       x: this.longitude,
-      y: this.latitude
+      y: this.latitude,
     }
   }
 
-  asArray (): [number, number] {
+  asArray(): [number, number] {
     return [this.latitude, this.longitude]
   }
 
-  asLatLngString (): string {
+  asLatLngString(): string {
     return `${this.latitude}, ${this.longitude}`
   }
 
-  asLngLatString (): string {
+  asLngLatString(): string {
     return `${this.longitude}, ${this.latitude}`
   }
 
   /**
    * longitude is x, latitude is y
    */
-  asPostgresPointString (): string {
+  asPostgresPointString(): string {
     return `(${this.longitude}, ${this.latitude})`
   }
 }
 
-export const generateBuilding = (): Array<NewBuildings> => {
+export const generateBuildings = (): Array<NewBuildings> => {
   // TLV. Tel Aviv Airport
   const coordinate = new Point(63.00247547162684, 25.699322998379134)
 
@@ -58,9 +58,15 @@ export const generateBuilding = (): Array<NewBuildings> => {
       name: faker.commerce.productName(),
       description: faker.lorem.words(20),
       // INFO: who the fuck use miles tbh
-      coordinates: new Point(...faker.location.nearbyGPSCoordinate({ origin: coordinate.asArray(), radius: 100, isMetric: true })).asPostgresPointString(),
+      coordinates: new Point(
+        ...faker.location.nearbyGPSCoordinate({
+          origin: coordinate.asArray(),
+          radius: 100,
+          isMetric: true,
+        }),
+      ).asPostgresPointString(),
       created_at: dayjs().toISOString(),
-      building_created_at: dayjs(faker.date.past({ years: 20 })).toISOString()
+      building_created_at: dayjs(faker.date.past({ years: 20 })).toISOString(),
     }
   })
 }

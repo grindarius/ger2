@@ -26,6 +26,9 @@ importers:
 
   packages/website:
     dependencies:
+      '@lucia-auth/adapter-postgresql':
+        specifier: ^2.0.2
+        version: 2.0.2(lucia@2.7.5)
       daisyui:
         specifier: ^4.4.20
         version: 4.4.20(postcss@8.4.32)
@@ -38,22 +41,19 @@ importers:
       ky:
         specifier: ^1.1.3
         version: 1.1.3
+      lucia:
+        specifier: ^2.7.5
+        version: 2.7.5
       mitt:
         specifier: ^3.0.1
         version: 3.0.1
     devDependencies:
-      '@auth/core':
-        specifier: ^0.18.6
-        version: 0.18.6
       '@builder.io/qwik':
         specifier: ^1.3.1
-        version: 1.3.1(@types/node@20.4.0)(undici@6.0.1)
-      '@builder.io/qwik-auth':
-        specifier: ~0.1.3
-        version: 0.1.3(@auth/core@0.18.6)
+        version: 1.3.1(undici@6.0.1)
       '@builder.io/qwik-city':
         specifier: ^1.3.1
-        version: 1.3.1(@types/node@20.4.0)
+        version: 1.3.1
       '@playwright/test':
         specifier: 1.40.1
         version: 1.40.1
@@ -74,33 +74,16 @@ importers:
         version: 6.0.1
       vite:
         specifier: 5.0.10
-        version: 5.0.10(@types/node@20.4.0)
+        version: 5.0.10
       vite-tsconfig-paths:
         specifier: 4.2.2
-        version: 4.2.2(typescript@5.1.6)(vite@5.0.10)
+        version: 4.2.2(vite@5.0.10)
 
 packages:
 
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
-    dev: true
-
-  /@auth/core@0.18.6:
-    resolution: {integrity: sha512-AI7tnyNOg5zVS2elA44O03MWS6jyp69S8habJts63IyiCIoSkhqcZX4EcEJ0287m0hxzOltPCV9Zq2aqXbrNSA==}
-    peerDependencies:
-      nodemailer: ^6.8.0
-    peerDependenciesMeta:
-      nodemailer:
-        optional: true
-    dependencies:
-      '@panva/hkdf': 1.1.1
-      '@types/cookie': 0.6.0
-      cookie: 0.6.0
-      jose: 5.1.3
-      oauth4webapi: 2.4.0
-      preact: 10.11.3
-      preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: true
 
   /@biomejs/biome@1.4.1:
@@ -171,16 +154,7 @@ packages:
     dev: true
     optional: true
 
-  /@builder.io/qwik-auth@0.1.3(@auth/core@0.18.6):
-    resolution: {integrity: sha512-plj4kHkHpT5sPe9bUYoMFKZlV5XDkWL4D/56TMzRCNC1Vse6NHwVl/78jT7wbeIe+CAtsNbsuDv8TQj9p3iZUg==}
-    engines: {node: '>=16.8.0 <18.0.0 || >=18.11'}
-    peerDependencies:
-      '@auth/core': ^0.13.0
-    dependencies:
-      '@auth/core': 0.18.6
-    dev: true
-
-  /@builder.io/qwik-city@1.3.1(@types/node@20.4.0):
+  /@builder.io/qwik-city@1.3.1:
     resolution: {integrity: sha512-SPWHXThFwJiTNZCrmMtccdCbXqvQ3tpRtUm39IC2EyUN1L/87qSrgX4/vXUUQ0SWY4u4/Ua8gIByEhkkg+pW/Q==}
     engines: {node: '>=16.8.0 <18.0.0 || >=18.11'}
     dependencies:
@@ -190,7 +164,7 @@ packages:
       svgo: 3.0.2
       undici: 5.27.1
       vfile: 6.0.1
-      vite: 5.0.10(@types/node@20.4.0)
+      vite: 5.0.10
       vite-imagetools: 6.2.7
       zod: 3.22.4
     transitivePeerDependencies:
@@ -205,7 +179,7 @@ packages:
       - terser
     dev: true
 
-  /@builder.io/qwik@1.3.1(@types/node@20.4.0)(undici@6.0.1):
+  /@builder.io/qwik@1.3.1(undici@6.0.1):
     resolution: {integrity: sha512-XbA/pzLVZJ7HXLApyk1jRVYTwZdHEq3vGcnOi/ZS7GKGvkEWKCRMWIV+5dVJKjBS0jxtYcj07w52HmkPbQiVMw==}
     engines: {node: '>=16.8.0 <18.0.0 || >=18.11'}
     hasBin: true
@@ -214,7 +188,7 @@ packages:
     dependencies:
       csstype: 3.1.2
       undici: 6.0.1
-      vite: 5.0.10(@types/node@20.4.0)
+      vite: 5.0.10
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -658,6 +632,21 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@lucia-auth/adapter-postgresql@2.0.2(lucia@2.7.5):
+    resolution: {integrity: sha512-gQ7SlFu+gxQj2IX2J8ZVivcLBbdnf9SbNQOVWkJxZOdY1uaaIQGeNfEDld2Awy02VrXmA4sjHsbkJx1JPVw2+A==}
+    peerDependencies:
+      lucia: ^2.0.0
+      pg: ^8.8.0
+      postgres: ^3.3.0
+    peerDependenciesMeta:
+      pg:
+        optional: true
+      postgres:
+        optional: true
+    dependencies:
+      lucia: 2.7.5
+    dev: false
+
   /@mdx-js/mdx@2.3.0:
     resolution: {integrity: sha512-jLuwRlz8DQfQNiUCJR50Y09CGPq3fLtmtUQfVrj79E0JWu3dvsVcxVIcfhR5h0iXu+/z++zDrYeiJqifRynJkA==}
     dependencies:
@@ -701,10 +690,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
-    dev: true
-
-  /@panva/hkdf@1.1.1:
-    resolution: {integrity: sha512-dhPeilub1NuIG0X5Kvhh9lH4iW3ZsHlnzwgwbOlgwQ2wG1IqFzsgHqmKPk3WzsdWAeaxKJxgM0+W433RmN45GA==}
     dev: true
 
   /@playwright/test@1.40.1:
@@ -850,10 +835,6 @@ packages:
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
     dependencies:
       '@types/estree': 1.0.1
-    dev: true
-
-  /@types/cookie@0.6.0:
-    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
     dev: true
 
   /@types/debug@4.1.8:
@@ -1082,11 +1063,6 @@ packages:
 
   /concat-map@0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
-    dev: true
-
-  /cookie@0.6.0:
-    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
-    engines: {node: '>= 0.6'}
     dev: true
 
   /css-select@5.1.0:
@@ -1537,10 +1513,6 @@ packages:
     hasBin: true
     dev: true
 
-  /jose@5.1.3:
-    resolution: {integrity: sha512-GPExOkcMsCLBTi1YetY2LmkoY559fss0+0KVa6kOfb2YFe84nAM7Nm/XzuZozah4iHgmBGrCOHL5/cy670SBRw==}
-    dev: true
-
   /just-group-by@2.2.0:
     resolution: {integrity: sha512-brZocDSmkvDYc+FOr07GiTar4cp7K6OB9huVOrj5LX+iXfCe3hTvn2KGM811LE/SBQkCzuYDDEcG8HA/dKDrnw==}
     dev: false
@@ -1574,6 +1546,10 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /lucia@2.7.5:
+    resolution: {integrity: sha512-2e/Oezb+b2qjQLyP28CraBlad2s9GAp22bfPLn05IsXi99FEX/oTo2TGMM4Gn9nJT7ow15kEFkwL3lBUpknopA==}
+    dev: false
 
   /markdown-extensions@1.1.1:
     resolution: {integrity: sha512-WWC0ZuMzCyDHYCasEGs4IPvLyTGftYwh6wIEOULOF0HXcqZlhwRzrK0w2VUlxWA98xnvb/jszw4ZSkJ6ADpM6Q==}
@@ -2036,10 +2012,6 @@ packages:
       boolbase: 1.0.0
     dev: true
 
-  /oauth4webapi@2.4.0:
-    resolution: {integrity: sha512-ZWl8ov8HeGVyc9Icl1cag76HvIcDAp23eIIT+UVGir+dEu8BMgMlvZeZwqLVd0P8DqaumH4N+QLQXN69G1QjSA==}
-    dev: true
-
   /object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
@@ -2188,27 +2160,10 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
-  /preact-render-to-string@5.2.3(preact@10.11.3):
-    resolution: {integrity: sha512-aPDxUn5o3GhWdtJtW0svRC2SS/l8D9MAgo2+AWml+BhDImb27ALf04Q2d+AHqUUOc6RdSXFIBVa2gxzgMKgtZA==}
-    peerDependencies:
-      preact: '>=10'
-    dependencies:
-      preact: 10.11.3
-      pretty-format: 3.8.0
-    dev: true
-
-  /preact@10.11.3:
-    resolution: {integrity: sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==}
-    dev: true
-
   /prettier@3.1.1:
     resolution: {integrity: sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==}
     engines: {node: '>=14'}
     hasBin: true
-    dev: true
-
-  /pretty-format@3.8.0:
-    resolution: {integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==}
     dev: true
 
   /property-information@6.2.0:
@@ -2473,7 +2428,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /tsconfck@2.1.2(typescript@5.1.6):
+  /tsconfck@2.1.2:
     resolution: {integrity: sha512-ghqN1b0puy3MhhviwO2kGF8SeMDNhEbnKxjK7h6+fvY9JAxqvXi8y5NAHSQv687OVboS2uZIByzGd45/YxrRHg==}
     engines: {node: ^14.13.1 || ^16 || >=18}
     hasBin: true
@@ -2482,8 +2437,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-    dependencies:
-      typescript: 5.1.6
     dev: true
 
   /tslib@2.6.2:
@@ -2647,7 +2600,7 @@ packages:
       - rollup
     dev: true
 
-  /vite-tsconfig-paths@4.2.2(typescript@5.1.6)(vite@5.0.10):
+  /vite-tsconfig-paths@4.2.2(vite@5.0.10):
     resolution: {integrity: sha512-dq0FjyxHHDnp0uS3P12WEOX2W7NeuLzX9AWP38D7Zw2CTbFErapwQVlCiT5DMJcVWKQ1MMdTe92PZl/rBQ7qcw==}
     peerDependencies:
       vite: '*'
@@ -2657,14 +2610,14 @@ packages:
     dependencies:
       debug: 4.3.4
       globrex: 0.1.2
-      tsconfck: 2.1.2(typescript@5.1.6)
-      vite: 5.0.10(@types/node@20.4.0)
+      tsconfck: 2.1.2
+      vite: 5.0.10
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: true
 
-  /vite@5.0.10(@types/node@20.4.0):
+  /vite@5.0.10:
     resolution: {integrity: sha512-2P8J7WWgmc355HUMlFrwofacvr98DAjoE52BfdbwQtyLH06XKwaL/FMnmKM2crF0iX4MpmMKoDlNCB1ok7zHCw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -2692,7 +2645,6 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.4.0
       esbuild: 0.19.9
       postcss: 8.4.32
       rollup: 4.9.0

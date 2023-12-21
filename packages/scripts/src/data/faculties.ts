@@ -5,12 +5,12 @@ import { faker } from '@faker-js/faker'
 
 import { type NewFaculties } from '../types/index.js'
 
-export const generateFaculty = (): Array<NewFaculties> => {
+export const generateFaculties = (): Array<NewFaculties> => {
   return Array.from({ length: 10 }, () => {
     return {
       id: ulid.ulid(),
       name: faker.commerce.productName(),
-      created_at: dayjs().toISOString()
+      created_at: dayjs().toISOString(),
     }
   })
 }

@@ -4,7 +4,9 @@ import { sql } from 'kysely'
 import { k } from './postgres/index.js'
 
 console.log(chalk.yellow('Removing tables from public schema'))
-const tablenames = await sql<{ tablename: string }>`select tablename from pg_tables where schemaname = 'public'`.execute(k)
+const tablenames = await sql<{
+  tablename: string
+}>`select tablename from pg_tables where schemaname = 'public'`.execute(k)
 
 for (const tablename of tablenames.rows) {
   console.log(chalk.blueBright('-', tablename.tablename))

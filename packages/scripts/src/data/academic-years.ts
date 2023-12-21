@@ -3,7 +3,7 @@ import ulid from 'ulid'
 
 import { type NewAcademicYears } from '../types/index.js'
 
-export const generateAcademicYear = (start: number): Array<NewAcademicYears> => {
+export const generateAcademicYears = (start: number): Array<NewAcademicYears> => {
   const endYear = dayjs().year()
 
   const years = []
@@ -14,7 +14,7 @@ export const generateAcademicYear = (start: number): Array<NewAcademicYears> => 
       year: i,
       start_at: dayjs(`${i}-06-01T00:00:00.000+07:00`).toISOString(),
       end_at: dayjs(`${i}-12-31T23:59:59.999+07:00`).toISOString(),
-      created_at: dayjs().toISOString()
+      created_at: dayjs().toISOString(),
     })
   }
 

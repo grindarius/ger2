@@ -1,6 +1,13 @@
 import type { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 
-export type DayOfWeek = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday'
+export type DayOfWeek =
+  | 'sunday'
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
 export type PaymentStatus = 'pending' | 'completed' | 'cancelled'
 export type Role = 'admin' | 'professor' | 'student'
 export type SemesterType = 'midterm' | 'final'
@@ -61,7 +68,7 @@ export interface BuildingsTable {
   id: ColumnType<string, string, never>
   name: ColumnType<string, string, string | undefined>
   description: ColumnType<string, string | undefined, string | undefined>
-  coordinates: ColumnType<{ x: number, y: number }, string | undefined, string | undefined>
+  coordinates: ColumnType<{ x: number; y: number }, string | undefined, string | undefined>
   building_created_at: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
   updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
@@ -148,9 +155,12 @@ export interface OpeningSubjectAdditionalEligibleStudentsTable {
   student_id: ColumnType<string, string, string | undefined>
 }
 
-export type OpeningSubjectAdditionalEligibleStudents = Selectable<OpeningSubjectAdditionalEligibleStudentsTable>
-export type NewOpeningSubjectAdditionalEligibleStudents = Insertable<OpeningSubjectAdditionalEligibleStudentsTable>
-export type UpdateOpeningSubjectAdditionalEligibleStudents = Updateable<OpeningSubjectAdditionalEligibleStudentsTable>
+export type OpeningSubjectAdditionalEligibleStudents =
+  Selectable<OpeningSubjectAdditionalEligibleStudentsTable>
+export type NewOpeningSubjectAdditionalEligibleStudents =
+  Insertable<OpeningSubjectAdditionalEligibleStudentsTable>
+export type UpdateOpeningSubjectAdditionalEligibleStudents =
+  Updateable<OpeningSubjectAdditionalEligibleStudentsTable>
 
 export interface OpeningSubjectAssignmentsTable {
   id: ColumnType<string, string, never>
@@ -203,7 +213,8 @@ export interface OpeningSubjectStudentAssignmentsTable {
 
 export type OpeningSubjectStudentAssignments = Selectable<OpeningSubjectStudentAssignmentsTable>
 export type NewOpeningSubjectStudentAssignments = Insertable<OpeningSubjectStudentAssignmentsTable>
-export type UpdateOpeningSubjectStudentAssignments = Updateable<OpeningSubjectStudentAssignmentsTable>
+export type UpdateOpeningSubjectStudentAssignments =
+  Updateable<OpeningSubjectStudentAssignmentsTable>
 
 export interface OpeningSubjectStudentCommentsTable {
   id: ColumnType<string, string, never>
@@ -226,7 +237,8 @@ export interface OpeningSubjectStudentEnrollmentsTable {
 
 export type OpeningSubjectStudentEnrollments = Selectable<OpeningSubjectStudentEnrollmentsTable>
 export type NewOpeningSubjectStudentEnrollments = Insertable<OpeningSubjectStudentEnrollmentsTable>
-export type UpdateOpeningSubjectStudentEnrollments = Updateable<OpeningSubjectStudentEnrollmentsTable>
+export type UpdateOpeningSubjectStudentEnrollments =
+  Updateable<OpeningSubjectStudentEnrollmentsTable>
 
 export interface OpeningSubjectsTable {
   id: ColumnType<string, string, never>
