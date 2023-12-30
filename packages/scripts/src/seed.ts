@@ -1,7 +1,5 @@
-import chalk from 'chalk'
-
 import { faker } from '@faker-js/faker'
-
+import chalk from 'chalk'
 import { generateAcademicYears } from './data/academic-years.js'
 import { generateAdmins } from './data/account/admins.js'
 import { generateProfessors } from './data/account/professors.js'
@@ -9,12 +7,20 @@ import { generateStudents } from './data/account/students.js'
 import { generateBuildings } from './data/buildings.js'
 import { generateCurriculums } from './data/curriculums.js'
 import { generateFaculties } from './data/faculties.js'
-import { generateMajors } from './data/majors.js'
-import { generateMajorSubjects } from './data/major-subjects.js'
 import { generateMajorSubjectGroups } from './data/major-subject-groups.js'
+import { generateMajorSubjects } from './data/major-subjects.js'
+import { generateMajors } from './data/majors.js'
+import { generateOpeningSubjectAdditionalEligibleStudents } from './data/opening-subjects/opening-subject-additional-eligible-students.js'
+import { generateOpeningSubjectAssignments } from './data/opening-subjects/opening-subject-assignments.js'
+import { generateOpeningSubjectEligibleMajors } from './data/opening-subjects/opening-subject-eligible-majors.js'
+import { generateOpeningSubjectProfessors } from './data/opening-subjects/opening-subject-professors.js'
+import { generateOpeningSubjectSchedules } from './data/opening-subjects/opening-subject-schedules.js'
+import { generateOpeningSubjectStudentAssignments } from './data/opening-subjects/opening-subject-student-assignments.js'
+import { generateOpeningSubjectsStudentEnrollments } from './data/opening-subjects/opening-subject-student-enrollments.js'
+import { generateOpeningSubjects } from './data/opening-subjects/opening-subjects.js'
 import { generateRooms } from './data/rooms.js'
-import { generateSemesters } from './data/semesters.js'
 import { generateSemesterTerms } from './data/semester-terms.js'
+import { generateSemesters } from './data/semesters.js'
 import { generateSubjects } from './data/subjects.js'
 import { k } from './postgres/index.js'
 import { toJson } from './seed/save-json-file.js'
@@ -54,9 +60,38 @@ const professors = generateProfessors()
 const students = generateStudents(
   majors,
   academicYears,
-  professors.map((p) => p.professors),
+  professors.map(p => p.professors),
 )
 console.log(chalk.greenBright("- Successfully generated people's data"))
+
+console.log(chalk.yellow('- Generating opening subjects data'))
+const openingSubjects = await generateOpeningSubjects(semesterTerms)
+const openingSubjectSchedules = generateOpeningSubjectSchedules(openingSubjects, rooms)
+const openingSubjectProfessors = generateOpeningSubjectProfessors(
+  professors.map(p => p.professors),
+  openingSubjects,
+)
+const openingSubjectEligibleMajors = generateOpeningSubjectEligibleMajors(
+  openingSubjects,
+  academicYears,
+  majors,
+)
+const openingSubjectAdditionalEligibleStudents = generateOpeningSubjectAdditionalEligibleStudents(
+  students.map(s => s.students),
+  openingSubjects,
+)
+const openingSubjectStudentEnrollments = generateOpeningSubjectsStudentEnrollments(
+  openingSubjects,
+  students.map(s => s.students),
+)
+const openingSubjectAssignments = generateOpeningSubjectAssignments(
+  openingSubjects,
+  professors.map(p => p.professors),
+)
+const openingSubjectStudentAssignments = generateOpeningSubjectStudentAssignments(
+  openingSubjectAssignments,
+  openingSubjectStudentEnrollments,
+)
 
 console.log()
 console.log(chalk.blueBright('Started saving data'))
@@ -105,35 +140,39 @@ console.log(chalk.greenBright('- Successfully inserted buildings data'))
 
 console.log(chalk.yellow("- Inserting people's data"))
 
-await k.transaction().execute(async (txn) => {
+await k.transaction().execute(async txn => {
   await txn
     .insertInto('accounts')
     .values([
-      ...admins.map((a) => a.accounts),
-      ...professors.map((p) => p.accounts),
-      ...students.map((s) => s.accounts),
+      ...admins.map(a => a.accounts),
+      ...professors.map(p => p.accounts),
+      ...students.map(s => s.accounts),
     ])
     .execute()
 
   await txn
     .insertInto('account_names')
     .values([
-      ...admins.map((a) => a.account_names),
-      ...professors.map((p) => p.account_names),
-      ...students.map((s) => s.account_names),
+      ...admins.map(a => a.account_names),
+      ...professors.map(p => p.account_names),
+      ...students.map(s => s.account_names),
     ])
     .execute()
 
   await k
     .insertInto('professors')
-    .values([...professors.map((p) => p.professors)])
+    .values([...professors.map(p => p.professors)])
     .execute()
   await k
     .insertInto('students')
-    .values([...students.map((s) => s.students)])
+    .values([...students.map(s => s.students)])
     .execute()
 })
 console.log(chalk.greenBright("- Successfully inserted people's data"))
 
+console.log()
+console.log(chalk.yellow('Inserting opening subjects data'))
+
 console.log(chalk.bgGreenBright(chalk.black('Done!')))
+
 process.exit()

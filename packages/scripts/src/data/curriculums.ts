@@ -1,12 +1,10 @@
+import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 import ulid from 'ulid'
-
-import { faker } from '@faker-js/faker'
-
 import { type NewCurriculums, type NewFaculties } from '../types/index.js'
 
 export const generateCurriculums = (faculties: Array<NewFaculties>): Array<NewCurriculums> => {
-  return faculties.flatMap((faculty) => {
+  return faculties.flatMap(faculty => {
     return Array.from({ length: faker.number.int({ min: 4, max: 7 }) }, () => {
       return {
         id: ulid.ulid(),

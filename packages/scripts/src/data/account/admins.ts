@@ -1,9 +1,7 @@
-import dayjs from 'dayjs'
-import ulid from 'ulid'
-
 import { faker } from '@faker-js/faker'
 import { hashSync } from '@node-rs/argon2'
-
+import dayjs from 'dayjs'
+import ulid from 'ulid'
 import { argon2Options, rawPassword } from '../../argon2.js'
 import { NewAccountNames, type NewAccounts } from '../../types/index.js'
 

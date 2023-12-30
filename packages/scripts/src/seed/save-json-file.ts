@@ -1,5 +1,5 @@
-import chalk from 'chalk'
 import { writeFile } from 'node:fs/promises'
+import chalk from 'chalk'
 
 export const toJson = async <T extends object>(value: T, filename: string): Promise<void> => {
   console.log(chalk.yellow(`- Saving ./src/json/${filename}.json`))

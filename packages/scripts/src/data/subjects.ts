@@ -1,12 +1,10 @@
+import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 import ulid from 'ulid'
-
-import { faker } from '@faker-js/faker'
-
 import { type NewSubjects } from '../types/index.js'
 
 export const generateSubjects = (): Array<NewSubjects> => {
-  return Array.from({ length: faker.number.int({ min: 100, max: 130 }) }, () => {
+  return Array.from({ length: faker.number.int({ min: 200, max: 300 }) }, () => {
     return {
       id: ulid.ulid(),
       name: faker.commerce.productName(),

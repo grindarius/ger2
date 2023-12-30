@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import { sql } from 'kysely'
-
 import { k } from './postgres/index.js'
 
 console.log(chalk.yellow('Removing tables from public schema'))

@@ -1,8 +1,6 @@
+import { faker } from '@faker-js/faker'
 import flatten from 'just-flatten-it'
 import ulid from 'ulid'
-
-import { faker } from '@faker-js/faker'
-
 import { type NewBuildings, type NewRooms } from '../types/index.js'
 
 export const generateRooms = (buildings: Array<NewBuildings>): Array<NewRooms> => {
@@ -10,7 +8,7 @@ export const generateRooms = (buildings: Array<NewBuildings>): Array<NewRooms> =
   const roomsPerFloor = faker.number.int({ min: 8, max: 13 })
 
   return flatten(
-    buildings.map((building) => {
+    buildings.map(building => {
       return Array.from({ length: levels }, (_, i) => {
         return Array.from({ length: roomsPerFloor }, () => {
           return {

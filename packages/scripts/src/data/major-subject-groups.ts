@@ -1,12 +1,11 @@
 import flatten from 'just-flatten-it'
 import ulid from 'ulid'
-
-import { type NewMajors, type NewMajorSubjectGroups } from '../types/index.js'
+import { type NewMajorSubjectGroups, type NewMajors } from '../types/index.js'
 
 export const generateMajorSubjectGroups = (
   majors: Array<NewMajors>,
 ): Array<NewMajorSubjectGroups> => {
-  const firstLevelGroup = majors.map((major) => {
+  const firstLevelGroup = majors.map(major => {
     const oneId = ulid.ulid()
     const onePointOneId = ulid.ulid()
     const onePointOnePointOneId = ulid.ulid()

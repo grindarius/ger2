@@ -1,17 +1,15 @@
+import { faker } from '@faker-js/faker'
 import flatten from 'just-flatten-it'
 import { sql } from 'kysely'
-
-import { faker } from '@faker-js/faker'
-
 import { k } from '../postgres/index.js'
-import { type NewMajors, type NewMajorSubjects, type NewSubjects } from '../types/index.js'
+import { type NewMajorSubjects, type NewMajors, type NewSubjects } from '../types/index.js'
 
 export const generateMajorSubjects = async (
   majors: Array<NewMajors>,
   subjects: Array<NewSubjects>,
 ): Promise<Array<NewMajorSubjects>> => {
   const majorSubjects = await Promise.all(
-    majors.map(async (major) => {
+    majors.map(async major => {
       const majorSubjectGroups = await sql<{
         id: string
         major_id: string
@@ -45,8 +43,8 @@ export const generateMajorSubjects = async (
       where not exists (select 1 from major_subject_groups where major_subject_groups.parent_id = subject_leaves.id)
     `.execute(k)
 
-      return majorSubjectGroups.rows.map((leaf) => {
-        return faker.helpers.arrayElements(subjects, 5).map((subject) => {
+      return majorSubjectGroups.rows.map(leaf => {
+        return faker.helpers.arrayElements(subjects, 5).map(subject => {
           return {
             major_subject_group_id: leaf.id,
             subject_id: subject.id,

@@ -1,8 +1,6 @@
+import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 import ulid from 'ulid'
-
-import { faker } from '@faker-js/faker'
-
 import { type NewBuildings } from '../types/index.js'
 
 export class Point {

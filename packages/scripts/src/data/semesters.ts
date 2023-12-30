@@ -1,10 +1,9 @@
 import dayjs from 'dayjs'
 import ulid from 'ulid'
-
 import { type NewAcademicYears, type NewSemesters } from '../types/index.js'
 
 export const generateSemesters = (academicYears: Array<NewAcademicYears>): Array<NewSemesters> => {
-  return academicYears.flatMap((year) => {
+  return academicYears.flatMap(year => {
     const start = dayjs(year.start_at)
 
     return [

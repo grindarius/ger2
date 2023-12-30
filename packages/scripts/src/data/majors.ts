@@ -1,15 +1,13 @@
+import { faker } from '@faker-js/faker'
 import dayjs from 'dayjs'
 import ulid from 'ulid'
-
-import { faker } from '@faker-js/faker'
-
 import { type NewAcademicYears, type NewCurriculums, type NewMajors } from '../types/index.js'
 
 export const generateMajors = (
   curriculums: Array<NewCurriculums>,
   academicYears: Array<NewAcademicYears>,
 ): Array<NewMajors> => {
-  return curriculums.flatMap((curriculum) => {
+  return curriculums.flatMap(curriculum => {
     return Array.from({ length: faker.number.int({ min: 3, max: 8 }) }, () => {
       return {
         id: ulid.ulid(),

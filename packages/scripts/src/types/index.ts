@@ -40,9 +40,9 @@ export type UpdateAccountNames = Updateable<AccountNamesTable>
 
 export interface AccountSessionsTable {
   id: ColumnType<string, string, never>
-  account_id: ColumnType<string, string, string | undefined>
-  active_expires: ColumnType<string, string, string | undefined>
-  idle_expires: ColumnType<string, string, string | undefined>
+  user_id: ColumnType<string, string, string | undefined>
+  expires: ColumnType<string, string, string | undefined>
+  fresh: ColumnType<boolean, boolean, boolean | undefined>
 }
 
 export type AccountSessions = Selectable<AccountSessionsTable>
@@ -100,6 +100,66 @@ export interface FacultiesTable {
 export type Faculties = Selectable<FacultiesTable>
 export type NewFaculties = Insertable<FacultiesTable>
 export type UpdateFaculties = Updateable<FacultiesTable>
+
+export interface ForumMembersTable {
+  forum_id: ColumnType<string, string, string | undefined>
+  account_id: ColumnType<string, string, string | undefined>
+  role_id: ColumnType<string, string, string | undefined>
+}
+
+export type ForumMembers = Selectable<ForumMembersTable>
+export type NewForumMembers = Insertable<ForumMembersTable>
+export type UpdateForumMembers = Updateable<ForumMembersTable>
+
+export interface ForumPostCommentsTable {
+  id: ColumnType<string, string, never>
+  forum_post_id: ColumnType<string, string, string | undefined>
+  forum_member_id: ColumnType<string, string, string | undefined>
+  content: ColumnType<string, string, string | undefined>
+  created_at: ColumnType<string, string | undefined, string | undefined>
+  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+}
+
+export type ForumPostComments = Selectable<ForumPostCommentsTable>
+export type NewForumPostComments = Insertable<ForumPostCommentsTable>
+export type UpdateForumPostComments = Updateable<ForumPostCommentsTable>
+
+export interface ForumPostsTable {
+  id: ColumnType<string, string, never>
+  forum_member_id: ColumnType<string, string, string | undefined>
+  name: ColumnType<string, string, string | undefined>
+  content: ColumnType<string, string, string | undefined>
+  created_at: ColumnType<string, string | undefined, string | undefined>
+  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+}
+
+export type ForumPosts = Selectable<ForumPostsTable>
+export type NewForumPosts = Insertable<ForumPostsTable>
+export type UpdateForumPosts = Updateable<ForumPostsTable>
+
+export interface ForumRolesTable {
+  id: ColumnType<string, string, never>
+  name: ColumnType<string, string, string | undefined>
+  description: ColumnType<string, string, string | undefined>
+}
+
+export type ForumRoles = Selectable<ForumRolesTable>
+export type NewForumRoles = Insertable<ForumRolesTable>
+export type UpdateForumRoles = Updateable<ForumRolesTable>
+
+export interface ForumsTable {
+  id: ColumnType<string, string, never>
+  account_id: ColumnType<string, string, string | undefined>
+  name: ColumnType<string, string, string | undefined>
+  slug: ColumnType<string, string, string | undefined>
+  description: ColumnType<string, string, string | undefined>
+  created_at: ColumnType<string, string | undefined, string | undefined>
+  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+}
+
+export type Forums = Selectable<ForumsTable>
+export type NewForums = Insertable<ForumsTable>
+export type UpdateForums = Updateable<ForumsTable>
 
 export interface KeysTable {
   id: ColumnType<string, string, never>
@@ -374,6 +434,11 @@ export interface Database {
   buildings: BuildingsTable
   curriculums: CurriculumsTable
   faculties: FacultiesTable
+  forum_members: ForumMembersTable
+  forum_post_comments: ForumPostCommentsTable
+  forum_posts: ForumPostsTable
+  forum_roles: ForumRolesTable
+  forums: ForumsTable
   keys: KeysTable
   major_subject_groups: MajorSubjectGroupsTable
   major_subjects: MajorSubjectsTable

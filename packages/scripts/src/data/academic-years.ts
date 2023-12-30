@@ -1,11 +1,9 @@
 import dayjs from 'dayjs'
 import ulid from 'ulid'
-
 import { type NewAcademicYears } from '../types/index.js'
 
 export const generateAcademicYears = (start: number): Array<NewAcademicYears> => {
   const endYear = dayjs().year()
-
   const years = []
 
   for (let i = start; i <= endYear; i += 1) {

@@ -1,10 +1,9 @@
 import dayjs from 'dayjs'
 import ulid from 'ulid'
-
-import { type NewSemesters, type NewSemesterTerms, type SemesterType } from '../types/index.js'
+import { type NewSemesterTerms, type NewSemesters, type SemesterType } from '../types/index.js'
 
 export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<NewSemesterTerms> => {
-  return semesters.flatMap((semester) => {
+  return semesters.flatMap(semester => {
     const start = dayjs(semester.start_at)
 
     // First term if true, otherwise second term

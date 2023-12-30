@@ -1,16 +1,14 @@
-import dayjs from "dayjs"
-import ulid from "ulid"
-
-import { faker } from "@faker-js/faker"
-import { hashSync } from "@node-rs/argon2"
-
-import { argon2Options, rawPassword } from "../../argon2.js"
+import { faker } from '@faker-js/faker'
+import { hashSync } from '@node-rs/argon2'
+import dayjs from 'dayjs'
+import ulid from 'ulid'
+import { argon2Options, rawPassword } from '../../argon2.js'
 import {
   NewAccountNames,
   type NewAccounts,
   type NewProfessors,
   type Role,
-} from "../../types/index.js"
+} from '../../types/index.js'
 
 export const generateProfessors = (): Array<{
   accounts: NewAccounts
@@ -29,11 +27,11 @@ export const generateProfessors = (): Array<{
         username: faker.internet.userName({ firstName, lastName }),
         email: faker.internet.email({ firstName, lastName }),
         password: hashSync(rawPassword, argon2Options),
-        role: "professor" as Role,
+        role: 'professor' as Role,
         birthdate: dayjs(
           faker.date.between({
-            from: dayjs().subtract(50, "years").toDate(),
-            to: dayjs().subtract(30, "years").toDate(),
+            from: dayjs().subtract(50, 'years').toDate(),
+            to: dayjs().subtract(30, 'years').toDate(),
           }),
         ).toISOString(),
         created_at: createdAt,
@@ -42,9 +40,9 @@ export const generateProfessors = (): Array<{
       account_names: {
         id: ulid.ulid(),
         account_id: id,
-        name_language: "en",
+        name_language: 'en',
         first_name: firstName,
-        middle_name: "",
+        middle_name: '',
         last_name: lastName,
       },
       professors: {
