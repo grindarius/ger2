@@ -3,12 +3,17 @@
   "description": "postgres data adapter with redis session",
   "type": "module",
   "private": true,
+  "scripts": {
+    "test": "node --loader ts-node/esm --experimental-global-webcrypto test/index.test.ts"
+  },
   "dependencies": {
+    "dayjs": "^1.11.10",
     "postgres": "^3.4.3",
     "redis": "^4.6.12"
   },
   "devDependencies": {
     "@lucia-auth/adapter-test": "5.0.0-beta.6",
-    "lucia": "3.0.0-beta.13"
+    "lucia": "3.0.0-beta.13",
+    "ts-node": "^10.9.2"
   }
 }

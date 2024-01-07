@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import {
   Adapter,
   DatabaseSession,
@@ -8,14 +9,19 @@ import {
 import { type Sql } from 'postgres'
 import { RedisClientType } from 'redis'
 
-export interface TableNames {
-  user: string
-  session: string
+export interface Config {
+  tableNames: {
+    user: string
+  }
+  redis: {
+    sessionPrefix: string
+    userSessionsPrefix: string
+  }
 }
 
 interface SessionSchema extends DatabaseSessionAttributes {
   id: string
-  user_id: string
+  account_id: string
   expires_at: Date
 }
 
@@ -25,25 +31,29 @@ interface UserSchema extends DatabaseUserAttributes {
 
 export class PostgresRedisSessionAdapter implements Adapter {
   private postgres: Sql
-  private redis: RedisClientType
+  // biome-ignore lint/suspicious/noExplicitAny: fuck redis type system
+  private redis: RedisClientType<any, any, any>
 
-  private escapedUserTableName: string
-  private escapedSessiontableName: string
+  private userTableName: string
+  private sessionPrefix: string
+  private userSessionsPrefix: string
 
-  constructor(postgres: Sql, redis: RedisClientType, tableNames: TableNames) {
+  // biome-ignore lint/suspicious/noExplicitAny: fuck redis type system
+  constructor(postgres: Sql, redis: RedisClientType<any, any, any>, config: Config) {
     this.postgres = postgres
     this.redis = redis
 
-    this.escapedUserTableName = escapeName(tableNames.user)
-    this.escapedSessiontableName = escapeName(tableNames.session)
+    this.userTableName = config.tableNames.user
+    this.sessionPrefix = config.redis.sessionPrefix
+    this.userSessionsPrefix = config.redis.userSessionsPrefix
   }
 
   private sessionKey(sessionId: string): string {
-    return `session:${sessionId}`
+    return `${this.sessionPrefix}:${sessionId}`
   }
 
   private userSessionsKey(userId: string): string {
-    return `user_sessions:${userId}`
+    return `${this.userSessionsPrefix}:${userId}`
   }
 
   public async deleteSession(sessionId: string): Promise<void> {
@@ -52,7 +62,8 @@ export class PostgresRedisSessionAdapter implements Adapter {
       return
     }
 
-    const session = JSON.parse(sessionData) as DatabaseSession
+    const sessionSchema: SessionSchema = JSON.parse(sessionData)
+    const session = this.transformIntoDatabaseSession(sessionSchema)
     await Promise.all([
       this.redis.del(this.sessionKey(sessionId)),
       this.redis.sRem(this.userSessionsKey(session.userId), sessionId),
@@ -69,12 +80,12 @@ export class PostgresRedisSessionAdapter implements Adapter {
 
   private async getSession(sessionId: string): Promise<DatabaseSession | null> {
     const sessionResult = await this.redis.get(this.sessionKey(sessionId))
-    if (sessionResult == null) {
+    if (sessionResult == null || sessionResult === '') {
       return null
     }
 
-    const session: DatabaseSession = JSON.parse(sessionResult)
-    return session
+    const session: SessionSchema = JSON.parse(sessionResult)
+    return this.transformIntoDatabaseSession(session)
   }
 
   public async getSessionAndUser(
@@ -86,14 +97,14 @@ export class PostgresRedisSessionAdapter implements Adapter {
       return [null, null]
     }
 
-    const userResult = await this.postgres<
-      Array<DatabaseUser>
-    >`select * from ${this.escapedUserTableName} where user_id = ${session.userId}`
+    const userResult = await this.postgres<Array<UserSchema>>`select * from ${this.postgres(
+      this.userTableName,
+    )} where id = ${session.userId}`
     if (userResult.length === 0) {
       return [null, null]
     }
 
-    return [session, userResult[0] ?? null]
+    return [session, this.transformIntoDatabaseUser(userResult[0]) ?? null]
   }
 
   public async getUserSessions(userId: string): Promise<Array<DatabaseSession>> {
@@ -118,7 +129,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
   public async setSession(session: DatabaseSession): Promise<void> {
     const value: SessionSchema = {
       id: session.id,
-      user_id: session.userId,
+      account_id: session.userId,
       expires_at: session.expiresAt,
       ...session.attributes,
     }
@@ -147,11 +158,11 @@ export class PostgresRedisSessionAdapter implements Adapter {
   }
 
   private transformIntoDatabaseSession(raw: SessionSchema): DatabaseSession {
-    const { id, user_id: userId, expires_at: expiresAt, ...attributes } = raw
+    const { id, account_id: userId, expires_at: expiresAt, ...attributes } = raw
     return {
       userId,
       id,
-      expiresAt,
+      expiresAt: dayjs(expiresAt).toDate(),
       attributes,
     }
   }
@@ -163,12 +174,4 @@ export class PostgresRedisSessionAdapter implements Adapter {
       attributes,
     }
   }
-}
-
-const escapeName = (value: string): string => {
-  if (value.includes('.')) {
-    return value
-  }
-
-  return `"${value}"`
 }
