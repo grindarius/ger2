@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.4.1/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -20,8 +20,17 @@
   },
   "javascript": {
     "formatter": {
+      "enabled": true,
       "semicolons": "asNeeded",
-      "quoteStyle": "single"
+      "quoteStyle": "single",
+      "arrowParentheses": "asNeeded",
+      "trailingComma": "es5",
+      "lineEnding": "lf"
+    }
+  },
+  "json": {
+    "formatter": {
+      "enabled": false
     }
   }
 }
