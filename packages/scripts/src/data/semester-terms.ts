@@ -23,7 +23,7 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
           end_at: dayjs(`${start.year()}-03-31T23:59:59.999+07:00`).toISOString(),
           exam_start_at: dayjs(`${start.year()}-04-01T00:00:00.000+07:00`).toISOString(),
           exam_end_at: dayjs(`${start.year()}-04-05T23:59:59.999+07:00`).toISOString(),
-          created_at: dayjs().toISOString(),
+          created_at: dayjs().toISOString()
         },
         {
           id: ulid.ulid(),
@@ -39,8 +39,8 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
           end_at: dayjs(`${start.year()}-05-10T23:59:59.999+07:00`).toISOString(),
           exam_start_at: dayjs(`${start.year()}-05-25T00:00:00.000+07:00`).toISOString(),
           exam_end_at: dayjs(`${start.year()}-05-31T23:59:59.999+07:00`).toISOString(),
-          created_at: dayjs().toISOString(),
-        },
+          created_at: dayjs().toISOString()
+        }
       ]
     }
 
@@ -59,7 +59,7 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
         end_at: dayjs(`${start.year()}-07-31T23:59:59.999+07:00`).toISOString(),
         exam_start_at: dayjs(`${start.year()}-08-01T00:00:00.000+07:00`).toISOString(),
         exam_end_at: dayjs(`${start.year()}-08-05T23:59:59.999+07:00`).toISOString(),
-        created_at: dayjs().toISOString(),
+        created_at: dayjs().toISOString()
       },
       {
         id: ulid.ulid(),
@@ -75,8 +75,8 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
         end_at: dayjs(`${start.year()}-09-10T23:59:59.999+07:00`).toISOString(),
         exam_start_at: dayjs(`${start.year()}-09-25T00:00:00.000+07:00`).toISOString(),
         exam_end_at: dayjs(`${start.year()}-09-30T23:59:59.999+07:00`).toISOString(),
-        created_at: dayjs().toISOString(),
-      },
+        created_at: dayjs().toISOString()
+      }
     ]
   })
 }

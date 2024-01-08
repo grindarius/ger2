@@ -8,7 +8,7 @@ export const generateFaculties = (): Array<NewFaculties> => {
     return {
       id: ulid.ulid(),
       name: faker.commerce.productName(),
-      created_at: dayjs().toISOString(),
+      created_at: dayjs().toISOString()
     }
   })
 }

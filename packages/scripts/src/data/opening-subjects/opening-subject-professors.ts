@@ -3,7 +3,7 @@ import { ulid } from 'ulid'
 import {
   NewOpeningSubjects,
   NewOpeningSubjectsProfessors,
-  NewProfessors,
+  NewProfessors
 } from '../../types/index.js'
 
 export const generateOpeningSubjectProfessors = (
@@ -15,7 +15,7 @@ export const generateOpeningSubjectProfessors = (
       return {
         id: ulid(),
         opening_subject_id: os.id,
-        professor_id: p.account_id,
+        professor_id: p.account_id
       }
     })
   })

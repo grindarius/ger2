@@ -4,7 +4,7 @@ import { ulid } from 'ulid'
 import {
   NewOpeningSubjectAssignments,
   NewOpeningSubjects,
-  NewProfessors,
+  NewProfessors
 } from '../../types/index.js'
 
 export const generateOpeningSubjectAssignments = (
@@ -18,7 +18,7 @@ export const generateOpeningSubjectAssignments = (
       professor_id: faker.helpers.arrayElement(professors).account_id,
       name: faker.commerce.productName(),
       full_score: faker.number.int({ min: 30, max: 100 }),
-      created_at: dayjs().toISOString(),
+      created_at: dayjs().toISOString()
     }
   })
 }

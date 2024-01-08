@@ -5,7 +5,7 @@ export const argon2Options = {
   timeCost: 2,
   parallelism: 1,
   version: Version.V0x13,
-  outputLen: 64,
+  outputLen: 64
 }
 
 export const rawPassword = 'aryastark'

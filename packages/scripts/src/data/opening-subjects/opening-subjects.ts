@@ -5,7 +5,7 @@ import {
   NewMajorSubjects,
   NewOpeningSubjects,
   NewSemesterTerms,
-  NewStudents,
+  NewStudents
 } from '../../types/index.js'
 
 const studyableSubjects = (
@@ -52,7 +52,7 @@ export const generateOpeningSubjects = (
         semester_term_id: term.id,
         subject_id: faker.helpers.arrayElement(subjects),
         subject_capacity: 1000,
-        grading_criteria: '{"A":80,"B+":75,"B":70,"C+":65,"C":60,"D+":55,"D":50,"F":40}',
+        grading_criteria: '{"A":80,"B+":75,"B":70,"C+":65,"C":60,"D+":55,"D":50,"F":40}'
       })
     }
   }

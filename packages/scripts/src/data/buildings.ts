@@ -15,14 +15,14 @@ export class Point {
   asObject(): { latitude: number; longitude: number } {
     return {
       latitude: this.latitude,
-      longitude: this.longitude,
+      longitude: this.longitude
     }
   }
 
   asXYObject(): { x: number; y: number } {
     return {
       x: this.longitude,
-      y: this.latitude,
+      y: this.latitude
     }
   }
 
@@ -60,11 +60,11 @@ export const generateBuildings = (): Array<NewBuildings> => {
         ...faker.location.nearbyGPSCoordinate({
           origin: coordinate.asArray(),
           radius: 100,
-          isMetric: true,
+          isMetric: true
         })
       ).asPostgresPointString(),
       created_at: dayjs().toISOString(),
-      building_created_at: dayjs(faker.date.past({ years: 20 })).toISOString(),
+      building_created_at: dayjs(faker.date.past({ years: 20 })).toISOString()
     }
   })
 }

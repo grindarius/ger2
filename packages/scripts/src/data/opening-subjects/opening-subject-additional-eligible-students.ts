@@ -3,7 +3,7 @@ import { ulid } from 'ulid'
 import {
   NewOpeningSubjectAdditionalEligibleStudents,
   NewStudents,
-  OpeningSubjects,
+  OpeningSubjects
 } from '../../types/index.js'
 
 export const generateOpeningSubjectAdditionalEligibleStudents = (
@@ -15,7 +15,7 @@ export const generateOpeningSubjectAdditionalEligibleStudents = (
       return {
         id: ulid(),
         opening_subject_id: os.id,
-        student_id: s.account_id,
+        student_id: s.account_id
       }
     })
   })

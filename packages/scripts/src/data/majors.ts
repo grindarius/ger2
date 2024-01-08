@@ -17,7 +17,7 @@ export const generateMajors = (
         minimum_gpa: faker.helpers.arrayElement([1.5, 2.0, 2.5, 3.0]),
         year_amount: faker.number.int({ min: 4, max: 6 }),
         minimum_credit: faker.number.int({ min: 3, max: 6 }),
-        created_at: dayjs().toISOString(),
+        created_at: dayjs().toISOString()
       }
     })
   })

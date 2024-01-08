@@ -4,7 +4,7 @@ import { ulid } from 'ulid'
 import {
   NewOpeningSubjectAssignments,
   NewOpeningSubjectStudentEnrollments,
-  OpeningSubjectStudentAssignments,
+  OpeningSubjectStudentAssignments
 } from '../../types/index.js'
 
 export const generateOpeningSubjectStudentAssignments = (
@@ -20,7 +20,7 @@ export const generateOpeningSubjectStudentAssignments = (
       opening_subject_assignment_id: osa.id,
       score: faker.number.int({ min: 10 }),
       created_at: dayjs().toISOString(),
-      updated_at: dayjs().toISOString(),
+      updated_at: dayjs().toISOString()
     }
   })
 }

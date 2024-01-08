@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import {
   NewOpeningSubjectStudentEnrollments,
   NewTransactionSubjectEnrollments,
-  NewTransactions,
+  NewTransactions
 } from '../../types/index.js'
 
 export const generateTransactionSubjectEnrollments = (
@@ -15,7 +15,7 @@ export const generateTransactionSubjectEnrollments = (
         opening_subject_student_enrollment_id: faker.helpers.arrayElement(
           openingSubjectStudentEnrollments
         ).id,
-        transaction_id: t.id,
+        transaction_id: t.id
       }
     })
   })

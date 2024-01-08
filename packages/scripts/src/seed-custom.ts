@@ -4,6 +4,6 @@ const subjects: Array<NewSubjects> = [
   {
     id: '',
     name: '',
-    credit: 3,
-  },
+    credit: 3
+  }
 ]

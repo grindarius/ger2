@@ -28,11 +28,11 @@ export const generateAdmins = (): Array<{
         birthdate: dayjs(
           faker.date.between({
             from: dayjs().subtract(50, 'years').toDate(),
-            to: dayjs().subtract(18, 'years').toDate(),
+            to: dayjs().subtract(18, 'years').toDate()
           })
         ).toISOString(),
         created_at: createdAt,
-        updated_at: null,
+        updated_at: null
       },
       account_names: {
         id: ulid.ulid(),
@@ -40,8 +40,8 @@ export const generateAdmins = (): Array<{
         name_language: 'en',
         first_name: firstName,
         middle_name: '',
-        last_name: lastName,
-      },
+        last_name: lastName
+      }
     }
   })
 }

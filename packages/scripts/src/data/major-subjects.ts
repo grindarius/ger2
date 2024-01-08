@@ -48,7 +48,7 @@ export const generateMajorSubjects = async (
           return {
             major_subject_group_id: leaf.id,
             subject_id: subject.id,
-            credit: 3,
+            credit: 3
           }
         })
       })

@@ -15,7 +15,7 @@ export const generateOpeningSubjectSchedules = (
       room_id: faker.helpers.arrayElement(rooms).id,
       day: faker.helpers.arrayElement(['monday', 'tuesday', 'wednesday', 'thursday', 'friday']),
       start_at: `${subjectStart.toString().padStart(2, '0')}:00`,
-      end_at: `${subjectStart + 2}:00`,
+      end_at: `${subjectStart + 2}:00`
     }
   })
 }

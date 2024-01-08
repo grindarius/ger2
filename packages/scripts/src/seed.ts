@@ -75,7 +75,7 @@ await Promise.all([
     [
       ...admins.map(a => a.accounts),
       ...professors.map(p => p.accounts),
-      ...students.map(s => s.accounts),
+      ...students.map(s => s.accounts)
     ],
     'accounts'
   ),
@@ -83,7 +83,7 @@ await Promise.all([
     [
       ...admins.map(a => a.account_names),
       ...professors.map(p => p.account_names),
-      ...students.map(s => s.account_names),
+      ...students.map(s => s.account_names)
     ],
     'account_names'
   ),
@@ -104,7 +104,7 @@ await Promise.all([
   toJson(subjects, 'subject'),
   toJson(majorSubjectGroups, 'major-subject-group'),
   toJson(buildings, 'building'),
-  toJson(rooms, 'room'),
+  toJson(rooms, 'room')
 ])
 
 console.log()
@@ -179,7 +179,7 @@ await Promise.all([
   toJson(openingSubjectAssignments, 'opening-subject-assignments'),
   toJson(openingSubjectStudentAssignments, 'opening-subject-student-assignments'),
   toJson(transactions, 'transactions'),
-  toJson(transactionSubjectEnrollments, 'transaction-subject-enrollments'),
+  toJson(transactionSubjectEnrollments, 'transaction-subject-enrollments')
 ])
 
 await k.insertInto('major_subjects').values(majorSubjects).execute()
@@ -197,7 +197,7 @@ await k
   .values([
     ...admins.map(a => a.accounts),
     ...professors.map(p => p.accounts),
-    ...students.map(s => s.accounts),
+    ...students.map(s => s.accounts)
   ])
   .execute()
 
@@ -206,7 +206,7 @@ await k
   .values([
     ...admins.map(a => a.account_names),
     ...professors.map(p => p.account_names),
-    ...students.map(s => s.account_names),
+    ...students.map(s => s.account_names)
   ])
   .execute()
 await k

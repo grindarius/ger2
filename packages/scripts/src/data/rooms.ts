@@ -17,7 +17,7 @@ export const generateRooms = (buildings: Array<NewBuildings>): Array<NewRooms> =
             name: faker.commerce.productName(),
             description: faker.lorem.word(20),
             capacity: faker.number.int({ min: 10, max: 60 }),
-            floor: i + 1,
+            floor: i + 1
           }
         })
       })

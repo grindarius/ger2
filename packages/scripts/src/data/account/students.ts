@@ -11,7 +11,7 @@ import {
   type NewMajors,
   type NewProfessors,
   type NewStudents,
-  type Role,
+  type Role
 } from '../../types/index.js'
 
 export const generateStudents = (
@@ -27,7 +27,7 @@ export const generateStudents = (
       const createdAt = dayjs(
         faker.date.between({
           from: dayjs(a.start_at).subtract(1, 'month').toISOString(),
-          to: dayjs(a.start_at).toISOString(),
+          to: dayjs(a.start_at).toISOString()
         })
       ).toISOString()
 
@@ -41,7 +41,7 @@ export const generateStudents = (
           password: hashSync(rawPassword, argon2Options),
           role: 'student' as Role,
           birthdate: dayjs(faker.date.past({ years: 20 })).toISOString(),
-          created_at: createdAt,
+          created_at: createdAt
         },
         account_names: {
           id: ulid.ulid(),
@@ -49,7 +49,7 @@ export const generateStudents = (
           name_language: 'en',
           first_name: firstName,
           middle_name: '',
-          last_name: lastName,
+          last_name: lastName
         },
         students: {
           account_id: id,
@@ -62,8 +62,8 @@ export const generateStudents = (
           student_nid: Array.from({ length: 13 }, () => faker.number.int({ min: 0, max: 9 })).join(
             ''
           ),
-          previous_gpa: faker.number.float({ min: 1.0, max: 4.01, precision: 0.01 }),
-        },
+          previous_gpa: faker.number.float({ min: 1.0, max: 4.01, precision: 0.01 })
+        }
       }
     })
   })

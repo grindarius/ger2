@@ -8,7 +8,7 @@ import {
   NewAccountNames,
   type NewAccounts,
   type NewProfessors,
-  type Role,
+  type Role
 } from '../../types/index.js'
 
 export const generateProfessors = (): Array<{
@@ -34,11 +34,11 @@ export const generateProfessors = (): Array<{
         birthdate: dayjs(
           faker.date.between({
             from: dayjs().subtract(50, 'years').toDate(),
-            to: dayjs().subtract(30, 'years').toDate(),
+            to: dayjs().subtract(30, 'years').toDate()
           })
         ).toISOString(),
         created_at: createdAt,
-        updated_at: null,
+        updated_at: null
       },
       account_names: {
         id: ulid.ulid(),
@@ -46,12 +46,12 @@ export const generateProfessors = (): Array<{
         name_language: 'en',
         first_name: firstName,
         middle_name: '',
-        last_name: lastName,
+        last_name: lastName
       },
       professors: {
         account_id: id,
-        description: faker.lorem.words(20),
-      },
+        description: faker.lorem.words(20)
+      }
     }
   })
 

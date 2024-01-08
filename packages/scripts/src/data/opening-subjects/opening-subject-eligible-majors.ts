@@ -4,7 +4,7 @@ import {
   NewAcademicYears,
   NewMajors,
   NewOpeningSubjectEligibleMajors,
-  NewOpeningSubjects,
+  NewOpeningSubjects
 } from '../../types/index.js'
 
 export const generateOpeningSubjectEligibleMajors = (
@@ -17,7 +17,7 @@ export const generateOpeningSubjectEligibleMajors = (
       id: ulid(),
       opening_subject_id: os.id,
       major_id: faker.helpers.arrayElement(majors).id,
-      academic_year_id: faker.helpers.arrayElement(academicYears).id,
+      academic_year_id: faker.helpers.arrayElement(academicYears).id
     }
   })
 }

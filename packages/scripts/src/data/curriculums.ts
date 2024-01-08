@@ -10,7 +10,7 @@ export const generateCurriculums = (faculties: Array<NewFaculties>): Array<NewCu
         id: ulid.ulid(),
         faculty_id: faculty.id,
         name: faker.commerce.productName(),
-        created_at: dayjs().toISOString(),
+        created_at: dayjs().toISOString()
       }
     })
   })

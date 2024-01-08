@@ -9,7 +9,7 @@ import { type Database } from '../types/index.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..'),
+  path: resolve(__dirname, '..', '..')
 })
 
 const sql = postgres({
@@ -17,11 +17,11 @@ const sql = postgres({
   host: process.env.PG_HOST,
   user: process.env.PG_USER,
   password: process.env.PG_PASS,
-  port: Number(process.env.PG_PORT),
+  port: Number(process.env.PG_PORT)
 })
 
 const dialect = new PostgresJSDialect({
-  postgres: sql,
+  postgres: sql
 })
 
 export const k = new Kysely<Database>({ dialect })

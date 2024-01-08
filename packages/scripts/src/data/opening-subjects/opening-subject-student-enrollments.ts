@@ -3,7 +3,7 @@ import { ulid } from 'ulid'
 import {
   NewOpeningSubjectStudentEnrollments,
   NewOpeningSubjects,
-  NewStudents,
+  NewStudents
 } from '../../types/index.js'
 
 export const generateOpeningSubjectsStudentEnrollments = (
@@ -16,7 +16,7 @@ export const generateOpeningSubjectsStudentEnrollments = (
         id: ulid(),
         opening_subject_id: os.id,
         student_id: s.account_id,
-        class_comment: '',
+        class_comment: ''
       }
     })
   })

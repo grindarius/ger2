@@ -9,7 +9,7 @@ export const generateSubjects = (): Array<NewSubjects> => {
       id: ulid.ulid(),
       name: faker.commerce.productName(),
       description: faker.lorem.words(20),
-      created_at: dayjs().toISOString(),
+      created_at: dayjs().toISOString()
     }
   })
 }

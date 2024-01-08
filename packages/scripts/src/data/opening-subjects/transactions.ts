@@ -13,7 +13,7 @@ export const generateTransactions = (
       price: 19990,
       payment_status: 'completed',
       transaction_type: JSON.stringify({ type: 'enrollment' }),
-      created_at: dayjs().toISOString(),
+      created_at: dayjs().toISOString()
     }
   })
 }
