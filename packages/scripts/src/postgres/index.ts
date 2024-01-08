@@ -8,17 +8,16 @@ import { type Database } from '../types/index.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+dotenv.config({
+  path: resolve(__dirname, '..', '..'),
+})
+
 const sql = postgres({
   database: process.env.PG_DBNAME,
   host: process.env.PG_HOST,
   user: process.env.PG_USER,
   password: process.env.PG_PASS,
   port: Number(process.env.PG_PORT),
-  max: 5,
-})
-
-dotenv.config({
-  path: resolve(__dirname, '..', '..'),
 })
 
 const dialect = new PostgresJSDialect({

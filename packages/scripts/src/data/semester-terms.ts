@@ -14,10 +14,10 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
           semester_id: semester.id,
           exam_type: 'midterm' as SemesterType,
           subject_registration_start_at: dayjs(
-            `${start.year()}-03-01T00:00:00.000+07:00`,
+            `${start.year()}-03-01T00:00:00.000+07:00`
           ).toISOString(),
           subject_registration_end_at: dayjs(
-            `${start.year()}-03-05T23:59:59.999+07:00`,
+            `${start.year()}-03-05T23:59:59.999+07:00`
           ).toISOString(),
           start_at: dayjs(`${start.year()}-03-06T00:00:00.000+07:00`).toISOString(),
           end_at: dayjs(`${start.year()}-03-31T23:59:59.999+07:00`).toISOString(),
@@ -30,10 +30,10 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
           semester_id: semester.id,
           exam_type: 'final' as SemesterType,
           subject_registration_start_at: dayjs(
-            `${start.year()}-04-06T00:00:00.000+07:00`,
+            `${start.year()}-04-06T00:00:00.000+07:00`
           ).toISOString(),
           subject_registration_end_at: dayjs(
-            `${start.year()}-04-09T23:59:59.999+07:00`,
+            `${start.year()}-04-09T23:59:59.999+07:00`
           ).toISOString(),
           start_at: dayjs(`${start.year()}-04-10T00:00:00.000+07:00`).toISOString(),
           end_at: dayjs(`${start.year()}-05-10T23:59:59.999+07:00`).toISOString(),
@@ -50,10 +50,10 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
         semester_id: semester.id,
         exam_type: 'midterm' as SemesterType,
         subject_registration_start_at: dayjs(
-          `${start.year()}-07-01T00:00:00.000+07:00`,
+          `${start.year()}-07-01T00:00:00.000+07:00`
         ).toISOString(),
         subject_registration_end_at: dayjs(
-          `${start.year()}-07-05T23:59:59.999+07:00`,
+          `${start.year()}-07-05T23:59:59.999+07:00`
         ).toISOString(),
         start_at: dayjs(`${start.year()}-07-06T00:00:00.000+07:00`).toISOString(),
         end_at: dayjs(`${start.year()}-07-31T23:59:59.999+07:00`).toISOString(),
@@ -66,10 +66,10 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
         semester_id: semester.id,
         exam_type: 'final' as SemesterType,
         subject_registration_start_at: dayjs(
-          `${start.year()}-08-06T00:00:00.000+07:00`,
+          `${start.year()}-08-06T00:00:00.000+07:00`
         ).toISOString(),
         subject_registration_end_at: dayjs(
-          `${start.year()}-08-09T23:59:59.999+07:00`,
+          `${start.year()}-08-09T23:59:59.999+07:00`
         ).toISOString(),
         start_at: dayjs(`${start.year()}-08-06T00:00:00.000+07:00`).toISOString(),
         end_at: dayjs(`${start.year()}-09-10T23:59:59.999+07:00`).toISOString(),

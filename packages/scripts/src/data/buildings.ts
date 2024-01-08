@@ -61,7 +61,7 @@ export const generateBuildings = (): Array<NewBuildings> => {
           origin: coordinate.asArray(),
           radius: 100,
           isMetric: true,
-        }),
+        })
       ).asPostgresPointString(),
       created_at: dayjs().toISOString(),
       building_created_at: dayjs(faker.date.past({ years: 20 })).toISOString(),

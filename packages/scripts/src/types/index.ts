@@ -161,16 +161,6 @@ export type Forums = Selectable<ForumsTable>
 export type NewForums = Insertable<ForumsTable>
 export type UpdateForums = Updateable<ForumsTable>
 
-export interface KeysTable {
-  id: ColumnType<string, string, never>
-  account_id: ColumnType<string, string, string | undefined>
-  hashed_password: ColumnType<string | null, string | null | undefined, string | null | undefined>
-}
-
-export type Keys = Selectable<KeysTable>
-export type NewKeys = Insertable<KeysTable>
-export type UpdateKeys = Updateable<KeysTable>
-
 export interface MajorSubjectGroupsTable {
   id: ColumnType<string, string, never>
   major_id: ColumnType<string, string, string | undefined>
@@ -188,6 +178,7 @@ export type UpdateMajorSubjectGroups = Updateable<MajorSubjectGroupsTable>
 export interface MajorSubjectsTable {
   major_subject_group_id: ColumnType<string, string, string | undefined>
   subject_id: ColumnType<string, string, string | undefined>
+  credit: ColumnType<number, number, number | undefined>
 }
 
 export type MajorSubjects = Selectable<MajorSubjectsTable>
@@ -276,23 +267,11 @@ export type NewOpeningSubjectStudentAssignments = Insertable<OpeningSubjectStude
 export type UpdateOpeningSubjectStudentAssignments =
   Updateable<OpeningSubjectStudentAssignmentsTable>
 
-export interface OpeningSubjectStudentCommentsTable {
-  id: ColumnType<string, string, never>
-  opening_subject_id: ColumnType<string, string, string | undefined>
-  opening_subject_student_enrollment_id: ColumnType<string, string, string | undefined>
-  comment: ColumnType<string, string, string | undefined>
-  created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
-}
-
-export type OpeningSubjectStudentComments = Selectable<OpeningSubjectStudentCommentsTable>
-export type NewOpeningSubjectStudentComments = Insertable<OpeningSubjectStudentCommentsTable>
-export type UpdateOpeningSubjectStudentComments = Updateable<OpeningSubjectStudentCommentsTable>
-
 export interface OpeningSubjectStudentEnrollmentsTable {
   id: ColumnType<string, string, never>
   opening_subject_id: ColumnType<string, string, string | undefined>
   student_id: ColumnType<string, string, string | undefined>
+  class_comment: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type OpeningSubjectStudentEnrollments = Selectable<OpeningSubjectStudentEnrollmentsTable>
@@ -393,7 +372,6 @@ export interface SubjectsTable {
   id: ColumnType<string, string, never>
   name: ColumnType<string, string, string | undefined>
   description: ColumnType<string, string | undefined, string | undefined>
-  credit: ColumnType<number, number, number | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
   updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
 }
@@ -439,7 +417,6 @@ export interface Database {
   forum_posts: ForumPostsTable
   forum_roles: ForumRolesTable
   forums: ForumsTable
-  keys: KeysTable
   major_subject_groups: MajorSubjectGroupsTable
   major_subjects: MajorSubjectsTable
   majors: MajorsTable
@@ -448,7 +425,6 @@ export interface Database {
   opening_subject_eligible_majors: OpeningSubjectEligibleMajorsTable
   opening_subject_schedules: OpeningSubjectSchedulesTable
   opening_subject_student_assignments: OpeningSubjectStudentAssignmentsTable
-  opening_subject_student_comments: OpeningSubjectStudentCommentsTable
   opening_subject_student_enrollments: OpeningSubjectStudentEnrollmentsTable
   opening_subjects: OpeningSubjectsTable
   opening_subjects_professors: OpeningSubjectsProfessorsTable

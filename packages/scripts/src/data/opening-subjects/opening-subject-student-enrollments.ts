@@ -8,7 +8,7 @@ import {
 
 export const generateOpeningSubjectsStudentEnrollments = (
   openingSubjects: Array<NewOpeningSubjects>,
-  students: Array<NewStudents>,
+  students: Array<NewStudents>
 ): Array<NewOpeningSubjectStudentEnrollments> => {
   return openingSubjects.flatMap(os => {
     return faker.helpers.arrayElements(students, { min: 40, max: 60 }).map(s => {
@@ -16,6 +16,7 @@ export const generateOpeningSubjectsStudentEnrollments = (
         id: ulid(),
         opening_subject_id: os.id,
         student_id: s.account_id,
+        class_comment: '',
       }
     })
   })

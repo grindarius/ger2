@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto'
 import { faker } from '@faker-js/faker'
 import { hashSync } from '@node-rs/argon2'
 import dayjs from 'dayjs'
@@ -24,7 +25,9 @@ export const generateProfessors = (): Array<{
     return {
       accounts: {
         id,
-        username: faker.internet.userName({ firstName, lastName }),
+        username: (
+          faker.internet.userName({ firstName, lastName }) + randomBytes(4).toString('hex')
+        ).substring(0, 30),
         email: faker.internet.email({ firstName, lastName }),
         password: hashSync(rawPassword, argon2Options),
         role: 'professor' as Role,
@@ -32,7 +35,7 @@ export const generateProfessors = (): Array<{
           faker.date.between({
             from: dayjs().subtract(50, 'years').toDate(),
             to: dayjs().subtract(30, 'years').toDate(),
-          }),
+          })
         ).toISOString(),
         created_at: createdAt,
         updated_at: null,

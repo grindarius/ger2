@@ -4,7 +4,7 @@ import { NewOpeningSubjectSchedules, NewOpeningSubjects, NewRooms } from '../../
 
 export const generateOpeningSubjectSchedules = (
   openingSubjects: Array<NewOpeningSubjects>,
-  rooms: Array<NewRooms>,
+  rooms: Array<NewRooms>
 ): Array<NewOpeningSubjectSchedules> => {
   return openingSubjects.flatMap(os => {
     const subjectStart = faker.number.int({ min: 8, max: 17 })

@@ -3,7 +3,7 @@ import ulid from 'ulid'
 import { type NewMajorSubjectGroups, type NewMajors } from '../types/index.js'
 
 export const generateMajorSubjectGroups = (
-  majors: Array<NewMajors>,
+  majors: Array<NewMajors>
 ): Array<NewMajorSubjectGroups> => {
   const firstLevelGroup = majors.map(major => {
     const oneId = ulid.ulid()

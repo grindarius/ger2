@@ -9,13 +9,13 @@ import {
 
 export const generateOpeningSubjectStudentAssignments = (
   openingSubjectAssignments: Array<NewOpeningSubjectAssignments>,
-  openingSubjectStudentEnrollments: Array<NewOpeningSubjectStudentEnrollments>,
+  openingSubjectStudentEnrollments: Array<NewOpeningSubjectStudentEnrollments>
 ): Array<OpeningSubjectStudentAssignments> => {
   return openingSubjectAssignments.map(osa => {
     return {
       id: ulid(),
       opening_subject_student_enrollment_id: faker.helpers.arrayElement(
-        openingSubjectStudentEnrollments,
+        openingSubjectStudentEnrollments
       ).id,
       opening_subject_assignment_id: osa.id,
       score: faker.number.int({ min: 10 }),

@@ -10,7 +10,7 @@ import {
 export const generateOpeningSubjectEligibleMajors = (
   openingSubjects: Array<NewOpeningSubjects>,
   academicYears: Array<NewAcademicYears>,
-  majors: Array<NewMajors>,
+  majors: Array<NewMajors>
 ): Array<NewOpeningSubjectEligibleMajors> => {
   return openingSubjects.flatMap(os => {
     return {

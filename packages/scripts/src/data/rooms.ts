@@ -21,6 +21,6 @@ export const generateRooms = (buildings: Array<NewBuildings>): Array<NewRooms> =
           }
         })
       })
-    }),
+    })
   )
 }

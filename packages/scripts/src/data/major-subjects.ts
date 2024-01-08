@@ -6,7 +6,7 @@ import { type NewMajorSubjects, type NewMajors, type NewSubjects } from '../type
 
 export const generateMajorSubjects = async (
   majors: Array<NewMajors>,
-  subjects: Array<NewSubjects>,
+  subjects: Array<NewSubjects>
 ): Promise<Array<NewMajorSubjects>> => {
   const majorSubjects = await Promise.all(
     majors.map(async major => {
@@ -48,10 +48,11 @@ export const generateMajorSubjects = async (
           return {
             major_subject_group_id: leaf.id,
             subject_id: subject.id,
+            credit: 3,
           }
         })
       })
-    }),
+    })
   )
 
   return flatten(majorSubjects)

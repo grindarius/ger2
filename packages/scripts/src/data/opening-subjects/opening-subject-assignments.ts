@@ -9,7 +9,7 @@ import {
 
 export const generateOpeningSubjectAssignments = (
   openingSubjects: Array<NewOpeningSubjects>,
-  professors: Array<NewProfessors>,
+  professors: Array<NewProfessors>
 ): Array<NewOpeningSubjectAssignments> => {
   return openingSubjects.flatMap(os => {
     return {

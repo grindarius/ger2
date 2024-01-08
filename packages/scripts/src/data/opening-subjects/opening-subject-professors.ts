@@ -8,7 +8,7 @@ import {
 
 export const generateOpeningSubjectProfessors = (
   professors: Array<NewProfessors>,
-  openingSubjects: Array<NewOpeningSubjects>,
+  openingSubjects: Array<NewOpeningSubjects>
 ): Array<NewOpeningSubjectsProfessors> => {
   return openingSubjects.flatMap(os => {
     return faker.helpers.arrayElements(professors, { min: 1, max: 3 }).map(p => {

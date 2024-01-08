@@ -9,7 +9,6 @@ export const generateSubjects = (): Array<NewSubjects> => {
       id: ulid.ulid(),
       name: faker.commerce.productName(),
       description: faker.lorem.words(20),
-      credit: faker.number.int({ min: 3, max: 7 }),
       created_at: dayjs().toISOString(),
     }
   })
