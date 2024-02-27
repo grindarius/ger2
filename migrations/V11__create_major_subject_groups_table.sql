@@ -1,7 +1,7 @@
 create table major_subject_groups (
     id varchar(32) not null unique,
     major_id varchar(32) not null,
-    parent_id varchar(32),
+    hierarchy ltree not null,
     name text not null,
     minimum_credit numeric(4, 1),
     created_at timestamptz not null default now(),

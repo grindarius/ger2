@@ -1,6 +1,7 @@
 create table major_subjects (
     major_subject_group_id varchar(32) not null references major_subject_groups(id),
     subject_id varchar(32) not null references subjects(id),
+    credit int not null,
     primary key (major_subject_group_id, subject_id)
 );
 
