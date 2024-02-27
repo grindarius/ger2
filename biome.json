@@ -24,7 +24,7 @@
       "semicolons": "asNeeded",
       "quoteStyle": "single",
       "arrowParentheses": "asNeeded",
-      "trailingComma": "es5",
+      "trailingComma": "none",
       "lineEnding": "lf"
     }
   },
