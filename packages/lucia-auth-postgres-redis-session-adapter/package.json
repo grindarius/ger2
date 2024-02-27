@@ -12,8 +12,8 @@
     "redis": "^4.6.12"
   },
   "devDependencies": {
-    "@lucia-auth/adapter-test": "5.0.0-beta.6",
-    "lucia": "3.0.0-beta.13",
+    "@lucia-auth/adapter-test": "^5.0.0",
+    "lucia": "^3.0.1",
     "ts-node": "^10.9.2"
   }
 }

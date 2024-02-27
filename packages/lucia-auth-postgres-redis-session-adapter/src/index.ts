@@ -4,7 +4,7 @@ import {
   DatabaseSession,
   DatabaseSessionAttributes,
   DatabaseUser,
-  DatabaseUserAttributes,
+  DatabaseUserAttributes
 } from 'lucia'
 import { type Sql } from 'postgres'
 import { RedisClientType } from 'redis'
@@ -66,7 +66,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
     const session = this.transformIntoDatabaseSession(sessionSchema)
     await Promise.all([
       this.redis.del(this.sessionKey(sessionId)),
-      this.redis.sRem(this.userSessionsKey(session.userId), sessionId),
+      this.redis.sRem(this.userSessionsKey(session.userId), sessionId)
     ])
   }
 
@@ -74,7 +74,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
     const sessionIds = await this.redis.sMembers(this.userSessionsKey(userId))
     await Promise.all([
       ...sessionIds.map(sessionId => this.redis.del(this.sessionKey(sessionId))),
-      this.redis.del(this.userSessionsKey(userId)),
+      this.redis.del(this.userSessionsKey(userId))
     ])
   }
 
@@ -89,7 +89,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
   }
 
   public async getSessionAndUser(
-    sessionId: string,
+    sessionId: string
   ): Promise<[session: DatabaseSession | null, user: DatabaseUser | null]> {
     const session = await this.getSession(sessionId)
     // There's no way you can get user data if there is no session at all.
@@ -98,7 +98,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
     }
 
     const userResult = await this.postgres<Array<UserSchema>>`select * from ${this.postgres(
-      this.userTableName,
+      this.userTableName
     )} where id = ${session.userId}`
     if (userResult.length === 0) {
       return [null, null]
@@ -114,7 +114,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
     }
 
     const sessionData = await Promise.all(
-      sessionIds.map(sessionId => this.redis.get(this.sessionKey(sessionId))),
+      sessionIds.map(sessionId => this.redis.get(this.sessionKey(sessionId)))
     )
     const sessions = sessionData
       .filter((value): value is NonNullable<typeof value> => value != null)
@@ -131,14 +131,14 @@ export class PostgresRedisSessionAdapter implements Adapter {
       id: session.id,
       account_id: session.userId,
       expires_at: session.expiresAt,
-      ...session.attributes,
+      ...session.attributes
     }
 
     await Promise.all([
       this.redis.sAdd(this.userSessionsKey(session.userId), session.id),
       this.redis.set(this.sessionKey(session.id), JSON.stringify(value), {
-        EXAT: Math.floor(session.expiresAt.getTime() / 1000),
-      }),
+        EXAT: Math.floor(session.expiresAt.getTime() / 1000)
+      })
     ])
   }
 
@@ -150,10 +150,10 @@ export class PostgresRedisSessionAdapter implements Adapter {
     const session: SessionSchema = JSON.parse(sessionData)
     const updatedSession: SessionSchema = {
       ...session,
-      expires_at: expiresAt,
+      expires_at: expiresAt
     }
     await this.redis.set(this.sessionKey(sessionId), JSON.stringify(updatedSession), {
-      EXAT: Math.floor(expiresAt.getTime() / 1000),
+      EXAT: Math.floor(expiresAt.getTime() / 1000)
     })
   }
 
@@ -163,7 +163,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
       userId,
       id,
       expiresAt: dayjs(expiresAt).toDate(),
-      attributes,
+      attributes
     }
   }
 
@@ -171,7 +171,7 @@ export class PostgresRedisSessionAdapter implements Adapter {
     const { id, ...attributes } = raw
     return {
       id,
-      attributes,
+      attributes
     }
   }
 }
