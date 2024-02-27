@@ -161,7 +161,7 @@ func WriteToKnexTypesFormat(enums []types.DatabaseEnum, tables []types.DatabaseT
 	}
 }
 
-func WriteToKyselyTypes(enums []types.DatabaseEnum, tables []types.DatabaseTable) {
+func WriteToKyselyTypes(path string, enums []types.DatabaseEnum, tables []types.DatabaseTable) {
 	sort.Slice(enums, func(i, j int) bool {
 		first := enums[i].GetName()
 		second := enums[j].GetName()
@@ -176,7 +176,7 @@ func WriteToKyselyTypes(enums []types.DatabaseEnum, tables []types.DatabaseTable
 		return first < second
 	})
 
-	finalFile, err := os.Create(filepath.Join("..", "scripts", "src", "types", "index.ts"))
+	finalFile, err := os.Create(path)
 	if err != nil {
 		log.Panic("error: cannot create new index.rs final file")
 	}

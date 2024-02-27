@@ -73,7 +73,8 @@ func main() {
 
 	write.WriteToRustTypes(enums, tables)
 	write.WriteCustomEnumTypesFile(enums)
-	write.WriteToKyselyTypes(enums, tables)
+	write.WriteToKyselyTypes(filepath.Join("..", "scripts", "src", "types", "index.ts"), enums, tables)
+  write.WriteToKyselyTypes(filepath.Join("..", "website", "src", "types", "database.ts"), enums, tables)
 
 	log.Println("program finished")
 }
