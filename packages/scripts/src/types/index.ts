@@ -1,13 +1,6 @@
 import type { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 
-export type DayOfWeek =
-  | 'sunday'
-  | 'monday'
-  | 'tuesday'
-  | 'wednesday'
-  | 'thursday'
-  | 'friday'
-  | 'saturday'
+export type DayOfWeek = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday'
 export type PaymentStatus = 'pending' | 'completed' | 'cancelled'
 export type Role = 'admin' | 'professor' | 'student'
 export type SemesterType = 'midterm' | 'final'
@@ -15,10 +8,10 @@ export type SemesterType = 'midterm' | 'final'
 export interface AcademicYearsTable {
   id: ColumnType<string, string, never>
   year: ColumnType<number, number | undefined, number | undefined>
-  start_at: ColumnType<string, string | undefined, string | undefined>
-  end_at: ColumnType<string, string | undefined, string | undefined>
+  start_at: ColumnType<string, string, string | undefined>
+  end_at: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type AcademicYears = Selectable<AcademicYearsTable>
@@ -40,7 +33,7 @@ export type UpdateAccountNames = Updateable<AccountNamesTable>
 
 export interface AccountSessionsTable {
   id: ColumnType<string, string, never>
-  user_id: ColumnType<string, string, string | undefined>
+  account_id: ColumnType<string, string, string | undefined>
   expires: ColumnType<string, string, string | undefined>
   fresh: ColumnType<boolean, boolean, boolean | undefined>
 }
@@ -68,7 +61,7 @@ export interface BuildingsTable {
   id: ColumnType<string, string, never>
   name: ColumnType<string, string, string | undefined>
   description: ColumnType<string, string | undefined, string | undefined>
-  coordinates: ColumnType<{ x: number; y: number }, string | undefined, string | undefined>
+  coordinates: ColumnType<{ x: number, y: number }, string | undefined, string | undefined>
   building_created_at: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
   updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
@@ -164,7 +157,7 @@ export type UpdateForums = Updateable<ForumsTable>
 export interface MajorSubjectGroupsTable {
   id: ColumnType<string, string, never>
   major_id: ColumnType<string, string, string | undefined>
-  parent_id: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  hierarchy: ColumnType<Ltree, Ltree, Ltree | undefined>
   name: ColumnType<string, string, string | undefined>
   minimum_credit: ColumnType<number | null, number | null | undefined, number | null | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
@@ -206,12 +199,9 @@ export interface OpeningSubjectAdditionalEligibleStudentsTable {
   student_id: ColumnType<string, string, string | undefined>
 }
 
-export type OpeningSubjectAdditionalEligibleStudents =
-  Selectable<OpeningSubjectAdditionalEligibleStudentsTable>
-export type NewOpeningSubjectAdditionalEligibleStudents =
-  Insertable<OpeningSubjectAdditionalEligibleStudentsTable>
-export type UpdateOpeningSubjectAdditionalEligibleStudents =
-  Updateable<OpeningSubjectAdditionalEligibleStudentsTable>
+export type OpeningSubjectAdditionalEligibleStudents = Selectable<OpeningSubjectAdditionalEligibleStudentsTable>
+export type NewOpeningSubjectAdditionalEligibleStudents = Insertable<OpeningSubjectAdditionalEligibleStudentsTable>
+export type UpdateOpeningSubjectAdditionalEligibleStudents = Updateable<OpeningSubjectAdditionalEligibleStudentsTable>
 
 export interface OpeningSubjectAssignmentsTable {
   id: ColumnType<string, string, never>
@@ -264,8 +254,7 @@ export interface OpeningSubjectStudentAssignmentsTable {
 
 export type OpeningSubjectStudentAssignments = Selectable<OpeningSubjectStudentAssignmentsTable>
 export type NewOpeningSubjectStudentAssignments = Insertable<OpeningSubjectStudentAssignmentsTable>
-export type UpdateOpeningSubjectStudentAssignments =
-  Updateable<OpeningSubjectStudentAssignmentsTable>
+export type UpdateOpeningSubjectStudentAssignments = Updateable<OpeningSubjectStudentAssignmentsTable>
 
 export interface OpeningSubjectStudentEnrollmentsTable {
   id: ColumnType<string, string, never>
@@ -276,8 +265,7 @@ export interface OpeningSubjectStudentEnrollmentsTable {
 
 export type OpeningSubjectStudentEnrollments = Selectable<OpeningSubjectStudentEnrollmentsTable>
 export type NewOpeningSubjectStudentEnrollments = Insertable<OpeningSubjectStudentEnrollmentsTable>
-export type UpdateOpeningSubjectStudentEnrollments =
-  Updateable<OpeningSubjectStudentEnrollmentsTable>
+export type UpdateOpeningSubjectStudentEnrollments = Updateable<OpeningSubjectStudentEnrollmentsTable>
 
 export interface OpeningSubjectsTable {
   id: ColumnType<string, string, never>
@@ -327,14 +315,14 @@ export interface SemesterTermsTable {
   id: ColumnType<string, string, never>
   semester_id: ColumnType<string, string, string | undefined>
   exam_type: ColumnType<SemesterType, SemesterType, SemesterType | undefined>
-  subject_registration_start_at: ColumnType<string, string | undefined, string | undefined>
-  subject_registration_end_at: ColumnType<string, string | undefined, string | undefined>
-  start_at: ColumnType<string, string | undefined, string | undefined>
-  end_at: ColumnType<string, string | undefined, string | undefined>
-  exam_start_at: ColumnType<string, string | undefined, string | undefined>
-  exam_end_at: ColumnType<string, string | undefined, string | undefined>
+  subject_registration_start_at: ColumnType<string, string, string | undefined>
+  subject_registration_end_at: ColumnType<string, string, string | undefined>
+  start_at: ColumnType<string, string, string | undefined>
+  end_at: ColumnType<string, string, string | undefined>
+  exam_start_at: ColumnType<string, string, string | undefined>
+  exam_end_at: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type SemesterTerms = Selectable<SemesterTermsTable>
@@ -344,10 +332,10 @@ export type UpdateSemesterTerms = Updateable<SemesterTermsTable>
 export interface SemestersTable {
   id: ColumnType<string, string, never>
   academic_year_id: ColumnType<string, string, string | undefined>
-  start_at: ColumnType<string, string | undefined, string | undefined>
-  end_at: ColumnType<string, string | undefined, string | undefined>
+  start_at: ColumnType<string, string, string | undefined>
+  end_at: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Semesters = Selectable<SemestersTable>

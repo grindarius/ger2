@@ -2,7 +2,7 @@ import { randomBytes } from 'node:crypto'
 import { faker } from '@faker-js/faker'
 import { hashSync } from '@node-rs/argon2'
 import dayjs from 'dayjs'
-import ulid from 'ulid'
+import { ulid } from 'ulidx'
 import { argon2Options, rawPassword } from '../../argon2.js'
 import {
   type NewAcademicYears,
@@ -21,7 +21,7 @@ export const generateStudents = (
 ): Array<{ accounts: NewAccounts; account_names: NewAccountNames; students: NewStudents }> => {
   const students = academicYears.flatMap(a => {
     return Array.from({ length: faker.number.int({ min: 100, max: 200 }) }, () => {
-      const id = ulid.ulid()
+      const id = ulid()
       const firstName = faker.person.firstName()
       const lastName = faker.person.lastName()
       const createdAt = dayjs(
@@ -44,7 +44,7 @@ export const generateStudents = (
           created_at: createdAt
         },
         account_names: {
-          id: ulid.ulid(),
+          id: ulid(),
           account_id: id,
           name_language: 'en',
           first_name: firstName,

@@ -33,7 +33,7 @@ faker.seed(3312503)
 console.log(chalk.blueBright('Started generating data'))
 
 console.log(chalk.yellow('- Generating academic years data'))
-const academicYears = generateAcademicYears(2010)
+const academicYears = generateAcademicYears(2022)
 console.log(chalk.greenBright('- Successfully generated academic years data'))
 
 console.log(chalk.yellow('- Generating semesters data'))

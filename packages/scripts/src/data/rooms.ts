@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import flatten from 'just-flatten-it'
-import ulid from 'ulid'
+import { ulid } from 'ulidx'
 import { type NewBuildings, type NewRooms } from '../types/index.js'
 
 export const generateRooms = (buildings: Array<NewBuildings>): Array<NewRooms> => {
@@ -12,7 +12,7 @@ export const generateRooms = (buildings: Array<NewBuildings>): Array<NewRooms> =
       return Array.from({ length: levels }, (_, i) => {
         return Array.from({ length: roomsPerFloor }, () => {
           return {
-            id: ulid.ulid(),
+            id: ulid(),
             building_id: building.id,
             name: faker.commerce.productName(),
             description: faker.lorem.word(20),

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import ulid from 'ulid'
+import { ulid } from 'ulidx'
 import { type NewSemesterTerms, type NewSemesters, type SemesterType } from '../types/index.js'
 
 export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<NewSemesterTerms> => {
@@ -10,7 +10,7 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
     if (start.isSame(dayjs(`${start.year()}-03-01T00:00:00.000+07:00`))) {
       return [
         {
-          id: ulid.ulid(),
+          id: ulid(),
           semester_id: semester.id,
           exam_type: 'midterm' as SemesterType,
           subject_registration_start_at: dayjs(
@@ -26,7 +26,7 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
           created_at: dayjs().toISOString()
         },
         {
-          id: ulid.ulid(),
+          id: ulid(),
           semester_id: semester.id,
           exam_type: 'final' as SemesterType,
           subject_registration_start_at: dayjs(
@@ -46,7 +46,7 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
 
     return [
       {
-        id: ulid.ulid(),
+        id: ulid(),
         semester_id: semester.id,
         exam_type: 'midterm' as SemesterType,
         subject_registration_start_at: dayjs(
@@ -62,7 +62,7 @@ export const generateSemesterTerms = (semesters: Array<NewSemesters>): Array<New
         created_at: dayjs().toISOString()
       },
       {
-        id: ulid.ulid(),
+        id: ulid(),
         semester_id: semester.id,
         exam_type: 'final' as SemesterType,
         subject_registration_start_at: dayjs(

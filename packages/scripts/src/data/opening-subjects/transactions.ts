@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { ulid } from 'ulid'
+import { ulid } from 'ulidx'
 import { NewOpeningSubjectStudentEnrollments, NewTransactions } from '../../types/index.js'
 
 export const generateTransactions = (

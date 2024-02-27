@@ -1,20 +1,20 @@
 import flatten from 'just-flatten-it'
-import ulid from 'ulid'
+import { ulid } from 'ulidx'
 import { type NewMajorSubjectGroups, type NewMajors } from '../types/index.js'
 
 export const generateMajorSubjectGroups = (
   majors: Array<NewMajors>
 ): Array<NewMajorSubjectGroups> => {
   const firstLevelGroup = majors.map(major => {
-    const oneId = ulid.ulid()
-    const onePointOneId = ulid.ulid()
-    const onePointOnePointOneId = ulid.ulid()
-    const onePointOnePointTwoId = ulid.ulid()
+    const oneId = ulid()
+    const onePointOneId = ulid()
+    const onePointOnePointOneId = ulid()
+    const onePointOnePointTwoId = ulid()
 
-    const twoId = ulid.ulid()
-    const twoPointOneId = ulid.ulid()
-    const twoPointTwoId = ulid.ulid()
-    const twoPointThreeId = ulid.ulid()
+    const twoId = ulid()
+    const twoPointOneId = ulid()
+    const twoPointTwoId = ulid()
+    const twoPointThreeId = ulid()
 
     return [
       {

@@ -2,7 +2,7 @@ import { randomBytes } from 'node:crypto'
 import { faker } from '@faker-js/faker'
 import { hashSync } from '@node-rs/argon2'
 import dayjs from 'dayjs'
-import ulid from 'ulid'
+import { ulid } from 'ulidx'
 import { argon2Options, rawPassword } from '../../argon2.js'
 import { NewAccountNames, type NewAccounts } from '../../types/index.js'
 
@@ -14,7 +14,7 @@ export const generateAdmins = (): Array<{
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()
     const createdAt = dayjs().toISOString()
-    const accountId = ulid.ulid()
+    const accountId = ulid()
 
     return {
       accounts: {
@@ -35,7 +35,7 @@ export const generateAdmins = (): Array<{
         updated_at: null
       },
       account_names: {
-        id: ulid.ulid(),
+        id: ulid(),
         account_id: accountId,
         name_language: 'en',
         first_name: firstName,

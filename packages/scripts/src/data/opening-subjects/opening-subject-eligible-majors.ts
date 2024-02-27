@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { ulid } from 'ulid'
+import { ulid } from 'ulidx'
 import {
   NewAcademicYears,
   NewMajors,
