@@ -1,7 +1,7 @@
-FROM timescale/timescaledb:latest-pg15
+FROM timescale/timescaledb:latest-pg16
 
 RUN apk --no-cache --virtual .pgroonga-dependencies add lz4-dev msgpack-c-dev zstd-dev
-RUN apk --no-cache --virtual .pgroonga-build-dependencies add build-base clang15-dev clang15 llvm15
+RUN apk --no-cache --virtual .pgroonga-build-dependencies add autoconf automake gettext-dev libtool build-base clang15-dev clang15 llvm15
 
 ENV PGROONGA_VERSION=3.1.5
 ENV GROONGA_VERSION=13.0.8

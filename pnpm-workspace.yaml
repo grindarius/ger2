@@ -1,4 +1,5 @@
 packages:
   - '.'
-  - 'packages/website'
-  - 'package/scripts'
+  - './packages/website'
+  - './packages/scripts'
+  - './packages/lucia-auth-postgres-redis-session-adapter'

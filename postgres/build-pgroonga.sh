@@ -14,6 +14,9 @@ wget -O mecab.tar.gz https://packages.groonga.org/source/mecab/mecab-${MECAB_VER
 tar xf mecab.tar.gz
 cd mecab-*
 sed -i.bak -e 's,ipadic,naist-jdic,g' mecabrc.in
+wget https://github.com/taku910/mecab/pull/71.patch
+patch -p2 < 71.patch
+autoreconf --force --install
 ./configure --prefix=/usr/local
 make -j$(nproc)
 make install
@@ -22,6 +25,7 @@ cd -
 wget -O mecab-naist-jdic.tar.gz https://packages.groonga.org/source/mecab-naist-jdic/mecab-naist-jdic-0.6.3b-20111013.tar.gz
 tar xf mecab-naist-jdic.tar.gz
 cd mecab-naist-jdic-*
+autoreconf --force --install
 ./configure --prefix=/usr/local --with-charset=utf-8
 make -j$(nproc)
 make install

@@ -11,17 +11,17 @@
   "scripts": {
     "docker-up": "docker compose up -d",
     "docker-down": "docker compose down",
-    "reset": "cd ./packages/scripts && node --loader ts-node/esm ./src/reset.ts",
+    "reset": "cd ./packages/scripts && pnpm reset",
     "migrate": "cd ./packages/api && refinery migrate -c ./refinery.toml -p ../../migrations",
-    "seed": "cd ./packages/scripts && node --loader ts-node/esm ./src/seed.ts",
+    "seed": "cd ./packages/scripts && pnpm seed",
     "rms": "pnpm reset && pnpm migrate && pnpm seed",
     "copy-server-types": "cd ./packages/scripts && node ./src/move-typings.mjs"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.4.1",
+    "@biomejs/biome": "^1.5.1",
     "@tsconfig/node-lts": "^18.12.3",
     "@tsconfig/strictest": "^2.0.1",
-    "@types/node": "20.4.0",
-    "typescript": "^5.1.6"
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
   }
 }
