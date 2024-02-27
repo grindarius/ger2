@@ -22,11 +22,11 @@ export default component$(() => {
   const subjects = useGetProgramSubjects()
 
   return (
-    <main class="container pt-4 mx-auto w-full bg-base-100 px-4 lg:px-0">
+    <main class="container px-4 pt-4 mx-auto w-full lg:px-0 bg-base-100">
       <section>
-        <h1 class="text-2xl font-bold mb-6">{program.value.name}</h1>
+        <h1 class="mb-6 text-2xl font-bold">{program.value.name}</h1>
         <div class="grid gap-x-2" style="grid-template-columns: fit-content(12rem) fit-content(12rem)">
-          <h3 class="text-md font-bold">
+          <h3 class="font-bold text-md">
             Curriculum name:
           </h3>
           <p class="text-md">

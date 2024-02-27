@@ -1,27 +1,36 @@
 import { component$ } from '@builder.io/qwik'
+import { routeLoader$ } from '@builder.io/qwik-city'
+import { auth } from '~/lucia/index'
 
-import { useAuthSession } from '~/routes/plugin@auth'
+export const useSessionLoader = routeLoader$(async (event) => {
+  const authRequest = auth.handleRequest(event)
+  const session = await authRequest.validate()
+
+  return session ?? null
+})
 
 export const SignedInUser = component$(() => {
-  const session = useAuthSession()
+  const session = useSessionLoader()
 
   if (session.value != null) {
     return (
       <div class="dropdown dropdown-end">
-        <label tabIndex={0} class="btn btn-ghost btn-circle avatar">
+        <label class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
             <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/331450763/small.jpg" alt="bro" width="48" height="48" />
           </div>
         </label>
-        <ul tabIndex={0} class="p-2 mt-3 w-52 shadow z-[1] menu menu-sm dropdown-content bg-base-100 rounded-box">
+        <ul class="p-2 mt-3 w-52 shadow z-[1] menu menu-sm dropdown-content bg-base-100 rounded-box">
           <li>
-            <a class="justify-between">
-              Profile
-              <span class="badge">New</span>
+            <a href="/account">
+              Account settings
             </a>
           </li>
-          <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
+          <li>
+            // <a onClick$={async () => { await signout.submit({ callbackUrl: '/' }) }}>
+            //   Logout
+            // </a>
+          </li>
         </ul>
       </div>
     )

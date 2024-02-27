@@ -11,7 +11,7 @@ export default component$(() => {
   })
 
   return (
-    <main class="container pt-4 mx-auto w-full bg-base-100 px-4 lg:px-0">
+    <main class="container px-4 pt-4 mx-auto w-full lg:px-0 bg-base-100">
       <button type="button" class="btn btn-primary" onClick$={addToast}>launch notification</button>
       <div class="text-white">
         {notifs.value.length}

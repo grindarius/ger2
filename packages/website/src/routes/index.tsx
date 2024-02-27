@@ -1,12 +1,18 @@
 import dayjs from 'dayjs'
 
 import { component$ } from '@builder.io/qwik'
-import type { DocumentHead } from '@builder.io/qwik-city'
+import { routeLoader$, type DocumentHead } from '@builder.io/qwik-city'
+import { lucia } from '~/routes/plugin@lucia'
 
-import { useAuthSession } from './plugin@auth'
+export const useSessionLoader = routeLoader$(async (event) => {
+  const authRequest = lucia.handleRequest(event)
+  const session = await authRequest.validate()
+
+  return session ?? null
+})
 
 export default component$(() => {
-  const session = useAuthSession()
+  const session = useSessionLoader()
 
   return (
     <>

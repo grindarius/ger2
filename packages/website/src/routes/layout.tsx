@@ -1,10 +1,23 @@
-import { component$, Slot } from '@builder.io/qwik'
-import type { RequestHandler } from '@builder.io/qwik-city'
+import { component$, Slot, useComputed$ } from '@builder.io/qwik'
+import { routeLoader$, type RequestHandler } from '@builder.io/qwik-city'
 
 import { RadixIconsListBullet } from '~/components/icons/radix-icons/list-bullet'
 import { Navbar } from '~/components/navbar/navbar'
 import { NotificationGroup } from '~/components/notification/notification-group'
 import { useNotificationsProvider } from '~/components/notification/notification-provider'
+import { lucia } from '~/routes/plugin@auth'
+
+interface Sidebar {
+  href: string
+  title: string
+}
+
+export const useSessionLoader = routeLoader$(async (event) => {
+  const authRequest = auth.handleRequest(event)
+  const session = await authRequest.validate()
+
+  return session ?? null
+})
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -19,6 +32,28 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 
 export default component$(() => {
   useNotificationsProvider()
+  const session = useSessionLoader()
+
+  const sidebarItems: Array<Sidebar> = [
+    {
+      href: '/programs',
+      title: 'Programs'
+    },
+    {
+      href: '/notifications',
+      title: 'Notifications'
+    }
+  ]
+
+  const loggedInSidebarItems: Array<Sidebar> = []
+
+  const sidebarList = useComputed$(() => {
+    if (session.value == null) {
+      return sidebarItems
+    }
+
+    return sidebarItems.concat(...loggedInSidebarItems)
+  })
 
   return (
     <div class="drawer">
@@ -34,16 +69,7 @@ export default component$(() => {
       <aside class="drawer-side">
         <label for="main-drawer" class="drawer-overlay" />
         <ul class="p-4 w-80 h-full menu bg-base-200 text-base-content">
-          <li>
-            <a href="/programs">
-              Programs
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              Sidebar 2
-            </a>
-          </li>
+          {sidebarList.value.map(s => <li key={s.href}><a href={s.href}>{s.title}</a></li>)}
         </ul>
       </aside>
     </div>
