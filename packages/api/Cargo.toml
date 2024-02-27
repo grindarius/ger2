@@ -1,7 +1,13 @@
 [package]
 name = "ger2-api"
+description = "api server for the ger2 project"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+authors = ["Bhattarapong Somwong <numbbutt34685@gmail.com>"]
+license-file = "../../LICENSE"
+homepage = "https://github.com/grindarius/ger2"
+repository = "https://github.com/grindarius/ger2"
 
 [dependencies]
 argon2 = "0.5"
@@ -26,6 +32,7 @@ tokio = { version = "1", features = ["full"] }
 tokio-postgres = { version = "0.7", features = ["with-serde_json-1", "with-time-0_3", "with-geo-types-0_7"] }
 tower = "0"
 tower-http = { version = "0.5", features = ["trace"] }
+tower_governor = "0.3.1"
 tracing = "0.1"
 tracing-appender = "0.2"
 tracing-bunyan-formatter = "0.3"
@@ -34,5 +41,4 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 ts-rs = "7"
 ulid = { version = "1", features = ["serde"] }
 utoipa = { version = "4", features = ["axum_extras", "time", "decimal", "ulid"] }
-utoipa-rapidoc = { version = "2", features = ["axum"] }
-utoipa-swagger-ui = { version = "4", features = ["axum"] }
+utoipa-swagger-ui = { version = "5", features = ["axum"] }

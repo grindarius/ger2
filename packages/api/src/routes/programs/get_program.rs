@@ -69,7 +69,8 @@ impl Default for GetProgramResponseBody {
 
 #[utoipa::path(
     get,
-    path = "/v1/programs/{major_id}",
+    path = "/programs/{major_id}",
+    context_path = "/v1",
     tag = "programs",
     operation_id = "get_program",
     params(GetProgramRequestParams),

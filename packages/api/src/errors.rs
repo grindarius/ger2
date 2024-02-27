@@ -1,5 +1,5 @@
 use axum::{
-    http::{StatusCode, Uri},
+    http::{HeaderMap, HeaderName, StatusCode, Uri},
     response::IntoResponse,
     Json,
 };
@@ -25,34 +25,76 @@ pub struct ErrorResponse {
     message: String,
 }
 
+impl ErrorResponse {
+    pub fn new(code: StatusCode, message: String) -> Self {
+        Self {
+            status_code: code.as_u16(),
+            error: code.canonical_reason().unwrap_or("Unknown Canonical Reason").to_owned(),
+            message
+        }
+    }
+}
+
 pub enum HttpError {
-    InternalServerError { cause: String },
-    QueryNotFound { field: &'static str },
-    InvalidQueryParameterEmpty { field: &'static str },
+    InternalServerError {
+        cause: String,
+    },
+    QueryNotFound {
+        field: &'static str,
+    },
+    InvalidQueryParameterEmpty {
+        field: &'static str,
+    },
+    TooManyRequests {
+        wait_time: u64,
+    },
+    UnableToExtractKey,
+    GovernorUnknownError {
+        code: StatusCode,
+        message: Option<String>,
+    },
 }
 
 impl IntoResponse for HttpError {
     fn into_response(self) -> axum::response::Response {
-        let (status, message): (StatusCode, String) = match self {
-            HttpError::InternalServerError { cause } => (StatusCode::INTERNAL_SERVER_ERROR, cause),
+        let (status, message, headers): (StatusCode, String, Option<HeaderMap>) = match self {
+            HttpError::InternalServerError { cause } => {
+                (StatusCode::INTERNAL_SERVER_ERROR, cause, None)
+            }
             HttpError::QueryNotFound { field } => (
                 StatusCode::NOT_FOUND,
                 format!("{} not found from the query", field),
+                None,
             ),
             HttpError::InvalidQueryParameterEmpty { field } => (
                 StatusCode::BAD_REQUEST,
                 format!("query parameter \"{}\" cannot be empty string", field),
+                None,
             ),
+            HttpError::TooManyRequests { wait_time } => {
+                let mut headers = HeaderMap::new();
+                headers.insert(HeaderName::from_static("retry-after"), wait_time.into());
+
+                (
+                    StatusCode::TOO_MANY_REQUESTS,
+                    "too many requests".to_owned(),
+                    Some(headers),
+                )
+            }
+            HttpError::UnableToExtractKey => (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                "unable to extract key".to_owned(),
+                None,
+            ),
+            HttpError::GovernorUnknownError { code, message } => {
+                (code, format!("unknown governor error: {:?}", message), None)
+            }
         };
 
-        let response = ErrorResponse {
-            status_code: status.as_u16(),
-            error: status
-                .canonical_reason()
-                .unwrap_or("Unknown Canonical Reason")
-                .to_owned(),
-            message,
-        };
+        let response = ErrorResponse::new(status, message);
+        if headers.is_some() {
+            return (status, headers, Json(response)).into_response();
+        }
 
         (status, Json(response)).into_response()
     }
@@ -70,6 +112,20 @@ impl From<tokio_postgres::error::Error> for HttpError {
     fn from(value: tokio_postgres::error::Error) -> Self {
         HttpError::InternalServerError {
             cause: value.to_string(),
+        }
+    }
+}
+
+impl From<tower_governor::GovernorError> for HttpError {
+    fn from(value: tower_governor::GovernorError) -> Self {
+        match value {
+            tower_governor::GovernorError::TooManyRequests { wait_time, headers } => {
+                HttpError::TooManyRequests { wait_time }
+            }
+            tower_governor::GovernorError::UnableToExtractKey => HttpError::UnableToExtractKey,
+            tower_governor::GovernorError::Other { code, msg, headers } => {
+                HttpError::GovernorUnknownError { code, message: msg }
+            }
         }
     }
 }

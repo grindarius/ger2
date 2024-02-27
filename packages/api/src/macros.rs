@@ -55,7 +55,7 @@ macro_rules! load_envs {
 macro_rules! top_level_array_ts_type {
     ($base_struct:ty, $top_level_struct:ty) => {
         impl ts_rs::TS for $base_struct {
-            const EXPORT_TO: Option<&'static str> =
+            const EXPORT_TO: ::std::option::Option<&'static str> =
                 Some(concat!("bindings/", stringify!($base_struct), ".ts"));
 
             fn decl() -> String {

@@ -4,7 +4,7 @@ use deadpool_postgres::{
 
 use crate::environment_variables::{DB_DBNAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_USER};
 
-pub fn create_pool() -> Pool {
+pub fn init_pool() -> Pool {
     let mut config = Config::new();
 
     config.user = Some(DB_USER.to_string());

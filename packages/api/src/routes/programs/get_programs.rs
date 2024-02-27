@@ -70,7 +70,8 @@ impl Default for GetProgramsResponseBodyInner {
 
 #[utoipa::path(
     get,
-    path = "v1/programs",
+    path = "/programs",
+    context_path = "/v1",
     operation_id = "get_programs",
     tag = "programs",
     responses(

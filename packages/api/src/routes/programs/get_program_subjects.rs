@@ -134,7 +134,8 @@ pub struct GetProgramSubjectsResponseBodySubject {
 
 #[utoipa::path(
     get,
-    path = "/v1/programs/{major_id}/subjects",
+    path = "/programs/{major_id}/subjects",
+    context_path = "/v1",
     tag = "programs",
     operation_id = "get_program_subjects",
     params(GetProgramSubjectsRequestParams),

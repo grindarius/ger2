@@ -10,17 +10,19 @@ pub struct GetHelloWorldResponseBody {
 #[utoipa::path(
     get,
     path = "/",
+    tag = "misc",
     operation_id = "hello_world",
     responses(
         (
             status = 200,
             description = "If server is up. This should always be served.",
-            body = GetHelloWorldResponseBody
+            body = GetHelloWorldResponseBody,
+            example = json!({ "message": "ger2 api running" })
         )
     )
 )]
 pub async fn handler() -> Json<GetHelloWorldResponseBody> {
     Json(GetHelloWorldResponseBody {
-        message: "ger2 axum api is running",
+        message: "ger axum api is running",
     })
 }
