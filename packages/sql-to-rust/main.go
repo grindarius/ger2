@@ -37,14 +37,14 @@ func main() {
 
 		statements := tree.GetStmts()
 		if statements == nil || len(statements) == 0 {
-			log.Println("finished processing file %s. No content to process", file.Name())
+			log.Printf("finished processing file %s. No content to process", file.Name())
 			continue
 		}
 
 		for _, statement := range statements {
 			innerStatement := statement.GetStmt()
 			if innerStatement == nil {
-				log.Println("skipping nil innerStatement for file %s", file.Name())
+				log.Printf("skipping nil innerStatement for file %s", file.Name())
 				continue
 			}
 
@@ -52,7 +52,7 @@ func main() {
 				log.Println("processing a create table statement")
 				processedTable := process.ProcessCreateTableStatement(innerStatement.GetCreateStmt())
 				tables = append(tables, processedTable)
-				log.Println("successfully processed create table statement %s", processedTable.GetName())
+				log.Printf("successfully processed create table statement %s", processedTable.GetName())
 			}
 
 			if innerStatement.GetCommentStmt() != nil {
@@ -63,7 +63,7 @@ func main() {
 				log.Println("processing a create enum statement")
 				processedEnum := process.ProcessCreateEnumStatement(innerStatement.GetCreateEnumStmt())
 				enums = append(enums, processedEnum)
-				log.Println("successfully processed create enum statement %s", processedEnum.GetName())
+				log.Printf("successfully processed create enum statement %s", processedEnum.GetName())
 			}
 		}
 	}
@@ -74,7 +74,7 @@ func main() {
 	write.WriteToRustTypes(enums, tables)
 	write.WriteCustomEnumTypesFile(enums)
 	write.WriteToKyselyTypes(filepath.Join("..", "scripts", "src", "types", "index.ts"), enums, tables)
-  write.WriteToKyselyTypes(filepath.Join("..", "website", "src", "types", "database.ts"), enums, tables)
+	write.WriteToKyselyTypes(filepath.Join("..", "website", "src", "types", "database.ts"), enums, tables)
 
 	log.Println("program finished")
 }

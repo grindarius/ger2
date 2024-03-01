@@ -1,12 +1,11 @@
 package process
 
 import (
-	"log"
-
 	"github.com/ettle/strcase"
 	"github.com/grindarius/sql-to-rust/errors"
 	"github.com/grindarius/sql-to-rust/types"
 	pg_query "github.com/pganalyze/pg_query_go/v4"
+	"log"
 )
 
 type TableConstraint struct {

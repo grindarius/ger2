@@ -2,14 +2,13 @@ package write
 
 import (
 	"fmt"
+	"github.com/ettle/strcase"
+	"github.com/grindarius/sql-to-rust/types"
 	"log"
 	"os"
 	"path/filepath"
 	"slices"
 	"sort"
-
-	"github.com/ettle/strcase"
-	"github.com/grindarius/sql-to-rust/types"
 )
 
 func WriteToRustTypes(enums []types.DatabaseEnum, tables []types.DatabaseTable) {
