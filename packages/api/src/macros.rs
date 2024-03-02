@@ -1,23 +1,35 @@
-/// Macro to load multiple environment variables into the program. The macro generates the code
+/// Macro to load multiple required environment variables into the program. The macro generates the code
 /// that will crash the program when the environment variable is not found.
 ///
 /// You would write this code in a file to load environment variable
 /// ```rust
 /// // envs.rs
-/// use macros::load_envs;
+/// use macros::required_envs;
 ///
-/// load_envs!(API_URL);
+/// required_envs!(API_URL);
 /// ```
 ///
 /// Then you can import them like
 /// ```rust
 /// use envs::API_URL;
 /// ```
-macro_rules! load_envs {
+macro_rules! required_envs {
     ($($env_name: ident), *) => {
         $(
             pub static $env_name: ::once_cell::sync::Lazy<::std::string::String> = ::once_cell::sync::Lazy::new(|| {
-                dotenvy::var(stringify!($env_name)).expect(format!("Could not get environment variable \"{}\"", stringify!($env_name)).as_str())
+                dotenvy::var(stringify!($env_name)).expect(format!("Could not get required environment variable \"{}\"", stringify!($env_name)).as_str())
+            });
+        )*
+    }
+}
+
+/// Pretty much the same as [`crate::macros::required_envs`] but allows for optinoal environment
+/// variable.
+macro_rules! optional_envs {
+    ($($env_name: ident), *) => {
+        $(
+            pub static $env_name: ::once_cell::sync::Lazy<::std::option::Option<::std::string::String>> = ::once_cell::sync::Lazy::new(|| {
+                dotenvy::var(stringify!($env_name)).ok()
             });
         )*
     }
@@ -141,5 +153,6 @@ macro_rules! error_example {
 }
 
 pub(crate) use error_example;
-pub(crate) use load_envs;
+pub(crate) use optional_envs;
+pub(crate) use required_envs;
 pub(crate) use top_level_array_ts_type;
