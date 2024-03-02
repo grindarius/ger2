@@ -14,17 +14,13 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
-  file-database-server:
-    image: postgres:16-alpine
-    container_name: ger2-file-database-server
-    volumes:
-      - file_server_data:/var/lib/postgresql/data
-    ports:
-      - 7421:5432
+  s3mock:
+    image: adobe/s3mock
+    container_name: ger2-s3-mock
     environment:
-      - POSTGRES_DB=ger2_file_server
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - initialBuckets=ger2
+    ports:
+      - 3792:9090
 
   redis:
     image: redis:7-alpine
