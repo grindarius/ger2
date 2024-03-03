@@ -27,7 +27,7 @@ func main() {
 	for _, file := range files {
 		log.Printf("started scanning file %s", file.Name())
 
-		fileContent := write.SaveToJson(file, migrationsPath)
+		fileContent := write.WriteToJson(file, migrationsPath)
 		log.Printf("successfully saved json's output of file %s", file.Name())
 
 		tree, err := pg_query.Parse(string(fileContent))
@@ -75,6 +75,7 @@ func main() {
 	write.WriteCustomEnumTypesFile(enums)
 	write.WriteToKyselyTypes(filepath.Join("..", "scripts", "src", "types", "index.ts"), enums, tables)
 	write.WriteToKyselyTypes(filepath.Join("..", "website", "src", "types", "database.ts"), enums, tables)
+	write.WriteToMermaidSchema(enums, tables)
 
 	log.Println("program finished")
 }

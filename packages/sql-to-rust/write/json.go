@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-func SaveToJson(file fs.DirEntry, migrationsPath string) []byte {
+func WriteToJson(file fs.DirEntry, migrationsPath string) []byte {
 	fileContent, err := os.ReadFile(filepath.Join(migrationsPath, file.Name()))
 	if err != nil {
 		log.Panicf("error: could not load file %s from the disk", file.Name())
