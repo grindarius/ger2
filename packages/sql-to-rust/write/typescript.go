@@ -2,14 +2,13 @@ package write
 
 import (
 	"fmt"
+	"github.com/ettle/strcase"
+	"github.com/grindarius/sql-to-rust/types"
 	"log"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
-
-	"github.com/ettle/strcase"
-	"github.com/grindarius/sql-to-rust/types"
 )
 
 func WriteToKnexTypesFormat(enums []types.DatabaseEnum, tables []types.DatabaseTable) {
@@ -178,7 +177,7 @@ func WriteToKyselyTypes(path string, enums []types.DatabaseEnum, tables []types.
 
 	finalFile, err := os.Create(path)
 	if err != nil {
-		log.Panic("error: cannot create new index.rs final file")
+		log.Panic(fmt.Sprintf("error: cannot create new file at %s", path))
 	}
 	defer finalFile.Close()
 
