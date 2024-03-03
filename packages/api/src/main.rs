@@ -1,11 +1,6 @@
 use std::{thread, time::Duration};
 
-use axum::{
-    http::{header, StatusCode},
-    middleware,
-    routing::get,
-    Router,
-};
+use axum::{middleware, routing::get, Router};
 use once_cell::sync::Lazy;
 use tower_governor::governor::GovernorConfigBuilder;
 use tower_governor::GovernorLayer;
@@ -70,18 +65,7 @@ async fn main() {
     });
 
     let routes = Router::new()
-        .route(
-            "/docs",
-            get(|| async {
-                (
-                    StatusCode::PERMANENT_REDIRECT,
-                    [(
-                        header::LOCATION,
-                        format!("{}/docs", Lazy::force(&environment_variables::FULL_API_URL)),
-                    )],
-                )
-            }),
-        )
+        .route("/docs", get(crate::routes::docs_redirect::handler))
         .route(
             "/programs",
             get(crate::routes::programs::get_programs::handler),
