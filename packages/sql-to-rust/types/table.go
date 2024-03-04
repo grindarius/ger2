@@ -31,6 +31,7 @@ type DatabaseColumn struct {
 	DefaultValueDefined bool
 	Pk                  bool
 	Fk                  bool
+	FkAttrs             *DatabaseForeignKey
 }
 
 func (x DatabaseColumn) GetName() string {
@@ -87,4 +88,20 @@ func (x DatabaseColumn) GetPrimaryKey() bool {
 
 func (x DatabaseColumn) GetForeignKey() bool {
 	return x.Fk
+}
+
+func (x DatabaseColumn) GetForeignKeyTableName() string {
+  if x.FkAttrs != nil {
+    return x.FkAttrs.GetReferencesTableName()
+  }
+
+  return ""
+}
+
+func (x DatabaseColumn) GetForeignKeyColumnName() string {
+	if x.FkAttrs != nil {
+    return x.FkAttrs.GetReferencesColumnName()
+  }
+
+  return ""
 }
