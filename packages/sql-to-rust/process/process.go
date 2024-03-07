@@ -1,10 +1,14 @@
 package process
 
 import (
+	"fmt"
+
 	"github.com/ettle/strcase"
 	"github.com/grindarius/sql-to-rust/errors"
 	"github.com/grindarius/sql-to-rust/types"
+
 	pg_query "github.com/pganalyze/pg_query_go/v4"
+
 	"log"
 )
 
@@ -31,43 +35,38 @@ func indexOf[T comparable](collection []T, predicate func(x T) bool) int {
 	return -1
 }
 
-func processTableConstraint(constraint *pg_query.Constraint) ([]string, []string, error) {
+// Processes constraint at the end of file
+func processTableConstraint(constraint *pg_query.Constraint) ([]string, []types.DatabaseForeignKey, error) {
 	contype := constraint.GetContype()
 
 	primaryKeys := make([]string, 0)
-	foreignKeys := make([]string, 0)
-	switch contype {
-	case pg_query.ConstrType_CONSTR_PRIMARY:
+	foreignKeys := make([]types.DatabaseForeignKey, 0)
+
+	if contype == pg_query.ConstrType_CONSTR_PRIMARY {
 		keys := constraint.GetKeys()
 
 		for _, k := range keys {
 			str := k.GetString_()
-			if str == nil {
-				return []string{}, []string{}, errors.StringUndefined
-			}
-
-			sval := str.GetSval()
-			if sval == "" {
-				return []string{}, []string{}, errors.StringUndefined
-			}
-
-			primaryKeys = append(primaryKeys, sval)
+			primaryKeys = append(primaryKeys, str.GetSval())
 		}
-	case pg_query.ConstrType_CONSTR_FOREIGN:
+	}
+
+	if contype == pg_query.ConstrType_CONSTR_FOREIGN {
 		fkAttrs := constraint.GetFkAttrs()
-		for _, k := range fkAttrs {
-			str := k.GetString_()
-			if str == nil {
-				return []string{}, []string{}, errors.StringUndefined
-			}
+		pkAttrs := constraint.GetPkAttrs()
+		pktable := constraint.GetPktable()
 
-			sval := str.GetSval()
-			if sval == "" {
-				return []string{}, []string{}, errors.StringUndefined
-			}
+		originalColumnName := fkAttrs[0].GetString_().GetSval()
+		referencesTable := pktable.GetRelname()
+		referencesColumn := pkAttrs[0].GetString_().GetSval()
 
-			foreignKeys = append(foreignKeys, sval)
+		fk := types.DatabaseForeignKey{
+			OriginalColumnName:   originalColumnName,
+			ReferencesTableName:  referencesTable,
+			ReferencesColumnName: referencesColumn,
 		}
+
+		foreignKeys = append(foreignKeys, fk)
 	}
 
 	return primaryKeys, foreignKeys, nil
@@ -155,6 +154,8 @@ func processColumnDef(columnDef *pg_query.ColumnDef) (types.DatabaseColumn, erro
 	var defaultValueDefined bool = false
 	var primaryKey bool = false
 	var foreignKey bool = false
+	var fkConstraintEndOfRow *types.DatabaseForeignKey = nil
+
 	for _, constraint := range columnConstraints {
 		constraint := constraint.GetConstraint()
 
@@ -168,6 +169,18 @@ func processColumnDef(columnDef *pg_query.ColumnDef) (types.DatabaseColumn, erro
 			primaryKey = true
 		case pg_query.ConstrType_CONSTR_FOREIGN:
 			foreignKey = true
+			pkAttrs := constraint.GetPkAttrs()
+			pktable := constraint.GetPktable()
+
+			originalColumnName := columnName
+			referencesTable := pktable.GetRelname()
+			referencesColumn := pkAttrs[0].GetString_().GetSval()
+
+			fkConstraintEndOfRow = &types.DatabaseForeignKey{
+				OriginalColumnName:   originalColumnName,
+				ReferencesTableName:  referencesTable,
+				ReferencesColumnName: referencesColumn,
+			}
 		}
 	}
 
@@ -180,6 +193,7 @@ func processColumnDef(columnDef *pg_query.ColumnDef) (types.DatabaseColumn, erro
 		DefaultValueDefined: defaultValueDefined,
 		Pk:                  primaryKey,
 		Fk:                  foreignKey,
+		FkAttrs:             fkConstraintEndOfRow,
 	}, nil
 }
 
@@ -196,7 +210,7 @@ func ProcessCreateTableStatement(statement *pg_query.CreateStmt) types.DatabaseT
 
 	var columns []types.DatabaseColumn
 	var pks []string
-	var fks []string
+	var fks []types.DatabaseForeignKey
 	for _, tableElem := range tableElements {
 		columnDef := tableElem.GetColumnDef()
 		columnConstraint := tableElem.GetConstraint()
@@ -208,7 +222,9 @@ func ProcessCreateTableStatement(statement *pg_query.CreateStmt) types.DatabaseT
 			}
 
 			columns = append(columns, newColumn)
-		} else if columnConstraint != nil {
+		}
+
+		if columnConstraint != nil {
 			primaryKeys, foreignKeys, err := processTableConstraint(columnConstraint)
 			if err != nil {
 				log.Panic("error while processing column constraint statement")
@@ -219,8 +235,9 @@ func ProcessCreateTableStatement(statement *pg_query.CreateStmt) types.DatabaseT
 		}
 	}
 
-	// Add table constraints to the columns array
+  fmt.Sprintln(fks)
 
+	// Apply constraints from the end of the column declaration to the columns section array
 	for i := 0; i < len(columns); i++ {
 		column := &columns[i]
 		for j := 0; j < len(pks); j++ {
@@ -231,9 +248,10 @@ func ProcessCreateTableStatement(statement *pg_query.CreateStmt) types.DatabaseT
 		}
 
 		for k := 0; k < len(fks); k++ {
-			fk := &fks[k]
-			if *fk == column.GetName() {
+			fk := fks[k]
+			if fk.GetOriginalColumnName() == column.GetName() {
 				column.Fk = true
+        column.FkAttrs = &fk
 			}
 		}
 	}

@@ -5,7 +5,9 @@ import (
 	"github.com/grindarius/sql-to-rust/read"
 	"github.com/grindarius/sql-to-rust/types"
 	"github.com/grindarius/sql-to-rust/write"
+
 	pg_query "github.com/pganalyze/pg_query_go/v4"
+
 	"log"
 	"path/filepath"
 	"regexp"

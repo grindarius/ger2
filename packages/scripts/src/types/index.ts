@@ -157,11 +157,11 @@ export type UpdateForums = Updateable<ForumsTable>
 export interface MajorSubjectGroupsTable {
   id: ColumnType<string, string, never>
   major_id: ColumnType<string, string, string | undefined>
-  hierarchy: ColumnType<Ltree, Ltree, Ltree | undefined>
+  parent_id: ColumnType<string | null, string | null | undefined, string | null | undefined>
   name: ColumnType<string, string, string | undefined>
   minimum_credit: ColumnType<number | null, number | null | undefined, number | null | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type MajorSubjectGroups = Selectable<MajorSubjectGroupsTable>

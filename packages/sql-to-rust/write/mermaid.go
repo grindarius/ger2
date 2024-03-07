@@ -2,12 +2,13 @@ package write
 
 import (
 	"fmt"
-	"github.com/grindarius/sql-to-rust/types"
 	"log"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"github.com/grindarius/sql-to-rust/types"
 )
 
 func getKeysPhrase(isPk bool, isFk bool) string {
@@ -59,6 +60,15 @@ func WriteToMermaidSchema(enums []types.DatabaseEnum, tables []types.DatabaseTab
 
 		file.WriteString("  }\n\n")
 	}
+
+  for _, table := range tables {
+    for _, col := range table.GetColumns() {
+      if col.GetForeignKey() {
+        fkTableName := col.GetForeignKeyTableName()
+        file.WriteString(fmt.Sprintf("    %s ||--o{ %s : links\n", fkTableName, table.GetName()))
+      }
+    }
+  }
 
 	file.WriteString("```\n")
 }
