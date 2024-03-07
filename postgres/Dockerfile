@@ -7,6 +7,7 @@ ENV PGROONGA_VERSION=3.1.5
 ENV GROONGA_VERSION=13.0.8
 
 COPY ./build-pgroonga.sh /build-pgroonga.sh
+RUN chmod +x ./build-pgroonga.sh
 
 RUN /build-pgroonga.sh ${PGROONGA_VERSION} ${GROONGA_VERSION}
 RUN rm -f build-pgroonga.sh
