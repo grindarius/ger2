@@ -1,4 +1,5 @@
 set windows-shell := ["cmd.exe", "/c"]
+set shel := ["/Users/grindarius/.cargo/bin/nu", "-c"]
 
 # Start local database server
 docker-up:
