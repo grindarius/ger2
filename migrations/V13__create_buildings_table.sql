@@ -5,6 +5,6 @@ create table buildings (
     coordinates point not null,
     building_created_at timestamptz not null,
     created_at timestamptz not null default now(),
-    updated_at timestamptz,
+    updated_at timestamptz not null default now(),
     primary key (id)
 );

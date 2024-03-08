@@ -7,6 +7,7 @@ create table majors (
     year_amount smallint not null,
     minimum_credit int not null,
     created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now(),
     primary key (id),
     foreign key (curriculum_id) references curriculums(id)
 );
