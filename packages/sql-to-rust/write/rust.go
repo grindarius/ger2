@@ -85,10 +85,10 @@ func WriteToRustTypes(enums []types.DatabaseEnum, tables []types.DatabaseTable) 
 		}
 
 		for _, member := range table.GetColumns() {
-			_, err := finalFile.WriteString(fmt.Sprintf("    %s: %s,\n", member.GetName(), member.GetRustType()))
-			if err != nil {
-				log.Panic("error: could not write to schema.rs")
-			}
+      _, err := finalFile.WriteString(fmt.Sprintf("    %s: %s,\n", member.GetName(), member.GetRustType()))
+      if err != nil {
+        log.Panic("error: could not write to schema.rs")
+      }
 		}
 
 		if index == len(tables)-1 {

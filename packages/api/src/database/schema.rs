@@ -84,19 +84,51 @@ impl ::sea_query::Iden for RoleIden {
 }
 
 #[allow(dead_code)]
-pub enum SemesterTypeIden {
+pub enum RoomTypeIden {
     Type,
-    Midterm,
-    Final,
+    Lab,
+    Lecture,
+    Conference,
+    Toilet,
+    CoWorkingSpaces,
+    Work,
+    Other,
 }
 
-impl ::sea_query::Iden for SemesterTypeIden {
+impl ::sea_query::Iden for RoomTypeIden {
     fn unquoted(&self, s: &mut dyn ::std::fmt::Write) {
         write!(
             s,
             "{}",
             match self {
-                Self::Type => "semester_type",
+                Self::Type => "room_type",
+                Self::Lab => "lab",
+                Self::Lecture => "lecture",
+                Self::Conference => "conference",
+                Self::Toilet => "toilet",
+                Self::CoWorkingSpaces => "co-working-spaces",
+                Self::Work => "work",
+                Self::Other => "other",
+            }
+        )
+        .unwrap()
+    }
+}
+
+#[allow(dead_code)]
+pub enum SemesterExamTypeIden {
+    Type,
+    Midterm,
+    Final,
+}
+
+impl ::sea_query::Iden for SemesterExamTypeIden {
+    fn unquoted(&self, s: &mut dyn ::std::fmt::Write) {
+        write!(
+            s,
+            "{}",
+            match self {
+                Self::Type => "semester_exam_type",
                 Self::Midterm => "midterm",
                 Self::Final => "final",
             }
@@ -110,8 +142,8 @@ impl ::sea_query::Iden for SemesterTypeIden {
 pub struct AcademicYears {
     id: ::std::string::String,
     year: ::std::primitive::i32,
-    start_at: ::time::OffsetDateTime,
-    end_at: ::time::OffsetDateTime,
+    start: ::time::OffsetDateTime,
+    end: ::time::OffsetDateTime,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
@@ -125,6 +157,8 @@ pub struct AccountNames {
     first_name: ::std::string::String,
     middle_name: ::std::string::String,
     last_name: ::std::string::String,
+    created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -146,7 +180,7 @@ pub struct Accounts {
     role: Role,
     birthdate: ::time::Date,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -158,7 +192,7 @@ pub struct Buildings {
     coordinates: ::geo_types::Point<f64>,
     building_created_at: ::time::OffsetDateTime,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -168,7 +202,7 @@ pub struct Curriculums {
     faculty_id: ::std::string::String,
     name: ::std::string::String,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -177,7 +211,7 @@ pub struct Faculties {
     id: ::std::string::String,
     name: ::std::string::String,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -196,7 +230,7 @@ pub struct ForumPostComments {
     forum_member_id: ::std::string::String,
     content: ::std::string::String,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -207,7 +241,7 @@ pub struct ForumPosts {
     name: ::std::string::String,
     content: ::std::string::String,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -227,7 +261,7 @@ pub struct Forums {
     slug: ::std::string::String,
     description: ::std::string::String,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -235,11 +269,11 @@ pub struct Forums {
 pub struct MajorSubjectGroups {
     id: ::std::string::String,
     major_id: ::std::string::String,
-    hierarchy: Ltree,
+    parent_id: ::std::option::Option<::std::string::String>,
     name: ::std::string::String,
     minimum_credit: ::std::option::Option<::rust_decimal::Decimal>,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -261,6 +295,7 @@ pub struct Majors {
     year_amount: ::std::primitive::i16,
     minimum_credit: ::std::primitive::i32,
     created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -280,7 +315,7 @@ pub struct OpeningSubjectAssignments {
     name: ::std::string::String,
     full_score: ::rust_decimal::Decimal,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -299,10 +334,11 @@ pub struct OpeningSubjectSchedules {
     opening_subject_id: ::std::string::String,
     room_id: ::std::string::String,
     day: DayOfWeek,
-    start_at: ::time::Time,
-    end_at: ::time::Time,
+    start: ::time::Time,
+    end: ::time::Time,
+    timezone: ::std::string::String,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -313,7 +349,7 @@ pub struct OpeningSubjectStudentAssignments {
     opening_subject_assignment_id: ::std::string::String,
     score: ::rust_decimal::Decimal,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -333,6 +369,9 @@ pub struct OpeningSubjects {
     subject_id: ::std::string::String,
     subject_capacity: ::std::primitive::i32,
     grading_criteria: ::serde_json::Value,
+    credit: ::std::primitive::i32,
+    created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -357,6 +396,7 @@ pub struct Rooms {
     building_id: ::std::string::String,
     name: ::std::string::String,
     description: ::std::string::String,
+    room_type: RoomType,
     capacity: ::std::primitive::i32,
     floor: ::std::primitive::i32,
 }
@@ -366,13 +406,13 @@ pub struct Rooms {
 pub struct SemesterTerms {
     id: ::std::string::String,
     semester_id: ::std::string::String,
-    exam_type: SemesterType,
-    subject_registration_start_at: ::time::OffsetDateTime,
-    subject_registration_end_at: ::time::OffsetDateTime,
-    start_at: ::time::OffsetDateTime,
-    end_at: ::time::OffsetDateTime,
-    exam_start_at: ::time::OffsetDateTime,
-    exam_end_at: ::time::OffsetDateTime,
+    subject_registration_start: ::time::OffsetDateTime,
+    subject_registration_end: ::time::OffsetDateTime,
+    start: ::time::OffsetDateTime,
+    end: ::time::OffsetDateTime,
+    exam_start: ::time::OffsetDateTime,
+    exam_end: ::time::OffsetDateTime,
+    exam_type: SemesterExamType,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
@@ -382,8 +422,8 @@ pub struct SemesterTerms {
 pub struct Semesters {
     id: ::std::string::String,
     academic_year_id: ::std::string::String,
-    start_at: ::time::OffsetDateTime,
-    end_at: ::time::OffsetDateTime,
+    start: ::time::OffsetDateTime,
+    end: ::time::OffsetDateTime,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
@@ -396,8 +436,11 @@ pub struct Students {
     academic_year_id: ::std::string::String,
     professor_id: ::std::string::String,
     student_id: ::std::string::String,
-    student_nid: ::std::string::String,
+    student_behavior_score: ::std::primitive::i32,
+    student_status: ::serde_json::Value,
     previous_gpa: ::rust_decimal::Decimal,
+    created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -407,14 +450,7 @@ pub struct Subjects {
     name: ::std::string::String,
     description: ::std::string::String,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
-}
-
-#[allow(dead_code)]
-#[sea_query::enum_def]
-pub struct TransactionSubjectEnrollments {
-    opening_subject_student_enrollment_id: ::std::string::String,
-    transaction_id: ::std::string::String,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
@@ -422,10 +458,9 @@ pub struct TransactionSubjectEnrollments {
 pub struct Transactions {
     id: ::std::string::String,
     account_id: ::std::string::String,
-    payment_method: ::std::string::String,
     price: ::rust_decimal::Decimal,
     payment_status: PaymentStatus,
     transaction_type: ::serde_json::Value,
     created_at: ::time::OffsetDateTime,
-    updated_at: ::std::option::Option<::time::OffsetDateTime>,
+    updated_at: ::time::OffsetDateTime,
 }

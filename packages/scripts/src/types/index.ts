@@ -3,13 +3,14 @@ import type { ColumnType, Insertable, Selectable, Updateable } from 'kysely'
 export type DayOfWeek = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday'
 export type PaymentStatus = 'pending' | 'completed' | 'cancelled'
 export type Role = 'admin' | 'professor' | 'student'
-export type SemesterType = 'midterm' | 'final'
+export type RoomType = 'lab' | 'lecture' | 'conference' | 'toilet' | 'co-working-spaces' | 'work' | 'other'
+export type SemesterExamType = 'midterm' | 'final'
 
 export interface AcademicYearsTable {
   id: ColumnType<string, string, never>
   year: ColumnType<number, number | undefined, number | undefined>
-  start_at: ColumnType<string, string, string | undefined>
-  end_at: ColumnType<string, string, string | undefined>
+  start: ColumnType<string, string, string | undefined>
+  end: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
   updated_at: ColumnType<string, string | undefined, string | undefined>
 }
@@ -23,8 +24,10 @@ export interface AccountNamesTable {
   account_id: ColumnType<string, string, string | undefined>
   name_language: ColumnType<string, string, string | undefined>
   first_name: ColumnType<string, string, string | undefined>
-  middle_name: ColumnType<string, string, string | undefined>
-  last_name: ColumnType<string, string, string | undefined>
+  middle_name: ColumnType<string, string | undefined, string | undefined>
+  last_name: ColumnType<string, string | undefined, string | undefined>
+  created_at: ColumnType<string, string | undefined, string | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type AccountNames = Selectable<AccountNamesTable>
@@ -50,7 +53,7 @@ export interface AccountsTable {
   role: ColumnType<Role, Role, Role | undefined>
   birthdate: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Accounts = Selectable<AccountsTable>
@@ -64,7 +67,7 @@ export interface BuildingsTable {
   coordinates: ColumnType<{ x: number, y: number }, string | undefined, string | undefined>
   building_created_at: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Buildings = Selectable<BuildingsTable>
@@ -76,7 +79,7 @@ export interface CurriculumsTable {
   faculty_id: ColumnType<string, string, string | undefined>
   name: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Curriculums = Selectable<CurriculumsTable>
@@ -87,7 +90,7 @@ export interface FacultiesTable {
   id: ColumnType<string, string, never>
   name: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Faculties = Selectable<FacultiesTable>
@@ -110,7 +113,7 @@ export interface ForumPostCommentsTable {
   forum_member_id: ColumnType<string, string, string | undefined>
   content: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type ForumPostComments = Selectable<ForumPostCommentsTable>
@@ -123,7 +126,7 @@ export interface ForumPostsTable {
   name: ColumnType<string, string, string | undefined>
   content: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type ForumPosts = Selectable<ForumPostsTable>
@@ -147,7 +150,7 @@ export interface ForumsTable {
   slug: ColumnType<string, string, string | undefined>
   description: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Forums = Selectable<ForumsTable>
@@ -187,6 +190,7 @@ export interface MajorsTable {
   year_amount: ColumnType<number, number, number | undefined>
   minimum_credit: ColumnType<number, number, number | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Majors = Selectable<MajorsTable>
@@ -210,7 +214,7 @@ export interface OpeningSubjectAssignmentsTable {
   name: ColumnType<string, string, string | undefined>
   full_score: ColumnType<number, number, number | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type OpeningSubjectAssignments = Selectable<OpeningSubjectAssignmentsTable>
@@ -233,10 +237,11 @@ export interface OpeningSubjectSchedulesTable {
   opening_subject_id: ColumnType<string, string, string | undefined>
   room_id: ColumnType<string, string, string | undefined>
   day: ColumnType<DayOfWeek, DayOfWeek, DayOfWeek | undefined>
-  start_at: ColumnType<string, string, string | undefined>
-  end_at: ColumnType<string, string, string | undefined>
+  start: ColumnType<string, string, string | undefined>
+  end: ColumnType<string, string, string | undefined>
+  timezone: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type OpeningSubjectSchedules = Selectable<OpeningSubjectSchedulesTable>
@@ -249,7 +254,7 @@ export interface OpeningSubjectStudentAssignmentsTable {
   opening_subject_assignment_id: ColumnType<string, string, string | undefined>
   score: ColumnType<number, number, number | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type OpeningSubjectStudentAssignments = Selectable<OpeningSubjectStudentAssignmentsTable>
@@ -273,6 +278,9 @@ export interface OpeningSubjectsTable {
   subject_id: ColumnType<string, string, string | undefined>
   subject_capacity: ColumnType<number, number, number | undefined>
   grading_criteria: ColumnType<string, string, string | undefined>
+  credit: ColumnType<number, number, number | undefined>
+  created_at: ColumnType<string, string | undefined, string | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type OpeningSubjects = Selectable<OpeningSubjectsTable>
@@ -303,6 +311,7 @@ export interface RoomsTable {
   building_id: ColumnType<string, string, string | undefined>
   name: ColumnType<string, string, string | undefined>
   description: ColumnType<string, string | undefined, string | undefined>
+  room_type: ColumnType<RoomType, RoomType, RoomType | undefined>
   capacity: ColumnType<number, number, number | undefined>
   floor: ColumnType<number, number | undefined, number | undefined>
 }
@@ -314,13 +323,13 @@ export type UpdateRooms = Updateable<RoomsTable>
 export interface SemesterTermsTable {
   id: ColumnType<string, string, never>
   semester_id: ColumnType<string, string, string | undefined>
-  exam_type: ColumnType<SemesterType, SemesterType, SemesterType | undefined>
-  subject_registration_start_at: ColumnType<string, string, string | undefined>
-  subject_registration_end_at: ColumnType<string, string, string | undefined>
-  start_at: ColumnType<string, string, string | undefined>
-  end_at: ColumnType<string, string, string | undefined>
-  exam_start_at: ColumnType<string, string, string | undefined>
-  exam_end_at: ColumnType<string, string, string | undefined>
+  subject_registration_start: ColumnType<string, string, string | undefined>
+  subject_registration_end: ColumnType<string, string, string | undefined>
+  start: ColumnType<string, string, string | undefined>
+  end: ColumnType<string, string, string | undefined>
+  exam_start: ColumnType<string, string, string | undefined>
+  exam_end: ColumnType<string, string, string | undefined>
+  exam_type: ColumnType<SemesterExamType, SemesterExamType, SemesterExamType | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
   updated_at: ColumnType<string, string | undefined, string | undefined>
 }
@@ -332,8 +341,8 @@ export type UpdateSemesterTerms = Updateable<SemesterTermsTable>
 export interface SemestersTable {
   id: ColumnType<string, string, never>
   academic_year_id: ColumnType<string, string, string | undefined>
-  start_at: ColumnType<string, string, string | undefined>
-  end_at: ColumnType<string, string, string | undefined>
+  start: ColumnType<string, string, string | undefined>
+  end: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
   updated_at: ColumnType<string, string | undefined, string | undefined>
 }
@@ -348,8 +357,11 @@ export interface StudentsTable {
   academic_year_id: ColumnType<string, string, string | undefined>
   professor_id: ColumnType<string, string, string | undefined>
   student_id: ColumnType<string, string, string | undefined>
-  student_nid: ColumnType<string, string, string | undefined>
+  student_behavior_score: ColumnType<number, number, number | undefined>
+  student_status: ColumnType<string, string, string | undefined>
   previous_gpa: ColumnType<number, number, number | undefined>
+  created_at: ColumnType<string, string | undefined, string | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Students = Selectable<StudentsTable>
@@ -361,31 +373,21 @@ export interface SubjectsTable {
   name: ColumnType<string, string, string | undefined>
   description: ColumnType<string, string | undefined, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Subjects = Selectable<SubjectsTable>
 export type NewSubjects = Insertable<SubjectsTable>
 export type UpdateSubjects = Updateable<SubjectsTable>
 
-export interface TransactionSubjectEnrollmentsTable {
-  opening_subject_student_enrollment_id: ColumnType<string, string, string | undefined>
-  transaction_id: ColumnType<string, string, string | undefined>
-}
-
-export type TransactionSubjectEnrollments = Selectable<TransactionSubjectEnrollmentsTable>
-export type NewTransactionSubjectEnrollments = Insertable<TransactionSubjectEnrollmentsTable>
-export type UpdateTransactionSubjectEnrollments = Updateable<TransactionSubjectEnrollmentsTable>
-
 export interface TransactionsTable {
   id: ColumnType<string, string, never>
   account_id: ColumnType<string, string, string | undefined>
-  payment_method: ColumnType<string, string, string | undefined>
   price: ColumnType<number, number, number | undefined>
   payment_status: ColumnType<PaymentStatus, PaymentStatus, PaymentStatus | undefined>
   transaction_type: ColumnType<string, string, string | undefined>
   created_at: ColumnType<string, string | undefined, string | undefined>
-  updated_at: ColumnType<string | null, string | null | undefined, string | null | undefined>
+  updated_at: ColumnType<string, string | undefined, string | undefined>
 }
 
 export type Transactions = Selectable<TransactionsTable>
@@ -422,6 +424,5 @@ export interface Database {
   semesters: SemestersTable
   students: StudentsTable
   subjects: SubjectsTable
-  transaction_subject_enrollments: TransactionSubjectEnrollmentsTable
   transactions: TransactionsTable
 }

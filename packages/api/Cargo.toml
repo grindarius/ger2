@@ -5,7 +5,6 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT"
 authors = ["Bhattarapong Somwong <numbbutt34685@gmail.com>"]
-license-file = "../../LICENSE"
 homepage = "https://github.com/grindarius/ger2"
 repository = "https://github.com/grindarius/ger2"
 

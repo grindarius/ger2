@@ -17,7 +17,7 @@ for (const tablename of tablenames.rows) {
 console.log(chalk.greenBright('Successfully removed all tables in public schema\n'))
 console.log(chalk.yellow('Removing user defined types'))
 
-for (const typname of ['role', 'day_of_week', 'semester_type', 'payment_status']) {
+for (const typname of ['role', 'day_of_week', 'semester_exam_type', 'payment_status', 'room_type']) {
   await sql`delete from pg_type where typname = ${sql.lit(typname)}`.execute(k)
   console.log(chalk.blueBright('-', typname))
 }
