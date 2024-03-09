@@ -1,11 +1,10 @@
-create table forum_post_comments (
+create table forum_posts (
     id varchar(32) not null unique,
-    forum_post_id varchar(32) not null,
     forum_member_id varchar(32) not null,
+    name varchar(255) not null,
     content text not null,
     created_at timestamptz not null default now(),
-    updated_at timestamptz,
+    updated_at timestamptz not null default now(),
     primary key (id),
-    foreign key (forum_post_id) references forum_posts(id),
     foreign key (forum_member_id) references accounts(id)
 );

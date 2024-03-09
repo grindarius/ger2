@@ -5,7 +5,7 @@ create table forums (
     slug varchar(255) not null unique,
     description text not null,
     created_at timestamptz not null default now(),
-    updated_at timestamptz,
+    updated_at timestamptz not null default now(),
     primary key (id),
     foreign key (account_id) references accounts(id)
 );

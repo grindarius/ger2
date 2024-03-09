@@ -1,7 +1,7 @@
 create table semester_terms (
     id varchar(32) not null unique,
     semester_id varchar(32) not null,
-    exam_type semester_type not null,
+    type semester_type not null,
     subject_registration_start timestamptz not null,
     subject_registration_end timestamptz not null,
     start timestamptz not null,

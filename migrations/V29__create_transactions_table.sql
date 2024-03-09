@@ -1,12 +1,11 @@
 create table transactions (
     id varchar(32) not null unique,
     account_id varchar(32) not null,
-    payment_method varchar(255) not null,
     price numeric(12, 3) not null,
     payment_status payment_status not null,
     transaction_type jsonb not null,
     created_at timestamptz not null default now(),
-    updated_at timestamptz,
+    updated_at timestamptz not null default now(),
     primary key (id),
     foreign key (account_id) references accounts(id)
 );

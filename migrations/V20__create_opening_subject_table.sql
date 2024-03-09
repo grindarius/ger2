@@ -5,6 +5,8 @@ create table opening_subjects (
     subject_capacity int not null,
     grading_criteria jsonb not null,
     credit int not null,
+    created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now(),
     primary key (id),
     foreign key (semester_term_id) references semester_terms(id),
     foreign key (subject_id) references subjects(id)
