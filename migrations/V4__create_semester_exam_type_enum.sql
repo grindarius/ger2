@@ -1,4 +1,4 @@
-create type semester_type as enum (
+create type semester_exam_type as enum (
     'midterm',
     'final'
 );

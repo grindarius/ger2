@@ -3,7 +3,7 @@ create table rooms (
     building_id varchar(32) not null,
     name text not null,
     description text not null default '',
-    type room_type not null,
+    room_type room_type not null,
     capacity int not null,
     floor int not null default 1,
     primary key (id),
