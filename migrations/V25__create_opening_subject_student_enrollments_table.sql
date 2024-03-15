@@ -5,5 +5,5 @@ create table opening_subject_student_enrollments (
     class_comment text not null default '',
     primary key (id),
     foreign key (opening_subject_id) references opening_subjects(id),
-    foreign key (student_id) references students(account_id)
+    foreign key (student_id) references students(user_id)
 );

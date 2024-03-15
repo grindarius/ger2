@@ -7,5 +7,5 @@ create table forum_post_comments (
     updated_at timestamptz not null default now(),
     primary key (id),
     foreign key (forum_post_id) references forum_posts(id),
-    foreign key (forum_member_id) references accounts(id)
+    foreign key (forum_member_id) references users(id)
 );

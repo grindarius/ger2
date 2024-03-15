@@ -8,5 +8,5 @@ create table opening_subject_assignments (
     updated_at timestamptz not null default now(),
     primary key (id),
     foreign key (opening_subject_id) references opening_subjects(id),
-    foreign key (professor_id) references professors(account_id)
+    foreign key (professor_id) references professors(user_id)
 );

@@ -10,3 +10,5 @@ create table semesters (
 );
 
 comment on table semesters is 'Stores information about semesters in one academic year';
+comment on column semesters.start is 'Stores the datetime when the first studying day starts';
+comment on column semesters."end" is 'Stores the datetime when it''s the last date of studying, you cannot arrange hours for student to study after this.';

@@ -1,8 +1,6 @@
 create table academic_years (
     id varchar(32) not null unique,
     year int not null unique default cast(date_part('year', now()) as int),
-    start timestamptz not null,
-    "end" timestamptz not null,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
     primary key (id)

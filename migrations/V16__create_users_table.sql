@@ -1,4 +1,4 @@
-create table accounts (
+create table users (
     id varchar(32) not null unique,
     username varchar(32) not null unique,
     email varchar(64) not null unique,

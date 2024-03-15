@@ -4,7 +4,6 @@ create table opening_subjects (
     subject_id varchar(32) not null,
     subject_capacity int not null,
     grading_criteria jsonb not null,
-    credit int not null,
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
     primary key (id),

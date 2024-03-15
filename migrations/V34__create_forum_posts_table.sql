@@ -6,5 +6,5 @@ create table forum_posts (
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
     primary key (id),
-    foreign key (forum_member_id) references accounts(id)
+    foreign key (forum_member_id) references users(id)
 );
