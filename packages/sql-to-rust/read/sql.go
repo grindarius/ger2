@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 func ReadSqlFiles(path string, filenamePattern *regexp.Regexp) []fs.DirEntry {
@@ -15,9 +16,17 @@ func ReadSqlFiles(path string, filenamePattern *regexp.Regexp) []fs.DirEntry {
 		log.Panic("error: error happened while loading migration files")
 	}
 
-	sort.Slice(files, func(i, j int) bool {
-		filenameI := files[i].Name()
-		filenameJ := files[j].Name()
+  filteredFiles := make([]fs.DirEntry, 0)
+
+  for _, file := range files {
+    if strings.HasPrefix(file.Name(), "V") {
+      filteredFiles = append(filteredFiles, file)
+    }
+  }
+
+	sort.Slice(filteredFiles, func(i, j int) bool {
+		filenameI := filteredFiles[i].Name()
+		filenameJ := filteredFiles[j].Name()
 
 		resultI := filenamePattern.FindStringSubmatch(filenameI)
 		resultJ := filenamePattern.FindStringSubmatch(filenameJ)
@@ -35,5 +44,5 @@ func ReadSqlFiles(path string, filenamePattern *regexp.Regexp) []fs.DirEntry {
 		return fileNumberI < fileNumberJ
 	})
 
-	return files
+	return filteredFiles
 }
