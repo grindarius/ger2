@@ -52,7 +52,7 @@ pub struct GetProgramResponseBody {
 
 impl Default for GetProgramResponseBody {
     fn default() -> Self {
-        return Self {
+        Self {
             id: "01HCD9J08N58KWQA479S1M6G0C".to_string(),
             name: "Bachelor of Software Engineer, \"A\" version".to_string(),
             curriculum_id: "01HCD9J08N58KWQA479S1M6G0X".to_string(),
@@ -63,7 +63,7 @@ impl Default for GetProgramResponseBody {
             year_amount: 4,
             minimum_credit: 130,
             created_at: time::OffsetDateTime::from_unix_timestamp(1696958674).unwrap(),
-        };
+        }
     }
 }
 
