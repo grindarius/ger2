@@ -13,15 +13,15 @@ pub fn init_s3() -> aws_sdk_s3::Client {
         None,
     );
 
-    let config = match *AWS_ENDPOINT_URL {
+    let config = match Lazy::force(&AWS_ENDPOINT_URL) {
         Some(endpoint_url) => Config::builder()
             .credentials_provider(s3_credentials)
-            .region(Region::new(*AWS_REGION))
+            .region(Region::new(Lazy::force(&AWS_REGION)))
             .endpoint_url(endpoint_url)
             .build(),
         None => Config::builder()
             .credentials_provider(s3_credentials)
-            .region(Region::new(*AWS_REGION))
+            .region(Region::new(Lazy::force(&AWS_REGION)))
             .build(),
     };
 
