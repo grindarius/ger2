@@ -134,9 +134,9 @@ macro_rules! top_level_array_ts_type {
 ///
 /// # Example:
 /// ```rust
-/// use crate::macros::example_error_response;
+/// use crate::macros::error_example;
 ///
-/// example_error_response!(INVALID_SWAGGER_KEY, BAD_REQUEST, "property \"x\" cannot be an empty string");
+/// error_example!(INVALID_SWAGGER_KEY, BAD_REQUEST, "property \"x\" cannot be an empty string");
 /// ```
 ///
 /// Then you can import that in other module as `crate::EXAMPLE_INVALID_SWAGGER_KEY_RESPONSE`

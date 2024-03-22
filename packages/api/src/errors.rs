@@ -29,8 +29,11 @@ impl ErrorResponse {
     pub fn new(code: StatusCode, message: String) -> Self {
         Self {
             status_code: code.as_u16(),
-            error: code.canonical_reason().unwrap_or("Unknown Canonical Reason").to_owned(),
-            message
+            error: code
+                .canonical_reason()
+                .unwrap_or("Unknown Canonical Reason")
+                .to_owned(),
+            message,
         }
     }
 }
@@ -112,20 +115,6 @@ impl From<tokio_postgres::error::Error> for HttpError {
     fn from(value: tokio_postgres::error::Error) -> Self {
         HttpError::InternalServerError {
             cause: value.to_string(),
-        }
-    }
-}
-
-impl From<tower_governor::GovernorError> for HttpError {
-    fn from(value: tower_governor::GovernorError) -> Self {
-        match value {
-            tower_governor::GovernorError::TooManyRequests { wait_time, headers } => {
-                HttpError::TooManyRequests { wait_time }
-            }
-            tower_governor::GovernorError::UnableToExtractKey => HttpError::UnableToExtractKey,
-            tower_governor::GovernorError::Other { code, msg, headers } => {
-                HttpError::GovernorUnknownError { code, message: msg }
-            }
         }
     }
 }
