@@ -101,23 +101,3 @@ pub enum RoomType {
     #[postgres(name = "other")]
     Other,
 }
-
-#[derive(
-    ::std::fmt::Debug,
-    ::std::cmp::PartialEq,
-    ::std::clone::Clone,
-    ::postgres_types::FromSql,
-    ::postgres_types::ToSql,
-    ::serde::Deserialize,
-    ::serde::Serialize,
-    ::ts_rs::TS
-)]
-#[serde(rename_all = "lowercase")]
-#[postgres(name = "semester_exam_type")]
-#[ts(export)]
-pub enum SemesterExamType {
-    #[postgres(name = "midterm")]
-    Midterm,
-    #[postgres(name = "final")]
-    Final,
-}

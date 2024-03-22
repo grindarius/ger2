@@ -116,69 +116,10 @@ impl ::sea_query::Iden for RoomTypeIden {
 }
 
 #[allow(dead_code)]
-pub enum SemesterExamTypeIden {
-    Type,
-    Midterm,
-    Final,
-}
-
-impl ::sea_query::Iden for SemesterExamTypeIden {
-    fn unquoted(&self, s: &mut dyn ::std::fmt::Write) {
-        write!(
-            s,
-            "{}",
-            match self {
-                Self::Type => "semester_exam_type",
-                Self::Midterm => "midterm",
-                Self::Final => "final",
-            }
-        )
-        .unwrap()
-    }
-}
-
-#[allow(dead_code)]
 #[sea_query::enum_def]
 pub struct AcademicYears {
     id: ::std::string::String,
     year: ::std::primitive::i32,
-    start: ::time::OffsetDateTime,
-    end: ::time::OffsetDateTime,
-    created_at: ::time::OffsetDateTime,
-    updated_at: ::time::OffsetDateTime,
-}
-
-#[allow(dead_code)]
-#[sea_query::enum_def]
-pub struct AccountNames {
-    id: ::std::string::String,
-    account_id: ::std::string::String,
-    name_language: ::std::string::String,
-    first_name: ::std::string::String,
-    middle_name: ::std::string::String,
-    last_name: ::std::string::String,
-    created_at: ::time::OffsetDateTime,
-    updated_at: ::time::OffsetDateTime,
-}
-
-#[allow(dead_code)]
-#[sea_query::enum_def]
-pub struct AccountSessions {
-    id: ::std::string::String,
-    account_id: ::std::string::String,
-    expires: ::time::OffsetDateTime,
-    fresh: ::std::primitive::bool,
-}
-
-#[allow(dead_code)]
-#[sea_query::enum_def]
-pub struct Accounts {
-    id: ::std::string::String,
-    username: ::std::string::String,
-    email: ::std::string::String,
-    password: ::std::string::String,
-    role: Role,
-    birthdate: ::time::Date,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
@@ -188,7 +129,6 @@ pub struct Accounts {
 pub struct Buildings {
     id: ::std::string::String,
     name: ::std::string::String,
-    description: ::std::string::String,
     coordinates: ::geo_types::Point<f64>,
     building_created_at: ::time::OffsetDateTime,
     created_at: ::time::OffsetDateTime,
@@ -199,7 +139,6 @@ pub struct Buildings {
 #[sea_query::enum_def]
 pub struct Curriculums {
     id: ::std::string::String,
-    faculty_id: ::std::string::String,
     name: ::std::string::String,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
@@ -218,7 +157,7 @@ pub struct Faculties {
 #[sea_query::enum_def]
 pub struct ForumMembers {
     forum_id: ::std::string::String,
-    account_id: ::std::string::String,
+    user_id: ::std::string::String,
     role_id: ::std::string::String,
 }
 
@@ -256,7 +195,7 @@ pub struct ForumRoles {
 #[sea_query::enum_def]
 pub struct Forums {
     id: ::std::string::String,
-    account_id: ::std::string::String,
+    user_id: ::std::string::String,
     name: ::std::string::String,
     slug: ::std::string::String,
     description: ::std::string::String,
@@ -269,6 +208,7 @@ pub struct Forums {
 pub struct MajorSubjectGroups {
     id: ::std::string::String,
     major_id: ::std::string::String,
+    group_index: ::std::primitive::i32,
     parent_id: ::std::option::Option<::std::string::String>,
     name: ::std::string::String,
     minimum_credit: ::std::option::Option<::rust_decimal::Decimal>,
@@ -281,7 +221,6 @@ pub struct MajorSubjectGroups {
 pub struct MajorSubjects {
     major_subject_group_id: ::std::string::String,
     subject_id: ::std::string::String,
-    credit: ::std::primitive::i32,
 }
 
 #[allow(dead_code)]
@@ -311,9 +250,9 @@ pub struct OpeningSubjectAdditionalEligibleStudents {
 pub struct OpeningSubjectAssignments {
     id: ::std::string::String,
     opening_subject_id: ::std::string::String,
-    professor_id: ::std::string::String,
     name: ::std::string::String,
     full_score: ::rust_decimal::Decimal,
+    percentage: ::rust_decimal::Decimal,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
@@ -325,6 +264,14 @@ pub struct OpeningSubjectEligibleMajors {
     opening_subject_id: ::std::string::String,
     major_id: ::std::string::String,
     academic_year_id: ::std::string::String,
+}
+
+#[allow(dead_code)]
+#[sea_query::enum_def]
+pub struct OpeningSubjectProfessors {
+    id: ::std::string::String,
+    opening_subject_id: ::std::string::String,
+    professor_id: ::std::string::String,
 }
 
 #[allow(dead_code)]
@@ -365,27 +312,18 @@ pub struct OpeningSubjectStudentEnrollments {
 #[sea_query::enum_def]
 pub struct OpeningSubjects {
     id: ::std::string::String,
-    semester_term_id: ::std::string::String,
     subject_id: ::std::string::String,
+    semester_id: ::std::string::String,
     subject_capacity: ::std::primitive::i32,
     grading_criteria: ::serde_json::Value,
-    credit: ::std::primitive::i32,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
 #[sea_query::enum_def]
-pub struct OpeningSubjectsProfessors {
-    id: ::std::string::String,
-    opening_subject_id: ::std::string::String,
-    professor_id: ::std::string::String,
-}
-
-#[allow(dead_code)]
-#[sea_query::enum_def]
 pub struct Professors {
-    account_id: ::std::string::String,
+    user_id: ::std::string::String,
     description: ::std::string::String,
 }
 
@@ -395,24 +333,29 @@ pub struct Rooms {
     id: ::std::string::String,
     building_id: ::std::string::String,
     name: ::std::string::String,
-    description: ::std::string::String,
     room_type: RoomType,
     capacity: ::std::primitive::i32,
     floor: ::std::primitive::i32,
+    created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]
 #[sea_query::enum_def]
-pub struct SemesterTerms {
+pub struct SemesterDateNames {
     id: ::std::string::String,
+    name: ::std::string::String,
+    created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
+}
+
+#[allow(dead_code)]
+#[sea_query::enum_def]
+pub struct SemesterDates {
+    semester_date_name_id: ::std::string::String,
     semester_id: ::std::string::String,
-    subject_registration_start: ::time::OffsetDateTime,
-    subject_registration_end: ::time::OffsetDateTime,
     start: ::time::OffsetDateTime,
     end: ::time::OffsetDateTime,
-    exam_start: ::time::OffsetDateTime,
-    exam_end: ::time::OffsetDateTime,
-    exam_type: SemesterExamType,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
@@ -431,7 +374,7 @@ pub struct Semesters {
 #[allow(dead_code)]
 #[sea_query::enum_def]
 pub struct Students {
-    account_id: ::std::string::String,
+    user_id: ::std::string::String,
     major_id: ::std::string::String,
     academic_year_id: ::std::string::String,
     professor_id: ::std::string::String,
@@ -449,6 +392,7 @@ pub struct Subjects {
     id: ::std::string::String,
     name: ::std::string::String,
     description: ::std::string::String,
+    credit: ::std::primitive::i32,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }
@@ -457,10 +401,45 @@ pub struct Subjects {
 #[sea_query::enum_def]
 pub struct Transactions {
     id: ::std::string::String,
-    account_id: ::std::string::String,
+    user_id: ::std::string::String,
     price: ::rust_decimal::Decimal,
     payment_status: PaymentStatus,
     transaction_type: ::serde_json::Value,
+    created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
+}
+
+#[allow(dead_code)]
+#[sea_query::enum_def]
+pub struct UserNames {
+    id: ::std::string::String,
+    user_id: ::std::string::String,
+    name_language: ::std::string::String,
+    first_name: ::std::string::String,
+    middle_name: ::std::string::String,
+    last_name: ::std::string::String,
+    created_at: ::time::OffsetDateTime,
+    updated_at: ::time::OffsetDateTime,
+}
+
+#[allow(dead_code)]
+#[sea_query::enum_def]
+pub struct UserSessions {
+    id: ::std::string::String,
+    user_id: ::std::string::String,
+    expires: ::time::OffsetDateTime,
+    fresh: ::std::primitive::bool,
+}
+
+#[allow(dead_code)]
+#[sea_query::enum_def]
+pub struct Users {
+    id: ::std::string::String,
+    username: ::std::string::String,
+    email: ::std::string::String,
+    password: ::std::string::String,
+    role: Role,
+    birthdate: ::time::Date,
     created_at: ::time::OffsetDateTime,
     updated_at: ::time::OffsetDateTime,
 }

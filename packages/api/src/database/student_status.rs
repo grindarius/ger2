@@ -4,13 +4,13 @@
 pub enum StudentStatus {
     Studying,
     RestingForTreatment {
-        semester_term_id: String,
+        semester_id: String,
     },
     Resting {
-        semester_term_id: String,
+        semester_id: String,
     },
     ForcedToRest {
-        semester_term_id: String,
+        semester_id: String,
     },
     RetiredByGradesBeingTooLow {
         #[serde(with = "time::serde::iso8601")]
