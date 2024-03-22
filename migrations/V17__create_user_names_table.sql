@@ -11,4 +11,4 @@ create table user_names (
     foreign key (user_id) references users(id)
 );
 
-comment on column account_names.name_language is 'ISO 639-1 alpha-2 language code in all lowercase.';
+comment on column user_names.name_language is 'ISO 639-1 alpha-2 language code in all lowercase.';

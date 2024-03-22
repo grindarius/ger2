@@ -3,37 +3,6 @@ erDiagram
   academic_years {
     varchar id PK
     int4 year
-    timestamptz start
-    timestamptz end
-    timestamptz created_at
-    timestamptz updated_at
-  }
-
-  account_names {
-    varchar id PK
-    varchar account_id FK
-    varchar name_language
-    text first_name
-    text middle_name
-    text last_name
-    timestamptz created_at
-    timestamptz updated_at
-  }
-
-  account_sessions {
-    varchar id PK
-    varchar account_id FK
-    timestamptz expires
-    bool fresh
-  }
-
-  accounts {
-    varchar id PK
-    varchar username
-    varchar email
-    varchar password
-    role role
-    date birthdate
     timestamptz created_at
     timestamptz updated_at
   }
@@ -41,7 +10,6 @@ erDiagram
   buildings {
     varchar id PK
     text name
-    text description
     point coordinates
     timestamptz building_created_at
     timestamptz created_at
@@ -50,7 +18,6 @@ erDiagram
 
   curriculums {
     varchar id PK
-    varchar faculty_id FK
     text name
     timestamptz created_at
     timestamptz updated_at
@@ -65,7 +32,7 @@ erDiagram
 
   forum_members {
     varchar forum_id PK,FK
-    varchar account_id PK,FK
+    varchar user_id PK,FK
     varchar role_id PK,FK
   }
 
@@ -95,7 +62,7 @@ erDiagram
 
   forums {
     varchar id PK
-    varchar account_id FK
+    varchar user_id FK
     varchar name
     varchar slug
     text description
@@ -106,6 +73,7 @@ erDiagram
   major_subject_groups {
     varchar id PK
     varchar major_id FK
+    int4 group_index
     varchar parent_id
     text name
     numeric minimum_credit
@@ -116,7 +84,6 @@ erDiagram
   major_subjects {
     varchar major_subject_group_id PK,FK
     varchar subject_id PK,FK
-    int4 credit
   }
 
   majors {
@@ -140,9 +107,9 @@ erDiagram
   opening_subject_assignments {
     varchar id PK
     varchar opening_subject_id FK
-    varchar professor_id FK
     varchar name
     numeric full_score
+    numeric percentage
     timestamptz created_at
     timestamptz updated_at
   }
@@ -152,6 +119,12 @@ erDiagram
     varchar opening_subject_id FK
     varchar major_id FK
     varchar academic_year_id FK
+  }
+
+  opening_subject_professors {
+    varchar id PK
+    varchar opening_subject_id FK
+    varchar professor_id FK
   }
 
   opening_subject_schedules {
@@ -184,23 +157,16 @@ erDiagram
 
   opening_subjects {
     varchar id PK
-    varchar semester_term_id FK
     varchar subject_id FK
+    varchar semester_id FK
     int4 subject_capacity
     jsonb grading_criteria
-    int4 credit
     timestamptz created_at
     timestamptz updated_at
   }
 
-  opening_subjects_professors {
-    varchar id PK
-    varchar opening_subject_id FK
-    varchar professor_id FK
-  }
-
   professors {
-    varchar account_id PK,FK
+    varchar user_id PK,FK
     text description
   }
 
@@ -208,22 +174,25 @@ erDiagram
     varchar id PK
     varchar building_id FK
     text name
-    text description
     room_type room_type
     int4 capacity
     int4 floor
+    timestamptz created_at
+    timestamptz updated_at
   }
 
-  semester_terms {
+  semester_date_names {
     varchar id PK
-    varchar semester_id FK
-    timestamptz subject_registration_start
-    timestamptz subject_registration_end
+    varchar name
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  semester_dates {
+    varchar semester_date_name_id PK,FK
+    varchar semester_id PK,FK
     timestamptz start
     timestamptz end
-    timestamptz exam_start
-    timestamptz exam_end
-    semester_exam_type exam_type
     timestamptz created_at
     timestamptz updated_at
   }
@@ -238,7 +207,7 @@ erDiagram
   }
 
   students {
-    varchar account_id PK,FK
+    varchar user_id PK,FK
     varchar major_id FK
     varchar academic_year_id FK
     varchar professor_id FK
@@ -254,13 +223,14 @@ erDiagram
     varchar id PK
     text name
     text description
+    int4 credit
     timestamptz created_at
     timestamptz updated_at
   }
 
   transactions {
     varchar id PK
-    varchar account_id FK
+    varchar user_id FK
     numeric price
     payment_status payment_status
     jsonb transaction_type
@@ -268,16 +238,42 @@ erDiagram
     timestamptz updated_at
   }
 
-    accounts ||--o{ account_names : links
-    accounts ||--o{ account_sessions : links
-    faculties ||--o{ curriculums : links
+  user_names {
+    varchar id PK
+    varchar user_id FK
+    varchar name_language
+    text first_name
+    text middle_name
+    text last_name
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
+  user_sessions {
+    varchar id PK
+    varchar user_id FK
+    timestamptz expires
+    bool fresh
+  }
+
+  users {
+    varchar id PK
+    varchar username
+    varchar email
+    varchar password
+    role role
+    date birthdate
+    timestamptz created_at
+    timestamptz updated_at
+  }
+
     forums ||--o{ forum_members : links
-    accounts ||--o{ forum_members : links
+    users ||--o{ forum_members : links
     forum_roles ||--o{ forum_members : links
     forum_posts ||--o{ forum_post_comments : links
-    accounts ||--o{ forum_post_comments : links
-    accounts ||--o{ forum_posts : links
-    accounts ||--o{ forums : links
+    users ||--o{ forum_post_comments : links
+    users ||--o{ forum_posts : links
+    users ||--o{ forums : links
     majors ||--o{ major_subject_groups : links
     major_subject_groups ||--o{ major_subjects : links
     subjects ||--o{ major_subjects : links
@@ -285,27 +281,29 @@ erDiagram
     opening_subjects ||--o{ opening_subject_additional_eligible_students : links
     students ||--o{ opening_subject_additional_eligible_students : links
     opening_subjects ||--o{ opening_subject_assignments : links
-    professors ||--o{ opening_subject_assignments : links
     opening_subjects ||--o{ opening_subject_eligible_majors : links
     majors ||--o{ opening_subject_eligible_majors : links
     academic_years ||--o{ opening_subject_eligible_majors : links
+    opening_subjects ||--o{ opening_subject_professors : links
+    professors ||--o{ opening_subject_professors : links
     opening_subjects ||--o{ opening_subject_schedules : links
     rooms ||--o{ opening_subject_schedules : links
     opening_subject_student_enrollments ||--o{ opening_subject_student_assignments : links
     opening_subject_assignments ||--o{ opening_subject_student_assignments : links
     opening_subjects ||--o{ opening_subject_student_enrollments : links
     students ||--o{ opening_subject_student_enrollments : links
-    semester_terms ||--o{ opening_subjects : links
     subjects ||--o{ opening_subjects : links
-    opening_subjects ||--o{ opening_subjects_professors : links
-    professors ||--o{ opening_subjects_professors : links
-    accounts ||--o{ professors : links
+    semesters ||--o{ opening_subjects : links
+    users ||--o{ professors : links
     buildings ||--o{ rooms : links
-    semesters ||--o{ semester_terms : links
+    semester_date_names ||--o{ semester_dates : links
+    semesters ||--o{ semester_dates : links
     academic_years ||--o{ semesters : links
-    accounts ||--o{ students : links
+    users ||--o{ students : links
     majors ||--o{ students : links
     academic_years ||--o{ students : links
     professors ||--o{ students : links
-    accounts ||--o{ transactions : links
+    users ||--o{ transactions : links
+    users ||--o{ user_names : links
+    users ||--o{ user_sessions : links
 ```

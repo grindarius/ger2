@@ -1,4 +1,4 @@
-create table opening_subjects_professors (
+create table opening_subject_professors (
     id varchar(32) not null unique,
     opening_subject_id varchar(32) not null,
     professor_id varchar(32) not null,

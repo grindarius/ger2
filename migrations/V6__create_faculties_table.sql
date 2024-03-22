@@ -5,3 +5,5 @@ create table faculties (
     updated_at timestamptz not null default now(),
     primary key (id)
 );
+
+comment on table faculties is 'Stores information about faculty of the school like ''Faculty of Science'' or ''Faculty of Social Science''';

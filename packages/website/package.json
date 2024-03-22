@@ -26,7 +26,7 @@
     "@builder.io/qwik-city": "^1.4.4",
     "@playwright/test": "1.41.2",
     "autoprefixer": "^10.4.17",
-    "lucia": "^3.0.1",
+    "lucia": "^3.1.1",
     "lucia-auth-postgres-redis-session-adapter": "workspace:^",
     "postcss": "^8.4.35",
     "prettier": "3.2.5",

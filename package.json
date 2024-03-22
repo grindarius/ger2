@@ -18,10 +18,10 @@
     "copy-server-types": "cd ./packages/scripts && node ./src/move-typings.mjs"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.5.1",
-    "@tsconfig/node-lts": "^18.12.3",
-    "@tsconfig/strictest": "^2.0.1",
+    "@biomejs/biome": "^1.6.1",
+    "@tsconfig/node-lts": "^20.1.1",
+    "@tsconfig/strictest": "^2.0.3",
     "@types/node": "^20.10.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }

@@ -1,5 +1,5 @@
 set windows-shell := ["cmd.exe", "/c"]
-set shel := ["/Users/grindarius/.cargo/bin/nu", "-c"]
+set shell := ["/bin/sh", "-c"]
 
 # Start local database server
 docker-up:
@@ -18,13 +18,13 @@ copy-server-types:
   cp -r ./packages/api/bindings/* ./packages/website/src/types/server
 
 reset:
-  cd packages/scripts && node --loader ts-node/esm ./src/reset.ts
+  cd packages/scripts && pnpm tsx ./src/reset.ts
 
 migrate:
   refinery migrate -c ./packages/api/refinery.toml -p ./migrations
 
 seed:
-  cd packages/scripts && node --loader ts-node/esm ./src/seed.ts
+  cd packages/scripts && pnpm tsx ./src/seed2.ts
 
 dev-api:
   cd packages/api && cargo watch -x run
