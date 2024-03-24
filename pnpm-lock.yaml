@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@biomejs/biome':
-        specifier: ^1.6.1
-        version: 1.6.1
+        specifier: ^1.6.2
+        version: 1.6.2
       '@tsconfig/node-lts':
         specifier: ^20.1.1
         version: 20.1.1
@@ -18,11 +18,11 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
       '@types/node':
-        specifier: ^20.10.5
-        version: 20.10.5
+        specifier: ^20.11.30
+        version: 20.11.30
       typescript:
-        specifier: ^5.4.2
-        version: 5.4.2
+        specifier: ^5.4.3
+        version: 5.4.3
 
   packages/lucia-auth-postgres-redis-session-adapter:
     dependencies:
@@ -121,7 +121,7 @@ importers:
       redis:
         specifier: ^4.6.12
         version: 4.6.12
-      ulid:
+      ulidx:
         specifier: ^2.3.0
         version: 2.3.0
       undici:
@@ -130,10 +130,10 @@ importers:
     devDependencies:
       '@builder.io/qwik':
         specifier: ^1.4.4
-        version: 1.4.4(@types/node@20.10.5)(undici@6.6.2)
+        version: 1.4.4(undici@6.6.2)
       '@builder.io/qwik-city':
         specifier: ^1.4.4
-        version: 1.4.4(@types/node@20.10.5)
+        version: 1.4.4
       '@playwright/test':
         specifier: 1.41.2
         version: 1.41.2
@@ -157,10 +157,10 @@ importers:
         version: 3.4.1
       vite:
         specifier: 5.1.1
-        version: 5.1.1(@types/node@20.10.5)
+        version: 5.1.1
       vite-tsconfig-paths:
         specifier: 4.3.1
-        version: 4.3.1(typescript@5.4.2)(vite@5.1.1)
+        version: 4.3.1(vite@5.1.1)
 
 packages:
 
@@ -183,24 +183,24 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /@biomejs/biome@1.6.1:
-    resolution: {integrity: sha512-SILQvA2S0XeaOuu1bivv6fQmMo7zMfr2xqDEN+Sz78pGbAKZnGmg0emsXjQWoBY/RVm9kPCgX+aGEpZZTYaM7w==}
+  /@biomejs/biome@1.6.2:
+    resolution: {integrity: sha512-vw6JhYnpLRRDaawI+d7NaQj17F7LSSJrgT03IQUETwRUG3Q1/a4ByJRphTVXPuhiTnaKVmUlEF3I5NSitcdD+g==}
     engines: {node: '>=14.*'}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 1.6.1
-      '@biomejs/cli-darwin-x64': 1.6.1
-      '@biomejs/cli-linux-arm64': 1.6.1
-      '@biomejs/cli-linux-arm64-musl': 1.6.1
-      '@biomejs/cli-linux-x64': 1.6.1
-      '@biomejs/cli-linux-x64-musl': 1.6.1
-      '@biomejs/cli-win32-arm64': 1.6.1
-      '@biomejs/cli-win32-x64': 1.6.1
+      '@biomejs/cli-darwin-arm64': 1.6.2
+      '@biomejs/cli-darwin-x64': 1.6.2
+      '@biomejs/cli-linux-arm64': 1.6.2
+      '@biomejs/cli-linux-arm64-musl': 1.6.2
+      '@biomejs/cli-linux-x64': 1.6.2
+      '@biomejs/cli-linux-x64-musl': 1.6.2
+      '@biomejs/cli-win32-arm64': 1.6.2
+      '@biomejs/cli-win32-x64': 1.6.2
     dev: true
 
-  /@biomejs/cli-darwin-arm64@1.6.1:
-    resolution: {integrity: sha512-KlvY00iB9T/vFi4m/GXxEyYkYnYy6aw06uapzUIIdiMMj7I/pmZu7CsZlzWdekVD0j+SsQbxdZMsb0wPhnRSsg==}
+  /@biomejs/cli-darwin-arm64@1.6.2:
+    resolution: {integrity: sha512-2sGcNO1wDuQ6r97/SDaPzP3ehrCL7qHXpVggcB/OonbVBEamqIkN1tHsID/snnX3R2ax2QTarjb4bQ+1BpEWzA==}
     engines: {node: '>=14.*'}
     cpu: [arm64]
     os: [darwin]
@@ -208,8 +208,8 @@ packages:
     dev: true
     optional: true
 
-  /@biomejs/cli-darwin-x64@1.6.1:
-    resolution: {integrity: sha512-jP4E8TXaQX5e3nvRJSzB+qicZrdIDCrjR0sSb1DaDTx4JPZH5WXq/BlTqAyWi3IijM+IYMjWqAAK4kOHsSCzxw==}
+  /@biomejs/cli-darwin-x64@1.6.2:
+    resolution: {integrity: sha512-qtHDXIHd7eRIHv41XdG6pt1dbw+qiD0OgLlJn5rvW20kSSFfLxW8yc4upcC1PzlruP1BQpKFec3r5rx1duTtzw==}
     engines: {node: '>=14.*'}
     cpu: [x64]
     os: [darwin]
@@ -217,8 +217,8 @@ packages:
     dev: true
     optional: true
 
-  /@biomejs/cli-linux-arm64-musl@1.6.1:
-    resolution: {integrity: sha512-YdkDgFecdHJg7PJxAMaZIixVWGB6St4yH08BHagO0fEhNNiY8cAKEVo2mcXlsnEiTMpeSEAY9VxLUrVT3IVxpw==}
+  /@biomejs/cli-linux-arm64-musl@1.6.2:
+    resolution: {integrity: sha512-ej3Jj6O9KUSCJUWqVs+9aOo6IcRIALHaGFB20wnQTWtRMFhu1PluM48MrQtMKputgdk5/CopQ662IdKf1PeuEg==}
     engines: {node: '>=14.*'}
     cpu: [arm64]
     os: [linux]
@@ -226,8 +226,8 @@ packages:
     dev: true
     optional: true
 
-  /@biomejs/cli-linux-arm64@1.6.1:
-    resolution: {integrity: sha512-nxD1UyX3bWSl/RSKlib/JsOmt+652/9yieogdSC/UTLgVCZYOF7u8L/LK7kAa0Y4nA8zSPavAQTgko7mHC2ObA==}
+  /@biomejs/cli-linux-arm64@1.6.2:
+    resolution: {integrity: sha512-e1FJ59lx84QoqQgu1/uzAPIcYGcTkZY/m6Aj8ZHwi7KoWAE5xSogximFHNQ82lS4qkUfG7KaPTbYT6cGJjN9jQ==}
     engines: {node: '>=14.*'}
     cpu: [arm64]
     os: [linux]
@@ -235,8 +235,8 @@ packages:
     dev: true
     optional: true
 
-  /@biomejs/cli-linux-x64-musl@1.6.1:
-    resolution: {integrity: sha512-aSISIDmxq04NNy7tm4x9rBk2vH0ub2VDIE4outEmdC2LBtEJoINiphlZagx/FvjbsqUfygent9QUSn0oREnAXg==}
+  /@biomejs/cli-linux-x64-musl@1.6.2:
+    resolution: {integrity: sha512-uOVt4UBkFTFtdXgPX3QuSHRPVIvj07FP0P7A0UOP++idd0r9Bxyt5iIBaAORM3eQyGQqzCGPln1GuM6GalYKzg==}
     engines: {node: '>=14.*'}
     cpu: [x64]
     os: [linux]
@@ -244,8 +244,8 @@ packages:
     dev: true
     optional: true
 
-  /@biomejs/cli-linux-x64@1.6.1:
-    resolution: {integrity: sha512-BYAzenlMF3QdngjNFw9QVBXKGNzeecqwF3pwDgUGEvU7OJpn1/lyVkJVxYPtVGRNdjQ9e6l/s8NjKuBpW/ZR4Q==}
+  /@biomejs/cli-linux-x64@1.6.2:
+    resolution: {integrity: sha512-S6Wc5YX6aLDLMzwlDmiw/kjK62Ex+xzE432M5ge9q8tSCluGeHIzrenrJlu8E0xPG2FEipDaK4iqwnjS9O6e2A==}
     engines: {node: '>=14.*'}
     cpu: [x64]
     os: [linux]
@@ -253,8 +253,8 @@ packages:
     dev: true
     optional: true
 
-  /@biomejs/cli-win32-arm64@1.6.1:
-    resolution: {integrity: sha512-/eCHQKZ1kEawUpkSuXq4urtxMsD1P1678OPG3zNKt3ru16AqqspLdO3jzBe3k74xCPYnQ36e9Yqc97Mo0qgPtg==}
+  /@biomejs/cli-win32-arm64@1.6.2:
+    resolution: {integrity: sha512-5zuxNyvnKy7oLN7KLkqcYpsMKGubfMaeQ+RqnpFsmrofQAxpOo6EL/TyJvr8g533Z0a2/cQ/ALqnwl0mN3KQoQ==}
     engines: {node: '>=14.*'}
     cpu: [arm64]
     os: [win32]
@@ -262,8 +262,8 @@ packages:
     dev: true
     optional: true
 
-  /@biomejs/cli-win32-x64@1.6.1:
-    resolution: {integrity: sha512-5TUZbzBwnDLFxLVGEPsorNi6eC2Gt+z4Oei9Qvq0M/4c4/mjZ96ABgwao/tMxf4ZBr/qyy2YdvF+gX9Rc+xC0A==}
+  /@biomejs/cli-win32-x64@1.6.2:
+    resolution: {integrity: sha512-O3nf09/m3cb3/U3M+uO4l236iTZr4F4SmLNG3okKXPfyZqKLNnF6OjdTHOYEiNXnGEtlRuUeemqb3vht9JkXaw==}
     engines: {node: '>=14.*'}
     cpu: [x64]
     os: [win32]
@@ -271,7 +271,7 @@ packages:
     dev: true
     optional: true
 
-  /@builder.io/qwik-city@1.4.4(@types/node@20.10.5):
+  /@builder.io/qwik-city@1.4.4:
     resolution: {integrity: sha512-gyhfZGnnEfSJhZYjamuR40LruDwLkKy/k53HwmBIAx+KsqsIjjqY8Og3jNkrM5nbGIZ1GxaidOCxJEK7adF59g==}
     engines: {node: '>=16.8.0 <18.0.0 || >=18.11'}
     dependencies:
@@ -281,7 +281,7 @@ packages:
       svgo: 3.2.0
       undici: 6.6.2
       vfile: 6.0.1
-      vite: 5.1.1(@types/node@20.10.5)
+      vite: 5.1.1
       vite-imagetools: 6.2.9
       zod: 3.22.4
     transitivePeerDependencies:
@@ -296,7 +296,7 @@ packages:
       - terser
     dev: true
 
-  /@builder.io/qwik@1.4.4(@types/node@20.10.5)(undici@6.6.2):
+  /@builder.io/qwik@1.4.4(undici@6.6.2):
     resolution: {integrity: sha512-FsiUEYS0jLXEh1Rt/acjUhZpIsWVkP6sl2sWAINWqWvDcr571g8+l5kstG0lsJBrrJTkGQb66pU+RqxdVAWF9g==}
     engines: {node: '>=16.8.0 <18.0.0 || >=18.11'}
     hasBin: true
@@ -305,7 +305,7 @@ packages:
     dependencies:
       csstype: 3.1.3
       undici: 6.6.2
-      vite: 5.1.1(@types/node@20.10.5)
+      vite: 5.1.1
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -1803,8 +1803,8 @@ packages:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: true
 
-  /@types/node@20.10.5:
-    resolution: {integrity: sha512-nNPsNE65wjMxEKI93yOP+NPGGBJz/PoN3kZsVLee0XMiJolxSekEVD8wRwBUBqkwc7UWop0edW50yrCQW4CyRw==}
+  /@types/node@20.11.30:
+    resolution: {integrity: sha512-dHM6ZxwlmuZaRmUPfv1p+KrdD1Dci04FbdEm/9wEMouFqxYoFl5aMkt0VMAUtYRQDyYvD41WJLukhq/ha3YuTw==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -2151,6 +2151,18 @@ packages:
   /dayjs@1.11.10:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
     dev: false
+
+  /debug@4.3.4:
+    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+    dev: true
 
   /debug@4.3.4(supports-color@8.1.1):
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -3146,7 +3158,7 @@ packages:
     resolution: {integrity: sha512-uD66tJj54JLYq0De10AhWycZWGQNUvDI55xPgk2sQM5kn1JYlhbCMTtEeT27+vAhW2FBQxLlOmS3pmA7/2z4aA==}
     dependencies:
       '@types/debug': 4.1.8
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.4
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.1.0
       micromark-factory-space: 1.1.0
@@ -3814,7 +3826,7 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
-  /tsconfck@3.0.2(typescript@5.4.2):
+  /tsconfck@3.0.2:
     resolution: {integrity: sha512-6lWtFjwuhS3XI4HsX4Zg0izOI3FU/AI9EGVlPEUMDIhvLPMD4wkiof0WCoDgW7qY+Dy198g4d9miAqUHWHFH6Q==}
     engines: {node: ^18 || >=20}
     hasBin: true
@@ -3823,8 +3835,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-    dependencies:
-      typescript: 5.4.2
     dev: true
 
   /tslib@2.6.2:
@@ -3859,16 +3869,11 @@ packages:
     engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
     dev: false
 
-  /typescript@5.4.2:
-    resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
+  /typescript@5.4.3:
+    resolution: {integrity: sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
-
-  /ulid@2.3.0:
-    resolution: {integrity: sha512-keqHubrlpvT6G2wH0OEfSW4mquYRcbe/J8NMmveoQOjUqmo+hXtO+ORCpWhdbZ7k72UtY61BL7haGxW6enBnjw==}
-    hasBin: true
-    dev: false
 
   /ulidx@2.3.0:
     resolution: {integrity: sha512-36piWNqcdp9hKlQewyeehCaALy4lyx3FodsCxHuV6i0YdexSkjDOubwxEVr2yi4kh62L/0MgyrxqG4K+qtovnw==}
@@ -4034,7 +4039,7 @@ packages:
       - rollup
     dev: true
 
-  /vite-tsconfig-paths@4.3.1(typescript@5.4.2)(vite@5.1.1):
+  /vite-tsconfig-paths@4.3.1(vite@5.1.1):
     resolution: {integrity: sha512-cfgJwcGOsIxXOLU/nELPny2/LUD/lcf1IbfyeKTv2bsupVbTH/xpFtdQlBmIP1GEK2CjjLxYhFfB+QODFAx5aw==}
     peerDependencies:
       vite: '*'
@@ -4042,16 +4047,16 @@ packages:
       vite:
         optional: true
     dependencies:
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.4
       globrex: 0.1.2
-      tsconfck: 3.0.2(typescript@5.4.2)
-      vite: 5.1.1(@types/node@20.10.5)
+      tsconfck: 3.0.2
+      vite: 5.1.1
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: true
 
-  /vite@5.1.1(@types/node@20.10.5):
+  /vite@5.1.1:
     resolution: {integrity: sha512-wclpAgY3F1tR7t9LL5CcHC41YPkQIpKUGeIuT8MdNwNZr6OqOTLs7JX5vIHAtzqLWXts0T+GDrh9pN2arneKqg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4079,7 +4084,6 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.10.5
       esbuild: 0.19.11
       postcss: 8.4.35
       rollup: 4.9.0

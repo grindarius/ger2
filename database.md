@@ -89,6 +89,7 @@ erDiagram
   majors {
     varchar id PK
     varchar curriculum_id FK
+    varchar faculty_id FK
     varchar academic_year_id
     text name
     numeric minimum_gpa
@@ -278,6 +279,7 @@ erDiagram
     major_subject_groups ||--o{ major_subjects : links
     subjects ||--o{ major_subjects : links
     curriculums ||--o{ majors : links
+    faculties ||--o{ majors : links
     opening_subjects ||--o{ opening_subject_additional_eligible_students : links
     students ||--o{ opening_subject_additional_eligible_students : links
     opening_subjects ||--o{ opening_subject_assignments : links

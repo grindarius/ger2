@@ -16,7 +16,8 @@
     "enabled": true,
     "formatWithErrors": true,
     "indentStyle": "space",
-    "lineWidth": 100
+    "lineWidth": 100,
+    "lineEnding": "lf"
   },
   "javascript": {
     "formatter": {

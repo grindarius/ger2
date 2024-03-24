@@ -1,10 +1,10 @@
+import { type RequestEventLoader, routeLoader$ } from '@builder.io/qwik-city'
 import { PostgresJsAdapter } from '@lucia-auth/adapter-postgresql'
-import { Lucia, TimeSpan } from 'lucia'
+import { Kysely } from 'kysely'
+import { PostgresJSDialect } from 'kysely-postgres-js'
+import { Lucia, type Session, TimeSpan, type User } from 'lucia'
 import postgres from 'postgres'
-import { AccountSessions, Accounts } from '~/types/database'
-
-import { webcrypto } from 'node:crypto'
-globalThis.crypto = webcrypto as Crypto
+import type { Database, Users } from '~/types/database'
 
 export const sql = postgres({
   host: '127.0.0.1',
@@ -14,7 +14,13 @@ export const sql = postgres({
   db: 'ger2'
 })
 
-const adapter = new PostgresJsAdapter(sql, { user: 'accounts', session: 'account_sessions' })
+export const k = new Kysely<Database>({
+  dialect: new PostgresJSDialect({
+    postgres: sql
+  })
+})
+
+const adapter = new PostgresJsAdapter(sql, { user: 'users', session: 'user_sessions' })
 export const lucia = new Lucia(adapter, {
   sessionExpiresIn: new TimeSpan(1, 'w'),
   sessionCookie: {
@@ -22,15 +28,8 @@ export const lucia = new Lucia(adapter, {
       secure: process.env?.NODE_ENV === 'production'
     }
   },
-  getSessionAttributes: attributes => {
-    return {
-      account_id: attributes.account_id,
-      expires: attributes.expires
-    }
-  },
   getUserAttributes: attributes => {
     return {
-      id: attributes.id,
       role: attributes.role,
       username: attributes.username,
       email: attributes.email
@@ -41,7 +40,34 @@ export const lucia = new Lucia(adapter, {
 declare module 'lucia' {
   interface Register {
     Lucia: typeof lucia
-    DatabaseUserAttributes: Accounts
-    DatabaseSessionAttributes: AccountSessions
+    DatabaseUserAttributes: Omit<Users, 'id'>
   }
+}
+
+export const useSessionLoader = routeLoader$(async event => {
+  return await getSession(event)
+})
+
+export const getSession = async (
+  event: RequestEventLoader
+): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
+  const sessionId = event.cookie.get(lucia.sessionCookieName)
+
+  if (sessionId == null) {
+    return {
+      user: null,
+      session: null
+    }
+  }
+
+  const result = await lucia.validateSession(sessionId.value)
+  if (result.session?.fresh) {
+    event.headers.append('Set-Cookie', lucia.createSessionCookie(result.session.id).serialize())
+  }
+  if (result.session == null) {
+    // Create new cookie to expire the current one immediately
+    event.headers.append('Set-Cookie', lucia.createBlankSessionCookie().serialize())
+  }
+
+  return result
 }
