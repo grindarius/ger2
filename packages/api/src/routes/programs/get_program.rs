@@ -12,9 +12,7 @@ use utoipa::{IntoParams, ToSchema};
 
 use crate::{
     database::schema::{AcademicYearsIden, CurriculumsIden, MajorsIden},
-    errors::{
-        HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE, EXAMPLE_PROGRAM_DATA_NOT_FOUND_RESPONSE,
-    },
+    errors::{HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE, EXAMPLE_NOT_FOUND_RESPONSE},
     state::SharedState,
 };
 
@@ -82,10 +80,10 @@ impl Default for GetProgramResponseBody {
             example = json!(GetProgramResponseBody::default())
         ),
         (
-            status = 404,
+            status = 204,
             description = "program description for given major_id not found",
             body = ErrorResponse,
-            example = json!(*EXAMPLE_PROGRAM_DATA_NOT_FOUND_RESPONSE)
+            example = json!(*EXAMPLE_NOT_FOUND_RESPONSE)
         ),
         (
             status = "5XX",

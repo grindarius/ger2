@@ -1,6 +1,7 @@
 create table majors (
     id varchar(32) not null unique,
     curriculum_id varchar(32) not null,
+    faculty_id varchar(32) not null,
     academic_year_id varchar(32) not null,
     name text not null,
     minimum_gpa numeric(3, 2) not null,
@@ -9,7 +10,8 @@ create table majors (
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
     primary key (id),
-    foreign key (curriculum_id) references curriculums(id)
+    foreign key (curriculum_id) references curriculums(id),
+    foreign key (faculty_id) references faculties(id)
 );
 
 comment on table majors is 'Stores information about a major like ''Computer Science''. Also stores information about the minimum GPA needed to finish, how many years to study for and how many credits to take.';

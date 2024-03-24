@@ -39,23 +39,9 @@ impl ErrorResponse {
 }
 
 pub enum HttpError {
-    InternalServerError {
-        cause: String,
-    },
-    QueryNotFound {
-        field: &'static str,
-    },
-    InvalidQueryParameterEmpty {
-        field: &'static str,
-    },
-    TooManyRequests {
-        wait_time: u64,
-    },
-    UnableToExtractKey,
-    GovernorUnknownError {
-        code: StatusCode,
-        message: Option<String>,
-    },
+    InternalServerError { cause: String },
+    QueryNotFound { field: &'static str },
+    InvalidQueryParameterEmpty { field: &'static str },
 }
 
 impl IntoResponse for HttpError {
@@ -74,24 +60,6 @@ impl IntoResponse for HttpError {
                 format!("query parameter \"{}\" cannot be empty string", field),
                 None,
             ),
-            HttpError::TooManyRequests { wait_time } => {
-                let mut headers = HeaderMap::new();
-                headers.insert(HeaderName::from_static("retry-after"), wait_time.into());
-
-                (
-                    StatusCode::TOO_MANY_REQUESTS,
-                    "too many requests".to_owned(),
-                    Some(headers),
-                )
-            }
-            HttpError::UnableToExtractKey => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                "unable to extract key".to_owned(),
-                None,
-            ),
-            HttpError::GovernorUnknownError { code, message } => {
-                (code, format!("unknown governor error: {:?}", message), None)
-            }
         };
 
         let response = ErrorResponse::new(status, message);
@@ -119,8 +87,7 @@ impl From<tokio_postgres::error::Error> for HttpError {
     }
 }
 
-error_example!(PROGRAM_DATA_NOT_FOUND, NOT_FOUND, "program data not found");
-error_example!(NOT_FOUND, NOT_FOUND, "\"x\" not found");
+error_example!(NOT_FOUND, NO_CONTENT, "\"x\" not found");
 error_example!(
     INTERNAL_SERVER_ERROR,
     INTERNAL_SERVER_ERROR,

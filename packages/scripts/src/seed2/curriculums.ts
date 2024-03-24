@@ -1,4 +1,4 @@
-import type { NewCurriculums } from "../types/index.js";
+import type { NewCurriculums } from '../types/index.js'
 
 export const curriculums: Array<NewCurriculums> = [
   {

@@ -228,6 +228,7 @@ pub struct MajorSubjects {
 pub struct Majors {
     id: ::std::string::String,
     curriculum_id: ::std::string::String,
+    faculty_id: ::std::string::String,
     academic_year_id: ::std::string::String,
     name: ::std::string::String,
     minimum_gpa: ::rust_decimal::Decimal,

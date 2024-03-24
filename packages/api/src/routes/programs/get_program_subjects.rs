@@ -235,12 +235,12 @@ pub async fn handler(
 
     let subjects_tree = subjects_tree
         .iter()
-        .map(|subject| GetProgramSubjectsResponseBodyTree::try_from_row(subject))
+        .map(GetProgramSubjectsResponseBodyTree::try_from_row)
         .collect::<Result<Vec<GetProgramSubjectsResponseBodyTree>, tokio_postgres::Error>>()?;
 
     let subjects = subjects
         .iter()
-        .map(|subject| GetProgramSubjectsResponseBodySubject::try_from_row(subject))
+        .map(GetProgramSubjectsResponseBodySubject::try_from_row)
         .collect::<Result<Vec<GetProgramSubjectsResponseBodySubject>, tokio_postgres::Error>>()?;
 
     Ok(Json(GetProgramSubjectsResponseBody {

@@ -142,8 +142,7 @@ pub async fn handler(State(state): State<SharedState>) -> Result<impl IntoRespon
         .join(
             JoinType::InnerJoin,
             FacultiesIden::Table,
-            Expr::col((CurriculumsIden::Table, CurriculumsIden::FacultyId))
-                .equals(FacultiesIden::Id),
+            Expr::col((MajorsIden::Table, MajorsIden::FacultyId)).equals(FacultiesIden::Id),
         )
         .join(
             JoinType::InnerJoin,
@@ -153,11 +152,10 @@ pub async fn handler(State(state): State<SharedState>) -> Result<impl IntoRespon
         );
     let querystring = query.to_string(PostgresQueryBuilder);
 
-    let statement = client.prepare(&querystring).await?;
-    let rows = client.query(&statement, &[]).await?;
+    let rows = client.query(&querystring, &[]).await?;
     let curriculums = rows
         .iter()
-        .map(|r| GetProgramsResponseBodyInner::try_from_row(r))
+        .map(GetProgramsResponseBodyInner::try_from_row)
         .collect::<Result<Vec<GetProgramsResponseBodyInner>, tokio_postgres::Error>>()?;
 
     let mut headers = HeaderMap::new();

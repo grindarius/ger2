@@ -138,6 +138,7 @@ export type UpdateMajorSubjects = Updateable<MajorSubjectsTable>
 export interface MajorsTable {
   id: ColumnType<string, string, never>
   curriculum_id: ColumnType<string, string, string | undefined>
+  faculty_id: ColumnType<string, string, string | undefined>
   academic_year_id: ColumnType<string, string, string | undefined>
   name: ColumnType<string, string, string | undefined>
   minimum_gpa: ColumnType<number, number, number | undefined>
