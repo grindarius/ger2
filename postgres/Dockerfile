@@ -12,4 +12,4 @@ RUN chmod +x ./build-pgroonga.sh
 RUN /build-pgroonga.sh ${PGROONGA_VERSION} ${GROONGA_VERSION}
 RUN rm -f build-pgroonga.sh
 
-RUN apk del .pgroonga-build-dependencies 
+RUN apk del .pgroonga-build-dependencies

@@ -9,6 +9,9 @@
       "recommended": true,
       "security": {
         "noDangerouslySetInnerHtml": "warn"
+      },
+      "a11y": {
+        "noNoninteractiveTabindex": "warn"
       }
     }
   },
