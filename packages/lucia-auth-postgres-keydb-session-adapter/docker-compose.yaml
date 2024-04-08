@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ger2_lucia_postgres_server
+    volumes:
+      - lucia_postgres_data:/var/lib/postgresql/data
+    ports:
+      - 8475:5432
+    environment:
+      - POSTGRES_DB=ger2_lucia
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  keydb:
+    image: eqalpha/keydb:alpine
+    container_name: ger2_lucia_keydb_server
+    restart: always
+    command: keydb-server --appendonly no
+    ports:
+      - 6958:6379
+    volumes:
+      - ./data:/data
+
+volumes:
+  lucia_postgres_data:
