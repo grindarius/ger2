@@ -22,16 +22,15 @@ services:
     ports:
       - 3792:9090
 
-  redis:
-    image: redis:7-alpine
-    container_name: ger2-redis-server
+  keydb:
+    image: eqalpha/keydb:alpine
+    container_name: ger2-keydb-server
     restart: always
-    command: redis-server --appendonly no
+    command: keydb-server --appendonly no
     ports:
       - 11329:6379
     volumes:
-      - redis_data:/data
+      - ./keydb-data:/data
 
 volumes:
   postgres_data:
-  redis_data:
