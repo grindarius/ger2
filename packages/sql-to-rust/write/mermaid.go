@@ -42,7 +42,7 @@ func WriteToMermaidSchema(enums []types.DatabaseEnum, tables []types.DatabaseTab
 		return first < second
 	})
 
-	file, err := os.Create(filepath.Join("..", "..", "database.md"))
+	file, err := os.Create(filepath.Join("..", "..", "docs", "database.md"))
 	if err != nil {
 		log.Panic("error: cannot create new database.md file")
 	}
@@ -61,14 +61,14 @@ func WriteToMermaidSchema(enums []types.DatabaseEnum, tables []types.DatabaseTab
 		file.WriteString("  }\n\n")
 	}
 
-  for _, table := range tables {
-    for _, col := range table.GetColumns() {
-      if col.GetForeignKey() {
-        fkTableName := col.GetForeignKeyTableName()
-        file.WriteString(fmt.Sprintf("    %s ||--o{ %s : links\n", fkTableName, table.GetName()))
-      }
-    }
-  }
+	for _, table := range tables {
+		for _, col := range table.GetColumns() {
+			if col.GetForeignKey() {
+				fkTableName := col.GetForeignKeyTableName()
+				file.WriteString(fmt.Sprintf("    %s ||--o{ %s : links\n", fkTableName, table.GetName()))
+			}
+		}
+	}
 
 	file.WriteString("```\n")
 }
