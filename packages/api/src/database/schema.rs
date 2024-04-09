@@ -428,8 +428,7 @@ pub struct UserNames {
 pub struct UserSessions {
     id: ::std::string::String,
     user_id: ::std::string::String,
-    expires: ::time::OffsetDateTime,
-    fresh: ::std::primitive::bool,
+    expires_at: ::time::OffsetDateTime,
 }
 
 #[allow(dead_code)]

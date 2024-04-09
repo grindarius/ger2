@@ -5,12 +5,10 @@ use axum::{
     response::Response,
 };
 use once_cell::sync::Lazy;
-use tower_http::classify::ServerErrorsFailureClass;
 use tracing::{field, Span};
 use tracing_appender::non_blocking::WorkerGuard;
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
 use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, EnvFilter, Registry};
-use ulid::Ulid;
 
 use crate::environment_variables::APP_NAME;
 
@@ -38,7 +36,6 @@ pub fn init_telemetry() -> WorkerGuard {
 }
 
 pub fn make_span(request: &Request) -> Span {
-    let request_id = Ulid::new();
     let uri = if let Some(path) = request.extensions().get::<OriginalUri>() {
         path.0.path()
     } else {
@@ -46,7 +43,7 @@ pub fn make_span(request: &Request) -> Span {
     };
     let method = request.method();
 
-    tracing::info_span!("http-request", %request_id, %uri, %method, latency = field::Empty)
+    tracing::info_span!("http-request", %uri, %method, elapsed_nanoseconds = field::Empty)
 }
 
 pub fn on_request(request: &Request, _span: &Span) {
@@ -55,12 +52,6 @@ pub fn on_request(request: &Request, _span: &Span) {
 
 pub fn on_response(response: &Response, latency: Duration, span: &Span) {
     let nanos = latency.as_nanos();
-    span.record("latency", nanos);
+    span.record("elapsed_nanoseconds", nanos);
     tracing::info!("response: {}", response.status());
-}
-
-pub fn on_failure(error: ServerErrorsFailureClass, latency: Duration, span: &Span) {
-    let nanos = latency.as_nanos();
-    span.record("latency", nanos);
-    tracing::error!("error: {}", error);
 }

@@ -12,7 +12,7 @@ use crate::{
     pool::init_pool,
     s3::init_s3,
     state::SharedState,
-    telemetry::{init_telemetry, make_span, on_failure, on_request, on_response},
+    telemetry::{init_telemetry, make_span, on_request, on_response},
 };
 
 mod database;
@@ -42,7 +42,6 @@ async fn main() {
     let state = SharedState::new(pool, s3);
 
     let routes = Router::new()
-        .route("/docs", get(crate::routes::docs_redirect::handler))
         .route(
             "/programs",
             get(crate::routes::programs::get_programs::handler),
@@ -59,7 +58,7 @@ async fn main() {
     let app = Router::new()
         .route("/", get(crate::routes::hello_world::handler))
         .merge(SwaggerUi::new("/docs").url("/api-docs/openapi.json", ApiDoc::openapi()))
-        .nest("/v1", routes)
+        .merge(routes)
         .layer(middleware::from_fn(require_apikey_middleware))
         .layer(
             TraceLayer::new_for_http()
@@ -68,7 +67,7 @@ async fn main() {
                 .on_response(on_response)
                 .on_body_chunk(())
                 .on_eos(())
-                .on_failure(on_failure),
+                .on_failure(()),
         )
         .with_state(state)
         .fallback(global_not_found);

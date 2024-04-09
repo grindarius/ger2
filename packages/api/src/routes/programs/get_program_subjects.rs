@@ -4,14 +4,13 @@ use axum::{
     Json,
 };
 use postgres_from_row::FromRow;
+use postgres_types::Type;
 use rust_decimal::Decimal;
-use sea_query::{Expr, PostgresQueryBuilder, Query};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use utoipa::{IntoParams, ToSchema};
 
 use crate::{
-    database::schema::{MajorSubjectGroupsIden, MajorSubjectsIden, MajorsIden, SubjectsIden},
     errors::{HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE},
     state::SharedState,
 };
@@ -135,7 +134,6 @@ pub struct GetProgramSubjectsResponseBodySubject {
 #[utoipa::path(
     get,
     path = "/programs/{major_id}/subjects",
-    context_path = "/v1",
     tag = "programs",
     operation_id = "get_program_subjects",
     params(GetProgramSubjectsRequestParams),
@@ -160,80 +158,42 @@ pub async fn handler(
 ) -> Result<impl IntoResponse, HttpError> {
     let client = state.pool.get().await?;
 
-    let mut tree_query = Query::select();
-    tree_query
-        .columns([
-            (MajorSubjectGroupsIden::Table, MajorSubjectGroupsIden::Id),
-            (
-                MajorSubjectGroupsIden::Table,
-                MajorSubjectGroupsIden::MajorId,
-            ),
-            (
-                MajorSubjectGroupsIden::Table,
-                MajorSubjectGroupsIden::ParentId,
-            ),
-            (MajorSubjectGroupsIden::Table, MajorSubjectGroupsIden::Name),
-            (
-                MajorSubjectGroupsIden::Table,
-                MajorSubjectGroupsIden::MinimumCredit,
-            ),
-        ])
-        .from(MajorSubjectGroupsIden::Table)
-        .and_where(
-            Expr::col((
-                MajorSubjectGroupsIden::Table,
-                MajorSubjectGroupsIden::MajorId,
-            ))
-            .eq(&path.major_id),
-        );
+    let tree_querystring = r##"
+        select
+            major_subject_groups.id,
+            major_subject_groups.major_id,
+            major_subject_groups.parent_id,
+            major_subject_groups.name,
+            major_subject_groups.minimum_credit
+        from major_subject_groups
+        where major_subject_groups.major_id = $1
+    "##;
 
-    let mut subjects_query = Query::select();
-    subjects_query
-        .columns([
-            (SubjectsIden::Table, SubjectsIden::Id),
-            (SubjectsIden::Table, SubjectsIden::Name),
-            (SubjectsIden::Table, SubjectsIden::Credit),
-            (SubjectsIden::Table, SubjectsIden::CreatedAt),
-        ])
-        .column((
-            MajorSubjectsIden::Table,
-            MajorSubjectsIden::MajorSubjectGroupId,
-        ))
-        .from(SubjectsIden::Table)
-        .inner_join(
-            MajorSubjectsIden::Table,
-            Expr::col((SubjectsIden::Table, SubjectsIden::Id))
-                .equals((MajorSubjectsIden::Table, MajorSubjectsIden::SubjectId)),
-        )
-        .inner_join(
-            MajorSubjectGroupsIden::Table,
-            Expr::col((
-                MajorSubjectsIden::Table,
-                MajorSubjectsIden::MajorSubjectGroupId,
-            ))
-            .equals((MajorSubjectGroupsIden::Table, MajorSubjectGroupsIden::Id)),
-        )
-        .inner_join(
-            MajorsIden::Table,
-            Expr::col((
-                MajorSubjectGroupsIden::Table,
-                MajorSubjectGroupsIden::MajorId,
-            ))
-            .equals((MajorsIden::Table, MajorsIden::Id)),
-        )
-        .and_where(Expr::col((MajorsIden::Table, MajorsIden::Id)).eq(&path.major_id));
+    let subjects_querystring = r##"
+        select
+            subjects.id,
+            subjects.name,
+            subjects.credit,
+            subjects.created_at,
+            major_subjects.major_subject_group_id
+        from subjects
+        inner join major_subjects on subjects.id = major_subjects.subject_id
+        inner join major_subject_groups on major_subjects.major_subject_group_id = major_subject_groups.id
+        inner join majors on major_subject_groups.major_id = majors.id
+        where majors.id = $1
+    "##;
 
     let tree_statement = client
-        .prepare(&tree_query.to_string(PostgresQueryBuilder))
+        .prepare_typed(tree_querystring, &[Type::VARCHAR])
         .await?;
     let subjects_statement = client
-        .prepare(&subjects_query.to_string(PostgresQueryBuilder))
+        .prepare_typed(subjects_querystring, &[Type::VARCHAR])
         .await?;
 
-    let subjects_tree = client.query(&tree_statement, &[]).await?;
-    let subjects = client.query(&subjects_statement, &[]).await?;
+    let tree = client.query(&tree_statement, &[&path.major_id]).await?;
+    let subjects = client.query(&subjects_statement, &[&path.major_id]).await?;
 
-    let subjects_tree = subjects_tree
+    let tree = tree
         .iter()
         .map(GetProgramSubjectsResponseBodyTree::try_from_row)
         .collect::<Result<Vec<GetProgramSubjectsResponseBodyTree>, tokio_postgres::Error>>()?;
@@ -243,8 +203,5 @@ pub async fn handler(
         .map(GetProgramSubjectsResponseBodySubject::try_from_row)
         .collect::<Result<Vec<GetProgramSubjectsResponseBodySubject>, tokio_postgres::Error>>()?;
 
-    Ok(Json(GetProgramSubjectsResponseBody {
-        tree: subjects_tree,
-        subjects,
-    }))
+    Ok(Json(GetProgramSubjectsResponseBody { tree, subjects }))
 }

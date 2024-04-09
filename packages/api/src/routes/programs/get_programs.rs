@@ -6,17 +6,11 @@ use axum::{
 };
 use postgres_from_row::FromRow;
 use rust_decimal::Decimal;
-use sea_query::{Alias, Expr, JoinType, PostgresQueryBuilder, Query};
 use serde::Serialize;
 use ts_rs::TS;
 use utoipa::ToSchema;
 
-use crate::{
-    database::schema::{AcademicYearsIden, CurriculumsIden, FacultiesIden, MajorsIden},
-    errors::HttpError,
-    macros::top_level_array_ts_type,
-    state::SharedState,
-};
+use crate::{errors::HttpError, macros::top_level_array_ts_type, state::SharedState};
 
 #[derive(Serialize, ToSchema)]
 #[serde(transparent)]
@@ -71,7 +65,6 @@ impl Default for GetProgramsResponseBodyInner {
 #[utoipa::path(
     get,
     path = "/programs",
-    context_path = "/v1",
     operation_id = "get_programs",
     tag = "programs",
     responses(
@@ -91,68 +84,26 @@ impl Default for GetProgramsResponseBodyInner {
 pub async fn handler(State(state): State<SharedState>) -> Result<impl IntoResponse, HttpError> {
     let client = state.pool.get().await.unwrap();
 
-    let mut query = Query::select();
-    query
-        .expr_as(
-            Expr::col((FacultiesIden::Table, FacultiesIden::Id)),
-            Alias::new("faculty_id"),
-        )
-        .expr_as(
-            Expr::col((FacultiesIden::Table, FacultiesIden::Name)),
-            Alias::new("faculty_name"),
-        )
-        .expr_as(
-            Expr::col((CurriculumsIden::Table, CurriculumsIden::Id)),
-            Alias::new("curriculum_id"),
-        )
-        .expr_as(
-            Expr::col((CurriculumsIden::Table, CurriculumsIden::Name)),
-            Alias::new("curriculum_name"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::Id)),
-            Alias::new("major_id"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::Name)),
-            Alias::new("major_name"),
-        )
-        .expr_as(
-            Expr::col((AcademicYearsIden::Table, AcademicYearsIden::Year)),
-            Alias::new("year"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::MinimumCredit)),
-            Alias::new("minimum_credit"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::YearAmount)),
-            Alias::new("year_amount"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::MinimumGpa)),
-            Alias::new("minimum_gpa"),
-        )
-        .from(MajorsIden::Table)
-        .join(
-            JoinType::InnerJoin,
-            CurriculumsIden::Table,
-            Expr::col((MajorsIden::Table, MajorsIden::CurriculumId)).equals(CurriculumsIden::Id),
-        )
-        .join(
-            JoinType::InnerJoin,
-            FacultiesIden::Table,
-            Expr::col((MajorsIden::Table, MajorsIden::FacultyId)).equals(FacultiesIden::Id),
-        )
-        .join(
-            JoinType::InnerJoin,
-            AcademicYearsIden::Table,
-            Expr::col((MajorsIden::Table, MajorsIden::AcademicYearId))
-                .equals(AcademicYearsIden::Id),
-        );
-    let querystring = query.to_string(PostgresQueryBuilder);
+    let querystring = r##"
+        select
+            majors.faculty_id,
+            faculties.name as faculty_name,
+            majors.curriculum_id,
+            curriculums.name as curriculum_name,
+            majors.id as major_id,
+            majors.name as major_name,
+            academic_years.year,
+            majors.minimum_credit,
+            majors.year_amount,
+            majors.minimum_gpa
+        from majors
+        inner join curriculums on majors.curriculum_id = curriculums.id
+        inner join faculties on majors.faculty_id = faculties.id
+        inner join academic_years on majors.academic_year_id = academic_years.id
+    "##;
 
-    let rows = client.query(&querystring, &[]).await?;
+    let statement = client.prepare(querystring).await?;
+    let rows = client.query(&statement, &[]).await?;
     let curriculums = rows
         .iter()
         .map(GetProgramsResponseBodyInner::try_from_row)

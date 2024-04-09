@@ -4,14 +4,13 @@ use axum::{
     Json,
 };
 use postgres_from_row::FromRow;
+use postgres_types::Type;
 use rust_decimal::Decimal;
-use sea_query::{Alias, Expr, JoinType, PostgresQueryBuilder, Query};
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 use utoipa::{IntoParams, ToSchema};
 
 use crate::{
-    database::schema::{AcademicYearsIden, CurriculumsIden, MajorsIden},
     errors::{HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE, EXAMPLE_NOT_FOUND_RESPONSE},
     state::SharedState,
 };
@@ -68,7 +67,6 @@ impl Default for GetProgramResponseBody {
 #[utoipa::path(
     get,
     path = "/programs/{major_id}",
-    context_path = "/v1",
     tag = "programs",
     operation_id = "get_program",
     params(GetProgramRequestParams),
@@ -98,77 +96,40 @@ pub async fn handler(
     State(state): State<SharedState>,
 ) -> Result<impl IntoResponse, HttpError> {
     let client = state.pool.get().await?;
-    let mut query = Query::select();
 
-    query
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::Id)),
-            Alias::new("id"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::Name)),
-            Alias::new("name"),
-        )
-        .expr_as(
-            Expr::col((CurriculumsIden::Table, CurriculumsIden::Id)),
-            Alias::new("curriculum_id"),
-        )
-        .expr_as(
-            Expr::col((CurriculumsIden::Table, CurriculumsIden::Name)),
-            Alias::new("curriculum_name"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::AcademicYearId)),
-            Alias::new("academic_year_id"),
-        )
-        .expr_as(
-            Expr::col((AcademicYearsIden::Table, AcademicYearsIden::Year)),
-            Alias::new("year"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::MinimumGpa)),
-            Alias::new("minimum_gpa"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::YearAmount)),
-            Alias::new("year_amount"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::MinimumCredit)),
-            Alias::new("minimum_credit"),
-        )
-        .expr_as(
-            Expr::col((MajorsIden::Table, MajorsIden::CreatedAt)),
-            Alias::new("created_at"),
-        )
-        .from(MajorsIden::Table)
-        .join(
-            JoinType::InnerJoin,
-            AcademicYearsIden::Table,
-            Expr::col((MajorsIden::Table, MajorsIden::AcademicYearId))
-                .equals((AcademicYearsIden::Table, AcademicYearsIden::Id)),
-        )
-        .join(
-            JoinType::InnerJoin,
-            CurriculumsIden::Table,
-            Expr::col((MajorsIden::Table, MajorsIden::CurriculumId))
-                .equals((CurriculumsIden::Table, CurriculumsIden::Id)),
-        )
-        .join(
-            JoinType::InnerJoin,
-            CurriculumsIden::Table,
-            Expr::col((MajorsIden::Table, MajorsIden::CurriculumId))
-                .equals((CurriculumsIden::Table, CurriculumsIden::Id)),
-        )
-        .and_where(Expr::col((MajorsIden::Table, MajorsIden::Id)).eq(&path.major_id));
-    let querystring = query.to_string(PostgresQueryBuilder);
+    let querystring = r##"
+        select
+            majors.id,
+            majors.name,
+            majors.curriculum_id,
+            curriculums.name as curriculum_name,
+            majors.academic_year_id,
+            academic_years.year,
+            majors.minimum_gpa,
+            majors.year_amount,
+            majors.minimum_credit,
+            majors.created_at,
+            majors.updated_at
+        from majors
+        inner join curriculums on majors.curriculum_id = curriculums.id
+        inner join academic_years on majors.academic_year_id = academic_years.id
+        where majors.id = $1
+    "##;
+    let statement = client.prepare_typed(querystring, &[Type::VARCHAR]).await?;
+    let row = client.query_opt(&statement, &[&path.major_id]).await?;
 
-    let statement = client.prepare(&querystring).await?;
-    let row = client
-        .query_one(&statement, &[])
-        .await
-        .map_err(|_e| HttpError::QueryNotFound { field: "major_id" })?;
-    let major_information = GetProgramResponseBody::try_from_row(&row)?;
+    let Some(major_row) = row else {
+        return Err(HttpError::QueryNotFound {
+            field: "major_id",
+            value: path.major_id,
+        });
+    };
+
+    let Ok(major_information) = GetProgramResponseBody::try_from_row(&major_row) else {
+        return Err(HttpError::InternalServerError {
+            cause: "Cannot deserialize row to struct GetProgramResponseBody".to_string(),
+        });
+    };
 
     Ok(Json(major_information))
 }

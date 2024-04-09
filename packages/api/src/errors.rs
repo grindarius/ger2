@@ -1,5 +1,5 @@
 use axum::{
-    http::{HeaderMap, HeaderName, StatusCode, Uri},
+    http::{HeaderMap, StatusCode, Uri},
     response::IntoResponse,
     Json,
 };
@@ -40,7 +40,7 @@ impl ErrorResponse {
 
 pub enum HttpError {
     InternalServerError { cause: String },
-    QueryNotFound { field: &'static str },
+    QueryNotFound { field: &'static str, value: String },
     InvalidQueryParameterEmpty { field: &'static str },
 }
 
@@ -50,9 +50,9 @@ impl IntoResponse for HttpError {
             HttpError::InternalServerError { cause } => {
                 (StatusCode::INTERNAL_SERVER_ERROR, cause, None)
             }
-            HttpError::QueryNotFound { field } => (
+            HttpError::QueryNotFound { field, value } => (
                 StatusCode::NOT_FOUND,
-                format!("{} not found from the query", field),
+                format!("{} not found with given value {}", field, value),
                 None,
             ),
             HttpError::InvalidQueryParameterEmpty { field } => (
@@ -73,6 +73,7 @@ impl IntoResponse for HttpError {
 
 impl From<deadpool_postgres::PoolError> for HttpError {
     fn from(value: deadpool_postgres::PoolError) -> Self {
+        tracing::error!("deadpool-postgres error {}", value.to_string());
         HttpError::InternalServerError {
             cause: value.to_string(),
         }
@@ -81,6 +82,7 @@ impl From<deadpool_postgres::PoolError> for HttpError {
 
 impl From<tokio_postgres::error::Error> for HttpError {
     fn from(value: tokio_postgres::error::Error) -> Self {
+        tracing::error!("tokio-postgres error {}", value.to_string());
         HttpError::InternalServerError {
             cause: value.to_string(),
         }
