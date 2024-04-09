@@ -374,8 +374,7 @@ export type UpdateUserNames = Updateable<UserNamesTable>
 export interface UserSessionsTable {
   id: ColumnType<string, string, never>
   user_id: ColumnType<string, string, string | undefined>
-  expires: ColumnType<string, string, string | undefined>
-  fresh: ColumnType<boolean, boolean, boolean | undefined>
+  expires_at: ColumnType<string, string, string | undefined>
 }
 
 export type UserSessions = Selectable<UserSessionsTable>
