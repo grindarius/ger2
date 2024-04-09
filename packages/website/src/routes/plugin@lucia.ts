@@ -44,10 +44,6 @@ declare module 'lucia' {
   }
 }
 
-export const useSessionLoader = routeLoader$(async event => {
-  return await getSession(event)
-})
-
 export const getSession = async (
   event: RequestEventLoader
 ): Promise<{ user: User; session: Session } | { user: null; session: null }> => {

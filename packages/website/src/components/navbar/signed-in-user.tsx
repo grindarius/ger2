@@ -1,35 +1,18 @@
-import { component$ } from '@builder.io/qwik'
-import { routeAction$, routeLoader$ } from '@builder.io/qwik-city'
-import { getSession, lucia } from '~/routes/plugin@lucia'
+import { $, component$ } from '@builder.io/qwik'
+import type { Session } from 'lucia'
+import { useSignoutAction } from '~/routes'
 
-export const useSessionLoader = routeLoader$(async event => {
-  const session = await getSession(event)
-  return session
-})
+interface SignedInUserProps {
+  session: Session | null
+}
 
-export const signoutAction = routeAction$(async (_data, event) => {
-  const cookieValue = event.cookie.get(lucia.sessionCookieName)
+export const SignedInUser = component$<SignedInUserProps>(props => {
+  const signoutAction = useSignoutAction()
 
-  if (cookieValue?.value == null) {
-    throw event.error(401, 'Unauthorized')
-  }
-
-  const { user, session } = await lucia.validateSession(cookieValue?.value ?? '')
-  if (user == null && session == null) {
-    throw event.error(401, 'Unauthorized')
-  }
-
-  await lucia.invalidateSession(session.id)
-  event.headers.append('Set-Cookie', lucia.createBlankSessionCookie().serialize())
-})
-
-export const SignedInUser = component$(() => {
-  const session = useSessionLoader()
-
-  if (session.value != null) {
+  if (props?.session != null) {
     return (
       <div class="dropdown dropdown-end">
-        <label class="btn btn-ghost btn-circle avatar">
+        <div tabIndex={0} role="button" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
             <img
               src="https://inaturalist-open-data.s3.amazonaws.com/photos/331450763/small.jpg"
@@ -38,14 +21,19 @@ export const SignedInUser = component$(() => {
               height="48"
             />
           </div>
-        </label>
+        </div>
         <ul class="p-2 mt-3 w-52 shadow z-[1] menu menu-sm dropdown-content bg-base-100 rounded-box">
           <li>
             <a href="/account">Account settings</a>
           </li>
           <li>
-            <button type="button" onClick$={signoutAction}>
-              Signout
+            <button
+              type="button"
+              onClick$={async () => {
+                await signoutAction.submit()
+              }}
+            >
+              Sign out
             </button>
           </li>
         </ul>

@@ -1,18 +1,20 @@
 import { Slot, component$, useComputed$ } from '@builder.io/qwik'
-import type { RequestHandler } from '@builder.io/qwik-city'
+import { type RequestHandler, routeLoader$ } from '@builder.io/qwik-city'
 
 import { RadixIconsListBullet } from '~/components/icons/radix-icons/list-bullet'
 import { Navbar } from '~/components/navbar/navbar'
 import { NotificationGroup } from '~/components/notification/notification-group'
 import { useNotificationsProvider } from '~/components/notification/notification-provider'
-import { useSessionLoader } from '~/routes/plugin@lucia'
+import { getSession } from './plugin@lucia'
 
 interface Sidebar {
   href: string
   title: string
 }
 
-export { useSessionLoader } from '~/routes/plugin@lucia'
+export const useSessionLoader = routeLoader$(async event => {
+  return await getSession(event)
+})
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -54,7 +56,7 @@ export default component$(() => {
     <div class="drawer">
       <input id="main-drawer" type="checkbox" class="drawer-toggle" />
       <main class="min-h-screen drawer-content">
-        <Navbar />
+        <Navbar session={session.value?.session ?? null} />
         <Slot />
         <label
           for="main-drawer"

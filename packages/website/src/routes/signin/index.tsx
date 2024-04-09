@@ -5,29 +5,32 @@ import { k, lucia } from '~/routes/plugin@lucia'
 import { argon2 } from '../plugin@oslo'
 
 export const useSigninAction = routeAction$(
-  async (values, event) => {
+  async (values, ev) => {
     const existingUser = await k
       .selectFrom('users')
       .select(['id', 'role', 'username', 'password'])
-      .where('username', '=', values.username)
-      .execute()
+      .where(({ eb, or }) => {
+        return or([
+          eb('username', '=', values.username),
+          eb(eb.fn('lower', ['email']), '=', values.username)
+        ])
+      })
+      .executeTakeFirst()
 
-    if (existingUser[0] == null) {
-      throw event.json(204, {
-        statusCode: 204,
-        error: 'No Content',
-        message: `User with username of ${values.username} not found`
+    if (existingUser == null) {
+      return ev.fail(400, {
+        message: `User with username of '${values.username}' cannot be found`
       })
     }
 
-    const isPasswordValid = await argon2.verify(existingUser[0].password, values.password)
+    const isPasswordValid = await argon2.verify(existingUser.password, values.password)
     if (!isPasswordValid) {
-      throw event.error(400, 'Incorrect username or password')
+      return ev.fail(400, { message: 'Incorrect username or password' })
     }
 
-    const session = await lucia.createSession(existingUser[0].id, {}, { sessionId: ulid() })
-    event.headers.set('Set-Cookie', lucia.createSessionCookie(session.id).serialize())
-    event.json(204, '')
+    const session = await lucia.createSession(existingUser.id, {}, { sessionId: ulid() })
+    ev.headers.set('Set-Cookie', lucia.createSessionCookie(session.id).serialize())
+    throw ev.redirect(303, '/')
   },
   zod$({
     username: z.string().min(3).max(48),
@@ -45,15 +48,25 @@ export default component$(() => {
           <Form action={signinAction} class="card-body">
             <div class="form-control">
               <label class="label">
-                <span class="label-text">Email</span>
+                <span class="label-text">Username</span>
               </label>
-              <input type="text" placeholder="email" class="input input-bordered" />
+              <input
+                type="text"
+                name="username"
+                placeholder="username"
+                class="input input-bordered"
+              />
             </div>
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Password</span>
               </label>
-              <input type="password" placeholder="password" class="input input-bordered" />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                class="input input-bordered"
+              />
               <label class="label">
                 <a href="/" class="label-text-alt link link-hover">
                   Forgot password?
