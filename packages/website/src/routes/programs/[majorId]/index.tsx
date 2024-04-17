@@ -1,8 +1,6 @@
-import ky from 'ky'
-
 import { component$ } from '@builder.io/qwik'
 import { type DocumentHead, routeLoader$ } from '@builder.io/qwik-city'
-
+import ky from 'ky'
 import { MajorSubjectsTree } from '~/components/major-information-tree/major-information-tree'
 import type { GetProgramResponseBody } from '~/types/server/GetProgramResponseBody'
 import type { GetProgramSubjectsResponseBody } from '~/types/server/GetProgramSubjectsResponseBody'
@@ -26,7 +24,7 @@ export default component$(() => {
   const subjects = useGetProgramSubjects()
 
   return (
-    <main class="container px-4 pt-4 mx-auto w-full lg:px-0 bg-base-100">
+    <main class="container px-4 pt-4 mx-auto w-full lg:px-0">
       <section>
         <h1 class="mb-6 text-2xl font-bold">{program.value.name}</h1>
         <div

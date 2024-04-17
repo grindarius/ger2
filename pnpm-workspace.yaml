@@ -2,4 +2,4 @@ packages:
   - '.'
   - './packages/website'
   - './packages/scripts'
-  - './packages/lucia-auth-postgres-redis-session-adapter'
+  - './packages/lucia-auth-postgres-keydb-session-adapter'

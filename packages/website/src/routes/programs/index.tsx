@@ -1,8 +1,7 @@
-import groupBy from 'just-group-by'
-import ky from 'ky'
-
 import { component$, useComputed$ } from '@builder.io/qwik'
 import { type DocumentHead, routeLoader$ } from '@builder.io/qwik-city'
+import groupBy from 'just-group-by'
+import ky from 'ky'
 
 import type { GetProgramsResponseBody } from '~/types/server/GetProgramsResponseBody'
 
@@ -21,7 +20,7 @@ export default component$(() => {
   })
 
   return (
-    <main class="container pt-4 mx-auto w-full bg-base-100">
+    <main class="container pt-4 mx-auto w-full">
       {Object.entries(faculties.value).map(f => {
         return (
           <>

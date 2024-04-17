@@ -1,6 +1,7 @@
-import { component$ } from '@builder.io/qwik'
+import { component$, useComputed$, useStore, useVisibleTask$ } from '@builder.io/qwik'
 import { type DocumentHead, Form, routeAction$, z, zod$ } from '@builder.io/qwik-city'
 import { ulid } from 'ulidx'
+import { useNotifications } from '~/components/notification/notification-provider'
 import { k, lucia } from '~/routes/plugin@lucia'
 import { argon2 } from '../plugin@oslo'
 
@@ -41,11 +42,46 @@ export const useSigninAction = routeAction$(
 export default component$(() => {
   const signinAction = useSigninAction()
 
+  const formFieldsErrors = useStore({
+    username: false,
+    password: false
+  })
+
+  const failed = useComputed$(() => {
+    if (signinAction.value?.failed === true) {
+      return true
+    }
+
+    return false
+  })
+
+  const usernameFieldError = useComputed$(() => {
+    return signinAction.value?.fieldErrors?.username ?? ''
+  })
+
+  const passwordFieldError = useComputed$(() => {
+    return signinAction.value?.fieldErrors?.password ?? ''
+  })
+
+  const usernameStyles = useComputed$(() => {
+    if (formFieldsErrors.username) {
+      return 'input input-bordered input-error'
+    }
+
+    if (signinAction.value?.fieldErrors?.username == null) {
+      return 'input input-bordered'
+    }
+
+    return 'input input-bordered input-error'
+  })
+
   return (
     <main class="min-h-screen hero bg-base-200">
       <div class="flex-col lg:flex-row-reverse hero-content">
-        <div class="flex-shrink-0 w-full shadow-2xl card bg-base-100">
-          <Form action={signinAction} class="card-body">
+        <div class="flex-shrink-0 w-full lg:w-96 shadow-2xl card bg-base-100">
+          <Form action={signinAction} onSubmitCompleted$={(w) => { 
+            if (w.detail.value.failed)
+          }} class="card-body">
             <div class="form-control">
               <label class="label">
                 <span class="label-text">Username</span>
@@ -54,8 +90,12 @@ export default component$(() => {
                 type="text"
                 name="username"
                 placeholder="username"
-                class="input input-bordered"
+                class={usernameStyles.value}
+                onClick$={() => { signinAction.submit() }}
               />
+              <label class="label">
+                <span class="label-text-alt text-error">{usernameFieldError.value.toString()}</span>
+              </label>
             </div>
             <div class="form-control">
               <label class="label">
@@ -65,12 +105,12 @@ export default component$(() => {
                 type="password"
                 name="password"
                 placeholder="password"
+                autoComplete="current-password"
                 class="input input-bordered"
+                onClick$={() => { formFieldsErrors.password = false }}
               />
               <label class="label">
-                <a href="/" class="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
+                <span class="label-text-alt text-error">woh {failed.value.toString()}</span>
               </label>
             </div>
             <div class="mt-6 form-control">

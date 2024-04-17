@@ -8,17 +8,12 @@ use ts_rs::TS;
 /// - value, meaning there is value to update. Update to that value.
 ///
 /// If the null is passed into the database value that cannot be set to null, ignore that field.
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub enum Patch<T> {
+    #[default]
     Absent,
     Null,
     Value(T),
-}
-
-impl<T> Default for Patch<T> {
-    fn default() -> Self {
-        Patch::Absent
-    }
 }
 
 impl<T> From<Option<T>> for Patch<T> {
