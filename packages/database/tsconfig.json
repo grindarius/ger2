@@ -4,13 +4,9 @@
   "compilerOptions": {
     "outDir": "./dist",
     "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ]
+    "lib": ["es6", "dom"]
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
+    "./src/**/*.ts"
   ]
 }

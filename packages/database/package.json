@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "ger2-database",
+  "description": "database related stuffs handled by drizzle",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "reset": "tsx ./src/reset.ts",
+    "seed": "tsx ./src/seed2.ts",
+    "move-typings": "tsx ./src/move-typings.ts"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.10"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.20.17"
+  }
+}
