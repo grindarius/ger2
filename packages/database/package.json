@@ -10,9 +10,9 @@
     "move-typings": "tsx ./src/move-typings.ts"
   },
   "dependencies": {
-    "drizzle-orm": "^0.30.10"
+    "drizzle-orm": "^0.32.1"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.20.17"
+    "drizzle-kit": "^0.23.0"
   }
 }

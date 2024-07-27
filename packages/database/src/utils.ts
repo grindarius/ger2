@@ -9,6 +9,10 @@ export const TIMESTAMP_COLUMNS = {
     .$onUpdateFn(() => sql`now()`)
 } as const
 
+export const DELETED_AT_COLUMN = {
+  deletedAt: timestamp('deleted_at', { withTimezone: true, mode: 'string' }).default('null')
+}
+
 /**
  * Matches a string in the form of `(1.22, 94)` with any whitespaces.
  */
