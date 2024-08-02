@@ -52,7 +52,7 @@ impl Cornflake {
             .as_millis();
 
         // get last 48 bits. The program would just not producing new timestamp after some 10000 AD.
-        let time: u64 = (time & 0xFFFFFFFFFFFF as u128) as u64;
+        let time: u64 = (time & 0xFFFFFFFFFFFF_u128) as u64;
         let sequence: u16 = 1;
 
         Cornflake::from((time, sequence))
