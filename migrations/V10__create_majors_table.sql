@@ -17,7 +17,11 @@ create table majors (
     foreign key (academic_year_id) references academic_years(id)
 );
 
-alter table majors add constraint majors_major_name_id_curriculum_id_faculty_id_academic_year_id_unique_constraint unique (major_name_id, curriculum_id, faculty_id, academic_year_id);
+alter table 
+    majors 
+add constraint 
+    majors_major_name_id_curriculum_id_faculty_id_academic_year_id_unique_constraint 
+unique (major_name_id, curriculum_id, faculty_id, academic_year_id);
 
 comment on table majors is 'Stores information about a major like ''Computer Science''. Also stores information about the minimum GPA needed to finish, how many years to study for and how many credits to take.';
 comment on column majors.minimum_gpa is 'The minimum grade that a student is required to surpass the class, They will be forced to take a drop when their grade is not higher than this value.';

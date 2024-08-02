@@ -11,6 +11,5 @@ create table opening_subjects (
     foreign key (semester_id) references semesters(id)
 );
 
-alter table majors add constraint opening_subjects_subject_id_semester_id_unique_constraint unique (subject_id, semester_id);
-
+comment on table opening_subjects is 'Table that stores information about subjects that are opened during a semester.';
 comment on column opening_subjects.grading_criteria is 'jsonb of Array<{ key: string, score: number }> stores grading information to grade students';
