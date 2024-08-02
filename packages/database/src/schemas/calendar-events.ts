@@ -6,7 +6,7 @@ import { semesters } from './semesters.js'
 
 /**
  * Stores calendar information for an event. Linked to `calendar_event_types` table
- * which provides the name for the event.
+ * which provides the name and type of the event.
  */
 export const calendarEvents = pgTable(
   'calendar_events',

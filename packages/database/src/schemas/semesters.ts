@@ -3,6 +3,7 @@ import { integer, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { academicYears } from './academic-years.js'
 import { calendarEvents } from './calendar-events.js'
+import { majorStudyPlans } from './major-study-plans.js'
 import { openingSubjects } from './opening-subjects.js'
 
 /**
@@ -17,6 +18,10 @@ export const semesters = pgTable('semesters', {
   academicYearId: varchar('academic_year_id', { length: 26 }).notNull(),
   start: timestamp('start', { withTimezone: true, mode: 'string' }).notNull(),
   end: timestamp('end', { withTimezone: true, mode: 'string' }).notNull(),
+
+  /**
+   * Keeps the index of the first/second/third semester in the academic year.
+   */
   semesterIndex: integer('semester_index').notNull().default(1),
   ...TIMESTAMP_COLUMNS
 })
@@ -27,5 +32,6 @@ export const semestersRelations = relations(semesters, ({ one, many }) => ({
     references: [academicYears.id]
   }),
   calendarEvents: many(calendarEvents),
-  openingSubjects: many(openingSubjects)
+  openingSubjects: many(openingSubjects),
+  majorStudyPlans: many(majorStudyPlans)
 }))

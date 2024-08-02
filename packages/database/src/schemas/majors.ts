@@ -4,12 +4,18 @@ import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { academicYears } from './academic-years.js'
 import { degrees } from './degrees.js'
 import { faculties } from './faculties.js'
+import { majorStudyPlans } from './major-study-plans.js'
 import { majorSubjectGroups } from './major-subject-groups.js'
 import { openingSubjectEligibleMajors } from './opening-subject-eligible-majors.js'
 import { programs } from './programs.js'
 
 /**
  * Stores majors information.
+ *
+ * A major will belong to
+ * - faculty, on which faculty it is under.
+ * - program, on which program the major resides.
+ * - degree, on which kind of degree the user will get in the end.
  */
 export const majors = pgTable(
   'majors',
@@ -55,5 +61,6 @@ export const majorsRelations = relations(majors, ({ one, many }) => ({
     references: [academicYears.id]
   }),
   majorSubjectGroups: many(majorSubjectGroups),
-  openingSubjectEligibleMajors: many(openingSubjectEligibleMajors)
+  openingSubjectEligibleMajors: many(openingSubjectEligibleMajors),
+  majorStudyPlans: many(majorStudyPlans)
 }))

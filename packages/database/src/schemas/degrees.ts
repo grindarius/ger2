@@ -4,7 +4,7 @@ import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { majors } from './majors.js'
 
 /**
- * Stores list of degrees a major will give you if you graduate.
+ * Stores list of degrees a major will give you when you graduate.
  * e.g. `Doctor of Philosophy, Chemistry major.`, `Bachelor of Chemistry`.
  */
 export const degrees = pgTable('degrees', {

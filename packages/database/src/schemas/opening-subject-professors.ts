@@ -4,6 +4,9 @@ import { assignments } from './assignments.js'
 import { openingSubjects } from './opening-subjects.js'
 import { professors } from './professors.js'
 
+/**
+ * Stores list of professors that will teach a subject.
+ */
 export const openingSubjectProfessors = pgTable('opening_subject_professors', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   openingSubjectId: varchar('opening_subject_id', { length: 26 }).notNull(),

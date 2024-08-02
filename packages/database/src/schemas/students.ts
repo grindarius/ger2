@@ -1,10 +1,13 @@
 import { relations } from 'drizzle-orm'
-import { integer, jsonb, numeric, pgTable, text, varchar } from 'drizzle-orm/pg-core'
+import { integer, jsonb, numeric, pgTable, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accounts } from './accounts.js'
+import { assignments } from './assignments.js'
 import { openingSubjectAdditionalStudents } from './opening-subject-additional-students.js'
-import { enrolledStudents } from './enrolled-students.js'
 
+/**
+ * Stores student specific information.
+ */
 export const students = pgTable('students', {
   accountId: varchar('account_id', { length: 26 })
     .notNull()
@@ -13,18 +16,32 @@ export const students = pgTable('students', {
   majorId: varchar('major_id', { length: 26 }).notNull(),
   academicYearId: varchar('academic_year_id', { length: 26 }).notNull(),
   professorId: varchar('professor_id', { length: 26 }).notNull(),
-  studentId: text('student_id').notNull(),
-  ehavioralScore: integer('behavioral_score').notNull().default(100),
+
+  /**
+   * A meaningful student id easy for remembering.
+   */
+  studentId: varchar('student_id', { length: 32 }).notNull().unique(),
+
+  /**
+   * Student's behavioral score, if this score falls below 40, a student's status
+   * will be removed.
+   */
+  behavioralScore: integer('behavioral_score').notNull().default(100),
+
+  /**
+   * Json storing information about a student including more info needed for a student
+   * status.
+   */
   status: jsonb('status').notNull(),
+
+  /**
+   * Student's GPA from previous school.
+   */
   previousGpa: numeric('previous_gpa', { precision: 3, scale: 2 }).notNull(),
   ...TIMESTAMP_COLUMNS
 })
 
-export const studentsRelations = relations(students, ({ one, many }) => ({
-  account: one(accounts, {
-    fields: [students.accountId],
-    references: [accounts.id]
-  }),
+export const studentsRelations = relations(students, ({ many }) => ({
   openingSubjectAdditionalStudents: many(openingSubjectAdditionalStudents),
-  enrolledStudents: many(enrolledStudents)
+  assignments: many(assignments)
 }))

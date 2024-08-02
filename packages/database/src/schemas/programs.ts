@@ -7,7 +7,7 @@ import { majors } from './majors.js'
  * Stores information about different educational qualifications a faculty can have.
  * e.g. `Bachelor regular 2 semesters`, `Bachelor regular 2 semesters, weekends.`.
  */
-export const programs = pgTable('educational_qualifications', {
+export const programs = pgTable('programs', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   name: varchar('name', { length: 256 }).notNull().unique(),
   ...TIMESTAMP_COLUMNS

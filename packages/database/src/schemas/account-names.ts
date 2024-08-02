@@ -4,11 +4,14 @@ import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accounts } from './accounts.js'
 
 /**
- * Stores name of an account in multiple languages.
+ * Stores name of an account in multiple languages. Must have at least 1 name in any language.
  */
 export const accountNames = pgTable('account_names', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   accountId: varchar('account_id', { length: 26 }).notNull(),
+  /**
+   * ISO 639-1 language code in lowercase.
+   */
   nameLanguage: varchar('name_language', { length: 2 }).notNull(),
   firstName: text('first_name').notNull(),
   middleName: text('middle_name').notNull(),

@@ -10,4 +10,7 @@ export const DAY_OF_WEEK = [
   'saturday'
 ] as const
 
+/**
+ * Enum stores possible day in a week.
+ */
 export const dayOfWeek = pgEnum('day_of_week', DAY_OF_WEEK)

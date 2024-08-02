@@ -2,22 +2,27 @@ import { relations } from 'drizzle-orm'
 import { numeric, pgTable, primaryKey, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { assignments } from './assignments.js'
-import { studentEnrollments } from './student-enrollments.js'
+import { students } from './students.js'
 
+/**
+ * Stores scores of a student with given assignment.
+ *
+ * We can directly use the `accountId` as the `studentId`.
+ */
 export const studentAssignments = pgTable(
   'student_assignments',
   {
     assignmentId: varchar('assignment_id', { length: 26 })
       .notNull()
       .references(() => assignments.id),
-    studentEnrollmentId: varchar('student_enrollment_id', { length: 26 })
+    studentId: varchar('student_id', { length: 26 })
       .notNull()
-      .references(() => studentEnrollments.id),
+      .references(() => students.accountId),
     score: numeric('score', { precision: 6, scale: 3 }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
   t => ({
-    pk: primaryKey({ columns: [t.assignmentId, t.studentEnrollmentId] })
+    pk: primaryKey({ columns: [t.assignmentId, t.studentId] })
   })
 )
 
@@ -26,8 +31,8 @@ export const studentAssignmentsRelations = relations(studentAssignments, ({ one 
     fields: [studentAssignments.assignmentId],
     references: [assignments.id]
   }),
-  studentEnrollment: one(studentEnrollments, {
-    fields: [studentAssignments.studentEnrollmentId],
-    references: [studentEnrollments.id]
+  student: one(students, {
+    fields: [studentAssignments.studentId],
+    references: [students.accountId]
   })
 }))

@@ -3,7 +3,10 @@ import { pgTable, varchar } from 'drizzle-orm/pg-core'
 import { openingSubjects } from './opening-subjects.js'
 import { students } from './students.js'
 
-export const openingSubjectAdditionalStudents = pgTable('opening_subject_additiona_students', {
+/**
+ * List of additional students that can enroll into a subject.
+ */
+export const openingSubjectAdditionalStudents = pgTable('opening_subject_additional_students', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   openingSubjectId: varchar('opening_subject_id', { length: 26 }).notNull(),
   studentId: varchar('student_id').notNull()

@@ -7,6 +7,6 @@ export const ROLE = [
 ] as const
 
 /**
- * Determine user roles inside a website.
+ * Stores user roles inside a website.
  */
 export const role = pgEnum('role', ROLE)

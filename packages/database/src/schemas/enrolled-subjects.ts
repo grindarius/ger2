@@ -3,6 +3,10 @@ import { pgTable, varchar } from 'drizzle-orm/pg-core'
 import { openingSubjects } from './opening-subjects.js'
 import { transactions } from './transactions.js'
 
+/**
+ * Stores subjects that an account has enrolled.
+ * Can be more than one.
+ */
 export const enrolledSubjects = pgTable('enrolled_subjects', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   transactionId: varchar('transactionId', { length: 26 }).notNull(),

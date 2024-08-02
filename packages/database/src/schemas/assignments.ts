@@ -5,6 +5,10 @@ import { openingSubjectProfessors } from './opening-subject-professors.js'
 import { openingSubjects } from './opening-subjects.js'
 import { studentAssignments } from './student-assignments.js'
 
+/**
+ * Stores a simple assignments information. This is to keep track of
+ * student's scores, then calculate the grades.
+ */
 export const assignments = pgTable('asssignments', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   openingSubjectId: varchar('opening_subject_id', { length: 26 }).notNull(),
