@@ -5,6 +5,7 @@ import { academicYears } from './academic-years.js'
 import { degrees } from './degrees.js'
 import { faculties } from './faculties.js'
 import { majorSubjectGroups } from './major-subject-groups.js'
+import { openingSubjectEligibleMajors } from './opening-subject-eligible-majors.js'
 import { programs } from './programs.js'
 
 /**
@@ -53,5 +54,6 @@ export const majorsRelations = relations(majors, ({ one, many }) => ({
     fields: [majors.academicYearId],
     references: [academicYears.id]
   }),
-  majorSubjectGroups: many(majorSubjectGroups)
+  majorSubjectGroups: many(majorSubjectGroups),
+  openingSubjectEligibleMajors: many(openingSubjectEligibleMajors)
 }))

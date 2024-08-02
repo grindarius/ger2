@@ -5,6 +5,7 @@ import { accountNames } from './account-names.js'
 import { professors } from './professors.js'
 import { role } from './role.js'
 import { students } from './students.js'
+import { transactions } from './transactions.js'
 
 /**
  * Stores primitive information about an account for all
@@ -23,5 +24,6 @@ export const accounts = pgTable('accounts', {
 export const accountsRelations = relations(accounts, ({ one, many }) => ({
   names: many(accountNames),
   student: one(students),
-  professor: one(professors)
+  professor: one(professors),
+  transactions: many(transactions)
 }))

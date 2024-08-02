@@ -2,6 +2,8 @@ import { relations } from 'drizzle-orm'
 import { integer, jsonb, numeric, pgTable, text, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accounts } from './accounts.js'
+import { openingSubjectAdditionalStudents } from './opening-subject-additional-students.js'
+import { enrolledStudents } from './enrolled-students.js'
 
 export const students = pgTable('students', {
   accountId: varchar('account_id', { length: 26 })
@@ -17,3 +19,12 @@ export const students = pgTable('students', {
   previousGpa: numeric('previous_gpa', { precision: 3, scale: 2 }).notNull(),
   ...TIMESTAMP_COLUMNS
 })
+
+export const studentsRelations = relations(students, ({ one, many }) => ({
+  account: one(accounts, {
+    fields: [students.accountId],
+    references: [accounts.id]
+  }),
+  openingSubjectAdditionalStudents: many(openingSubjectAdditionalStudents),
+  enrolledStudents: many(enrolledStudents)
+}))

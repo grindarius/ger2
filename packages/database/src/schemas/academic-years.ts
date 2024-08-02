@@ -2,6 +2,8 @@ import { relations, sql } from 'drizzle-orm'
 import { integer, pgTable, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { majors } from './majors.js'
+import { openingSubjectEligibleMajors } from './opening-subject-eligible-majors.js'
+import { semesters } from './semesters.js'
 
 /**
  * Stores information about the academic year that a semester is in.
@@ -14,5 +16,7 @@ export const academicYears = pgTable('academic_years', {
 })
 
 export const academicYearsRelations = relations(academicYears, ({ many }) => ({
-  majors: many(majors)
+  majors: many(majors),
+  semesters: many(semesters),
+  openingSubjectEligibleMajors: many(openingSubjectEligibleMajors)
 }))

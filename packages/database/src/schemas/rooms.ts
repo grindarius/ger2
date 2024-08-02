@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm'
 import { integer, pgTable, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { buildings } from './buildings.js'
+import { openingSubjectSchedules } from './opening-subjects-schedules.js'
 
 export const rooms = pgTable('rooms', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
@@ -12,9 +13,10 @@ export const rooms = pgTable('rooms', {
   ...TIMESTAMP_COLUMNS
 })
 
-export const roomsRelations = relations(rooms, ({ one }) => ({
+export const roomsRelations = relations(rooms, ({ one, many }) => ({
   building: one(buildings, {
     fields: [rooms.buildingId],
     references: [buildings.id]
-  })
+  }),
+  openingSubjectSchedules: many(openingSubjectSchedules)
 }))
