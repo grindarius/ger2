@@ -8,7 +8,7 @@ import { calendarEvents } from './calendar-events.js'
  * to a `calendar_events` table where you will have the name, slug,
  * the dates and timezone as well.
  *
- * Some id or slug of event types will be recorded to be queried for 
+ * Some id or slug of event types will be recorded to be queried for
  * time sensitive events like enrollments or late enroll.
  */
 export const calendarEventTypes = pgTable(
@@ -27,10 +27,7 @@ export const calendarEventTypes = pgTable(
   },
   t => ({
     calendarEventTypesNameSlugUniqueIndex: uniqueIndex(
-      'calendar_event_types_\
-      name_\
-      slug_\
-      unique_index'
+      'calendar_event_types_name_slug_unique_index'
     ).on(t.name, t.slug)
   })
 )

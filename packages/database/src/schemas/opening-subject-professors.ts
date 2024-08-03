@@ -9,8 +9,12 @@ import { professors } from './professors.js'
  */
 export const openingSubjectProfessors = pgTable('opening_subject_professors', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  openingSubjectId: varchar('opening_subject_id', { length: 26 }).notNull(),
-  professorId: varchar('professor_id', { length: 26 }).notNull()
+  openingSubjectId: varchar('opening_subject_id', { length: 26 })
+    .notNull()
+    .references(() => openingSubjects.id),
+  professorId: varchar('professor_id', { length: 26 })
+    .notNull()
+    .references(() => professors.accountId)
 })
 
 export const openingSubjectProfessorsRelations = relations(

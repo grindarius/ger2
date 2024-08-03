@@ -1,9 +1,12 @@
 import { relations } from 'drizzle-orm'
 import { integer, jsonb, numeric, pgTable, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
+import { academicYears } from './academic-years.js'
 import { accounts } from './accounts.js'
 import { assignments } from './assignments.js'
+import { majors } from './majors.js'
 import { openingSubjectAdditionalStudents } from './opening-subject-additional-students.js'
+import { professors } from './professors.js'
 
 /**
  * Stores student specific information.
@@ -13,9 +16,15 @@ export const students = pgTable('students', {
     .notNull()
     .primaryKey()
     .references(() => accounts.id),
-  majorId: varchar('major_id', { length: 26 }).notNull(),
-  academicYearId: varchar('academic_year_id', { length: 26 }).notNull(),
-  professorId: varchar('professor_id', { length: 26 }).notNull(),
+  majorId: varchar('major_id', { length: 26 })
+    .notNull()
+    .references(() => majors.id),
+  academicYearId: varchar('academic_year_id', { length: 26 })
+    .notNull()
+    .references(() => academicYears.id),
+  professorId: varchar('professor_id', { length: 26 })
+    .notNull()
+    .references(() => professors.accountId),
 
   /**
    * A meaningful student id easy for remembering.

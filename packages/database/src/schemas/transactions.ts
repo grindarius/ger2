@@ -17,7 +17,9 @@ export const transactions = pgTable('transactions', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   transactionType: transactionType('transaction_type').notNull(),
   transactionStatus: transactionStatus('transaction_status').notNull(),
-  accountId: varchar('account_id', { length: 26 }).notNull(),
+  accountId: varchar('account_id', { length: 26 })
+    .notNull()
+    .references(() => accounts.id),
   price: numeric('price', { precision: 12, scale: 2 }).notNull(),
   ...TIMESTAMP_COLUMNS
 })

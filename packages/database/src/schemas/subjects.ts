@@ -10,6 +10,10 @@ import { openingSubjects } from './opening-subjects.js'
  */
 export const subjects = pgTable('subjects', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
+
+  /**
+   * Simple subject id, same as student id.
+   */
   subjectId: varchar('subject_id', { length: 32 }).notNull().unique(),
   name: varchar('name', { length: 512 }).notNull().unique(),
   description: text('description').notNull(),

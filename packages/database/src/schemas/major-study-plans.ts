@@ -9,8 +9,12 @@ import { semesters } from './semesters.js'
  */
 export const majorStudyPlans = pgTable('major_study_plans', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  majorId: varchar('major_id', { length: 26 }).notNull(),
-  semesterId: varchar('semester_id', { length: 26 }).notNull(),
+  majorId: varchar('major_id', { length: 26 })
+    .notNull()
+    .references(() => majors.id),
+  semesterId: varchar('semester_id', { length: 26 })
+    .notNull()
+    .references(() => semesters.id),
   description: varchar('additional_title', { length: 256 }),
   subjectId: varchar('additional_subject_id', { length: 32 })
 })

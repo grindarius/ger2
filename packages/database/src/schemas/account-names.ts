@@ -8,7 +8,10 @@ import { accounts } from './accounts.js'
  */
 export const accountNames = pgTable('account_names', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  accountId: varchar('account_id', { length: 26 }).notNull(),
+  accountId: varchar('account_id', { length: 26 })
+    .notNull()
+    .references(() => accounts.id),
+
   /**
    * ISO 639-1 language code in lowercase.
    */

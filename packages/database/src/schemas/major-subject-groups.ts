@@ -12,7 +12,9 @@ export const majorSubjectGroups = pgTable(
   'major_subject_groups',
   {
     id: varchar('id', { length: 26 }).notNull().primaryKey(),
-    majorId: varchar('major_id', { length: 26 }).notNull(),
+    majorId: varchar('major_id', { length: 26 })
+      .notNull()
+      .references(() => majors.id),
     groupIndex: integer('group_index').notNull(),
     parentId: varchar('parent_id', { length: 26 }),
     name: text('name').notNull(),

@@ -19,8 +19,12 @@ import { subjects } from './subjects.js'
  */
 export const openingSubjects = pgTable('opening_subjects', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  subjectId: varchar('subject_id', { length: 26 }).notNull(),
-  semesterId: varchar('semester_id', { length: 26 }).notNull(),
+  subjectId: varchar('subject_id', { length: 26 })
+    .notNull()
+    .references(() => subjects.id),
+  semesterId: varchar('semester_id', { length: 26 })
+    .notNull()
+    .references(() => semesters.id),
   subject_capacity: integer('subject_capicity').notNull(),
   status: openingSubjectStatus('status').notNull(),
 

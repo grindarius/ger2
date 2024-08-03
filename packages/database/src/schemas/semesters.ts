@@ -15,7 +15,9 @@ import { openingSubjects } from './opening-subjects.js'
  */
 export const semesters = pgTable('semesters', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  academicYearId: varchar('academic_year_id', { length: 26 }).notNull(),
+  academicYearId: varchar('academic_year_id', { length: 26 })
+    .notNull()
+    .references(() => academicYears.id),
   start: timestamp('start', { withTimezone: true, mode: 'string' }).notNull(),
   end: timestamp('end', { withTimezone: true, mode: 'string' }).notNull(),
 

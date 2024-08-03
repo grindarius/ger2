@@ -21,10 +21,18 @@ export const majors = pgTable(
   'majors',
   {
     id: varchar('id', { length: 26 }).notNull().primaryKey(),
-    facultyId: varchar('faculty_id', { length: 26 }).notNull(),
-    programId: varchar('program_id', { length: 26 }).notNull(),
-    degreeId: varchar('degree_id', { length: 26 }).notNull(),
-    academicYearId: varchar('academic_year_id', { length: 26 }).notNull(),
+    facultyId: varchar('faculty_id', { length: 26 })
+      .notNull()
+      .references(() => faculties.id),
+    programId: varchar('program_id', { length: 26 })
+      .notNull()
+      .references(() => programs.id),
+    degreeId: varchar('degree_id', { length: 26 })
+      .notNull()
+      .references(() => degrees.id),
+    academicYearId: varchar('academic_year_id', { length: 26 })
+      .notNull()
+      .references(() => academicYears.id),
     name: varchar('name', { length: 512 }).notNull(),
     minimumGpa: numeric('minimum_gpa', { precision: 3, scale: 2 }).notNull(),
     duration: interval('duration', { fields: 'year' }).notNull(),
@@ -33,12 +41,7 @@ export const majors = pgTable(
   },
   t => ({
     majorsFacultyIdProgramIdDegreeIdAcademicYearIdIndex: uniqueIndex(
-      'majors_\
-      faculty_id_\
-      program_id_\
-      degree_id_\
-      academic_year_id_\
-      index'
+      'majors_faculty_id_program_id_degree_id_academic_year_id_index'
     ).on(t.facultyId, t.programId, t.degreeId, t.academicYearId)
   })
 )

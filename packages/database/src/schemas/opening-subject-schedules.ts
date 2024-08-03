@@ -10,8 +10,12 @@ import { rooms } from './rooms.js'
  */
 export const openingSubjectSchedules = pgTable('opening_subject_schedules', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  openingSubjectId: varchar('opening_subject_id', { length: 26 }).notNull(),
-  roomId: varchar('room_id', { length: 26 }).notNull(),
+  openingSubjectId: varchar('opening_subject_id', { length: 26 })
+    .notNull()
+    .references(() => openingSubjects.id),
+  roomId: varchar('room_id', { length: 26 })
+    .notNull()
+    .references(() => rooms.id),
   day: dayOfWeek('day').notNull(),
   start: time('start').notNull(),
   end: time('end').notNull(),

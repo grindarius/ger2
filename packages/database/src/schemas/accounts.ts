@@ -29,12 +29,10 @@ export const accounts = pgTable(
     ...TIMESTAMP_COLUMNS
   },
   t => ({
-    accountsEmailUniqueIndex: uniqueIndex(
-      'accounts_\
-      email_\
-      unique_\
-      index'
-    ).using('btree', sql`lower(${t.email})`)
+    accountsEmailUniqueIndex: uniqueIndex('accounts_email_unique_index').using(
+      'btree',
+      sql`lower(${t.email})`
+    )
   })
 )
 

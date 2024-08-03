@@ -9,7 +9,9 @@ import { transactions } from './transactions.js'
  */
 export const enrolledSubjects = pgTable('enrolled_subjects', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  transactionId: varchar('transactionId', { length: 26 }).notNull(),
+  transactionId: varchar('transactionId', { length: 26 })
+    .notNull()
+    .references(() => transactions.id),
   openingSubjectId: varchar('opening_subject_id', { length: 26 }).notNull()
 })
 

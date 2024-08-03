@@ -8,7 +8,9 @@ import { students } from './students.js'
  */
 export const openingSubjectAdditionalStudents = pgTable('opening_subject_additional_students', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  openingSubjectId: varchar('opening_subject_id', { length: 26 }).notNull(),
+  openingSubjectId: varchar('opening_subject_id', { length: 26 })
+    .notNull()
+    .references(() => openingSubjects.id),
   studentId: varchar('student_id').notNull()
 })
 

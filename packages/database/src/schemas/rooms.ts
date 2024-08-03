@@ -6,12 +6,14 @@ import { openingSubjectSchedules } from './opening-subject-schedules.js'
 import { roomType } from './room-type.js'
 
 /**
- * Stores room information for subjects to reference from 
+ * Stores room information for subjects to reference from
  * about where the student will go to for studying.
  */
 export const rooms = pgTable('rooms', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
-  buildingId: varchar('building_id', { length: 26 }).notNull(),
+  buildingId: varchar('building_id', { length: 26 })
+    .notNull()
+    .references(() => buildings.id),
   name: varchar('name', { length: 512 }).notNull(),
   type: roomType('room_type').notNull(),
 
