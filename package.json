@@ -21,8 +21,8 @@
   "scripts": {
     "docker-up": "docker compose up -d",
     "docker-down": "docker compose down",
-    "reset": "cd ./packages/scripts && pnpm reset",
-    "migrate": "cd ./packages/api && refinery migrate -c ./refinery.toml -p ../../migrations",
+    "reset": "pnpm -F ger2-database reset",
+    "migrate": "pnpm -F ger2-database migrate",
     "seed": "cd ./packages/scripts && pnpm seed",
     "rms": "pnpm reset && pnpm migrate && pnpm seed",
     "copy-server-types": "cd ./packages/scripts && pnpm move-typings"

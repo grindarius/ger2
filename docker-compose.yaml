@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   postgres:
     image: groonga/pgroonga:latest-alpine-16
