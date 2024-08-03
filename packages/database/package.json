@@ -18,7 +18,8 @@
   "exports": "./src/index.ts",
   "scripts": {
     "reset": "dotenvx run -- pnpm tsx ./src/reset.ts",
-    "migrate": "drizzle-kit migrate"
+    "migrate": "dotenvx run -- drizzle-kit migrate",
+    "generate": "dotenvx run -- pnpm tsx ./node_modules/drizzle-kit/bin.cjs generate"
   },
   "dependencies": {
     "drizzle-orm": "0.32.1",
