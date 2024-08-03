@@ -1,5 +1,5 @@
 {
-  "id": "36e9878f-6b48-4a8c-9b6c-8c99859a9638",
+  "id": "59bc0bd4-0c11-4a6c-84d8-f82153479512",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -105,7 +105,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "account_names_account_id_accounts_id_fk": {
+          "name": "account_names_account_id_accounts_id_fk",
+          "tableFrom": "account_names",
+          "tableTo": "accounts",
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -166,8 +180,8 @@
         }
       },
       "indexes": {
-        "accounts_      email_      unique_      index": {
-          "name": "accounts_      email_      unique_      index",
+        "accounts_email_unique_index": {
+          "name": "accounts_email_unique_index",
           "columns": [
             {
               "expression": "lower(\"email\")",
@@ -257,7 +271,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "asssignments_opening_subject_id_opening_subjects_id_fk": {
+          "name": "asssignments_opening_subject_id_opening_subjects_id_fk",
+          "tableFrom": "asssignments",
+          "tableTo": "opening_subjects",
+          "columnsFrom": [
+            "opening_subject_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "asssignments_opening_subject_professor_id_opening_subject_professors_id_fk": {
+          "name": "asssignments_opening_subject_professor_id_opening_subject_professors_id_fk",
+          "tableFrom": "asssignments",
+          "tableTo": "opening_subject_professors",
+          "columnsFrom": [
+            "opening_subject_professor_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -361,8 +402,8 @@
         }
       },
       "indexes": {
-        "calendar_event_types_      name_      slug_      unique_index": {
-          "name": "calendar_event_types_      name_      slug_      unique_index",
+        "calendar_event_types_name_slug_unique_index": {
+          "name": "calendar_event_types_name_slug_unique_index",
           "columns": [
             {
               "expression": "name",
@@ -593,7 +634,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "enrolled_subjects_transactionId_transactions_id_fk": {
+          "name": "enrolled_subjects_transactionId_transactions_id_fk",
+          "tableFrom": "enrolled_subjects",
+          "tableTo": "transactions",
+          "columnsFrom": [
+            "transactionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -677,7 +732,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "major_study_plans_major_id_majors_id_fk": {
+          "name": "major_study_plans_major_id_majors_id_fk",
+          "tableFrom": "major_study_plans",
+          "tableTo": "majors",
+          "columnsFrom": [
+            "major_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "major_study_plans_semester_id_semesters_id_fk": {
+          "name": "major_study_plans_semester_id_semesters_id_fk",
+          "tableFrom": "major_study_plans",
+          "tableTo": "semesters",
+          "columnsFrom": [
+            "semester_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -753,7 +835,21 @@
           "with": {}
         }
       },
-      "foreignKeys": {},
+      "foreignKeys": {
+        "major_subject_groups_major_id_majors_id_fk": {
+          "name": "major_subject_groups_major_id_majors_id_fk",
+          "tableFrom": "major_subject_groups",
+          "tableTo": "majors",
+          "columnsFrom": [
+            "major_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -888,8 +984,8 @@
         }
       },
       "indexes": {
-        "majors_      faculty_id_      program_id_      degree_id_      academic_year_id_      index": {
-          "name": "majors_      faculty_id_      program_id_      degree_id_      academic_year_id_      index",
+        "majors_faculty_id_program_id_degree_id_academic_year_id_index": {
+          "name": "majors_faculty_id_program_id_degree_id_academic_year_id_index",
           "columns": [
             {
               "expression": "faculty_id",
@@ -922,7 +1018,60 @@
           "with": {}
         }
       },
-      "foreignKeys": {},
+      "foreignKeys": {
+        "majors_faculty_id_faculties_id_fk": {
+          "name": "majors_faculty_id_faculties_id_fk",
+          "tableFrom": "majors",
+          "tableTo": "faculties",
+          "columnsFrom": [
+            "faculty_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "majors_program_id_programs_id_fk": {
+          "name": "majors_program_id_programs_id_fk",
+          "tableFrom": "majors",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "majors_degree_id_degrees_id_fk": {
+          "name": "majors_degree_id_degrees_id_fk",
+          "tableFrom": "majors",
+          "tableTo": "degrees",
+          "columnsFrom": [
+            "degree_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "majors_academic_year_id_academic_years_id_fk": {
+          "name": "majors_academic_year_id_academic_years_id_fk",
+          "tableFrom": "majors",
+          "tableTo": "academic_years",
+          "columnsFrom": [
+            "academic_year_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -950,7 +1099,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "opening_subject_additional_students_opening_subject_id_opening_subjects_id_fk": {
+          "name": "opening_subject_additional_students_opening_subject_id_opening_subjects_id_fk",
+          "tableFrom": "opening_subject_additional_students",
+          "tableTo": "opening_subjects",
+          "columnsFrom": [
+            "opening_subject_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -984,7 +1147,47 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "opening_subject_eligible_majors_opening_subject_id_opening_subjects_id_fk": {
+          "name": "opening_subject_eligible_majors_opening_subject_id_opening_subjects_id_fk",
+          "tableFrom": "opening_subject_eligible_majors",
+          "tableTo": "opening_subjects",
+          "columnsFrom": [
+            "opening_subject_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "opening_subject_eligible_majors_major_id_majors_id_fk": {
+          "name": "opening_subject_eligible_majors_major_id_majors_id_fk",
+          "tableFrom": "opening_subject_eligible_majors",
+          "tableTo": "majors",
+          "columnsFrom": [
+            "major_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "opening_subject_eligible_majors_academic_year_id_academic_years_id_fk": {
+          "name": "opening_subject_eligible_majors_academic_year_id_academic_years_id_fk",
+          "tableFrom": "opening_subject_eligible_majors",
+          "tableTo": "academic_years",
+          "columnsFrom": [
+            "academic_year_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -1012,7 +1215,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "opening_subject_professors_opening_subject_id_opening_subjects_id_fk": {
+          "name": "opening_subject_professors_opening_subject_id_opening_subjects_id_fk",
+          "tableFrom": "opening_subject_professors",
+          "tableTo": "opening_subjects",
+          "columnsFrom": [
+            "opening_subject_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "opening_subject_professors_professor_id_professors_account_id_fk": {
+          "name": "opening_subject_professors_professor_id_professors_account_id_fk",
+          "tableFrom": "opening_subject_professors",
+          "tableTo": "professors",
+          "columnsFrom": [
+            "professor_id"
+          ],
+          "columnsTo": [
+            "account_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -1079,7 +1309,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "opening_subject_schedules_opening_subject_id_opening_subjects_id_fk": {
+          "name": "opening_subject_schedules_opening_subject_id_opening_subjects_id_fk",
+          "tableFrom": "opening_subject_schedules",
+          "tableTo": "opening_subjects",
+          "columnsFrom": [
+            "opening_subject_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "opening_subject_schedules_room_id_rooms_id_fk": {
+          "name": "opening_subject_schedules_room_id_rooms_id_fk",
+          "tableFrom": "opening_subject_schedules",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -1147,7 +1404,34 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "opening_subjects_subject_id_subjects_id_fk": {
+          "name": "opening_subjects_subject_id_subjects_id_fk",
+          "tableFrom": "opening_subjects",
+          "tableTo": "subjects",
+          "columnsFrom": [
+            "subject_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "opening_subjects_semester_id_semesters_id_fk": {
+          "name": "opening_subjects_semester_id_semesters_id_fk",
+          "tableFrom": "opening_subjects",
+          "tableTo": "semesters",
+          "columnsFrom": [
+            "semester_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -1303,7 +1587,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "rooms_building_id_buildings_id_fk": {
+          "name": "rooms_building_id_buildings_id_fk",
+          "tableFrom": "rooms",
+          "tableTo": "buildings",
+          "columnsFrom": [
+            "building_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -1358,7 +1656,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "semesters_academic_year_id_academic_years_id_fk": {
+          "name": "semesters_academic_year_id_academic_years_id_fk",
+          "tableFrom": "semesters",
+          "tableTo": "academic_years",
+          "columnsFrom": [
+            "academic_year_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -1521,6 +1833,45 @@
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
+        },
+        "students_major_id_majors_id_fk": {
+          "name": "students_major_id_majors_id_fk",
+          "tableFrom": "students",
+          "tableTo": "majors",
+          "columnsFrom": [
+            "major_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "students_academic_year_id_academic_years_id_fk": {
+          "name": "students_academic_year_id_academic_years_id_fk",
+          "tableFrom": "students",
+          "tableTo": "academic_years",
+          "columnsFrom": [
+            "academic_year_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "students_professor_id_professors_account_id_fk": {
+          "name": "students_professor_id_professors_account_id_fk",
+          "tableFrom": "students",
+          "tableTo": "professors",
+          "columnsFrom": [
+            "professor_id"
+          ],
+          "columnsTo": [
+            "account_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1655,7 +2006,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "transactions_account_id_accounts_id_fk": {
+          "name": "transactions_account_id_accounts_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "accounts",
+          "columnsFrom": [
+            "account_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }

@@ -298,6 +298,24 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
+ ALTER TABLE "account_names" ADD CONSTRAINT "account_names_account_id_accounts_id_fk" FOREIGN KEY ("account_id") REFERENCES "public"."accounts"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "asssignments" ADD CONSTRAINT "asssignments_opening_subject_id_opening_subjects_id_fk" FOREIGN KEY ("opening_subject_id") REFERENCES "public"."opening_subjects"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "asssignments" ADD CONSTRAINT "asssignments_opening_subject_professor_id_opening_subject_professors_id_fk" FOREIGN KEY ("opening_subject_professor_id") REFERENCES "public"."opening_subject_professors"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  ALTER TABLE "calendar_events" ADD CONSTRAINT "calendar_events_calendar_event_type_id_calendar_event_types_id_fk" FOREIGN KEY ("calendar_event_type_id") REFERENCES "public"."calendar_event_types"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -322,6 +340,30 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ ALTER TABLE "enrolled_subjects" ADD CONSTRAINT "enrolled_subjects_transactionId_transactions_id_fk" FOREIGN KEY ("transactionId") REFERENCES "public"."transactions"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "major_study_plans" ADD CONSTRAINT "major_study_plans_major_id_majors_id_fk" FOREIGN KEY ("major_id") REFERENCES "public"."majors"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "major_study_plans" ADD CONSTRAINT "major_study_plans_semester_id_semesters_id_fk" FOREIGN KEY ("semester_id") REFERENCES "public"."semesters"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "major_subject_groups" ADD CONSTRAINT "major_subject_groups_major_id_majors_id_fk" FOREIGN KEY ("major_id") REFERENCES "public"."majors"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  ALTER TABLE "major_subjects" ADD CONSTRAINT "major_subjects_major_subject_group_id_major_subject_groups_id_fk" FOREIGN KEY ("major_subject_group_id") REFERENCES "public"."major_subject_groups"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -334,7 +376,103 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ ALTER TABLE "majors" ADD CONSTRAINT "majors_faculty_id_faculties_id_fk" FOREIGN KEY ("faculty_id") REFERENCES "public"."faculties"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "majors" ADD CONSTRAINT "majors_program_id_programs_id_fk" FOREIGN KEY ("program_id") REFERENCES "public"."programs"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "majors" ADD CONSTRAINT "majors_degree_id_degrees_id_fk" FOREIGN KEY ("degree_id") REFERENCES "public"."degrees"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "majors" ADD CONSTRAINT "majors_academic_year_id_academic_years_id_fk" FOREIGN KEY ("academic_year_id") REFERENCES "public"."academic_years"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_additional_students" ADD CONSTRAINT "opening_subject_additional_students_opening_subject_id_opening_subjects_id_fk" FOREIGN KEY ("opening_subject_id") REFERENCES "public"."opening_subjects"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_eligible_majors" ADD CONSTRAINT "opening_subject_eligible_majors_opening_subject_id_opening_subjects_id_fk" FOREIGN KEY ("opening_subject_id") REFERENCES "public"."opening_subjects"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_eligible_majors" ADD CONSTRAINT "opening_subject_eligible_majors_major_id_majors_id_fk" FOREIGN KEY ("major_id") REFERENCES "public"."majors"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_eligible_majors" ADD CONSTRAINT "opening_subject_eligible_majors_academic_year_id_academic_years_id_fk" FOREIGN KEY ("academic_year_id") REFERENCES "public"."academic_years"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_professors" ADD CONSTRAINT "opening_subject_professors_opening_subject_id_opening_subjects_id_fk" FOREIGN KEY ("opening_subject_id") REFERENCES "public"."opening_subjects"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_professors" ADD CONSTRAINT "opening_subject_professors_professor_id_professors_account_id_fk" FOREIGN KEY ("professor_id") REFERENCES "public"."professors"("account_id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_schedules" ADD CONSTRAINT "opening_subject_schedules_opening_subject_id_opening_subjects_id_fk" FOREIGN KEY ("opening_subject_id") REFERENCES "public"."opening_subjects"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subject_schedules" ADD CONSTRAINT "opening_subject_schedules_room_id_rooms_id_fk" FOREIGN KEY ("room_id") REFERENCES "public"."rooms"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subjects" ADD CONSTRAINT "opening_subjects_subject_id_subjects_id_fk" FOREIGN KEY ("subject_id") REFERENCES "public"."subjects"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "opening_subjects" ADD CONSTRAINT "opening_subjects_semester_id_semesters_id_fk" FOREIGN KEY ("semester_id") REFERENCES "public"."semesters"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  ALTER TABLE "professors" ADD CONSTRAINT "professors_account_id_accounts_id_fk" FOREIGN KEY ("account_id") REFERENCES "public"."accounts"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "rooms" ADD CONSTRAINT "rooms_building_id_buildings_id_fk" FOREIGN KEY ("building_id") REFERENCES "public"."buildings"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "semesters" ADD CONSTRAINT "semesters_academic_year_id_academic_years_id_fk" FOREIGN KEY ("academic_year_id") REFERENCES "public"."academic_years"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -357,7 +495,31 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "accounts_      email_      unique_      index" ON "accounts" USING btree (lower("email"));--> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "calendar_event_types_      name_      slug_      unique_index" ON "calendar_event_types" USING btree ("name","slug");--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "students" ADD CONSTRAINT "students_major_id_majors_id_fk" FOREIGN KEY ("major_id") REFERENCES "public"."majors"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "students" ADD CONSTRAINT "students_academic_year_id_academic_years_id_fk" FOREIGN KEY ("academic_year_id") REFERENCES "public"."academic_years"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "students" ADD CONSTRAINT "students_professor_id_professors_account_id_fk" FOREIGN KEY ("professor_id") REFERENCES "public"."professors"("account_id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "transactions" ADD CONSTRAINT "transactions_account_id_accounts_id_fk" FOREIGN KEY ("account_id") REFERENCES "public"."accounts"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "accounts_email_unique_index" ON "accounts" USING btree (lower("email"));--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "calendar_event_types_name_slug_unique_index" ON "calendar_event_types" USING btree ("name","slug");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "major_subject_groups_parent_id_index" ON "major_subject_groups" USING btree ("parent_id");--> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "majors_      faculty_id_      program_id_      degree_id_      academic_year_id_      index" ON "majors" USING btree ("faculty_id","program_id","degree_id","academic_year_id");
+CREATE UNIQUE INDEX IF NOT EXISTS "majors_faculty_id_program_id_degree_id_academic_year_id_index" ON "majors" USING btree ("faculty_id","program_id","degree_id","academic_year_id");
