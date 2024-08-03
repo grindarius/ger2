@@ -2,8 +2,8 @@ import { relations } from 'drizzle-orm'
 import { integer, jsonb, pgTable, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { assignments } from './assignments.js'
+import { disenrolledSubjects } from './disenrolled-subjects.js'
 import { enrolledSubjects } from './enrolled-subjects.js'
-import { movedSubjects } from './moved-subjects.js'
 import { openingSubjectAdditionalStudents } from './opening-subject-additional-students.js'
 import { openingSubjectEligibleMajors } from './opening-subject-eligible-majors.js'
 import { openingSubjectProfessors } from './opening-subject-professors.js'
@@ -90,7 +90,6 @@ export const openingSubjectsRelations = relations(openingSubjects, ({ one, many 
   openingSubjectEligibleMajors: many(openingSubjectEligibleMajors),
   openingSubjectAdditionalStudents: many(openingSubjectAdditionalStudents),
   enrolledSubjects: many(enrolledSubjects),
-  assignments: many(assignments),
-  sourceSubjects: many(movedSubjects),
-  destinationSubjects: many(movedSubjects)
+  disenrolledSubjects: many(disenrolledSubjects),
+  assignments: many(assignments)
 }))

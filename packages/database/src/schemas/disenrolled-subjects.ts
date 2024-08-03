@@ -17,7 +17,7 @@ export const disenrolledSubjects = pgTable('disenrolled_subjects', {
     .references(() => openingSubjects.id)
 })
 
-export const movedSubjectsRelations = relations(disenrolledSubjects, ({ one }) => ({
+export const disenrolledSubjectsRelations = relations(disenrolledSubjects, ({ one }) => ({
   openingSubject: one(openingSubjects, {
     fields: [disenrolledSubjects.subjectId],
     references: [openingSubjects.id]
