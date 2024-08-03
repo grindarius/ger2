@@ -5,3 +5,8 @@ node_modules
 .env
 
 keydb-data
+
+schemaspy.jar
+jdbc-driver.jar
+
+schemaspy
