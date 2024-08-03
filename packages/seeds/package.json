@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "lucia-auth-postgres-keydb-session-adapter",
+  "name": "ger2-seeds",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "postgres data adapter with redis session",
+  "description": "seeds module for testing the database.",
   "homepage": "https://github.com/grindarius/ger2",
   "bugs": {
     "url": "https://github.com/grindarius/ger2/issues"
@@ -15,18 +15,6 @@
   },
   "author": "Bhattarapong Somwong <numbbutt34685@gmail.com>",
   "license": "MIT",
-  "exports": "./dist/index.js",
-  "scripts": {
-    "test": "tsx ./test/index.test.ts"
-  },
-  "dependencies": {
-    "dayjs": "^1.11.10",
-    "ioredis": "^5.3.2",
-    "postgres": "^3.4.4",
-    "redis": "^4.6.13"
-  },
-  "devDependencies": {
-    "@lucia-auth/adapter-test": "^5.0.1",
-    "lucia": "^3.1.1"
-  }
+  "scripts": {},
+  "devDependencies": {}
 }

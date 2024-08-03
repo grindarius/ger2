@@ -4,3 +4,4 @@ packages:
   - './packages/scripts'
   - './packages/lucia-auth-postgres-keydb-session-adapter'
   - './packages/database'
+  - './packages/seeds'

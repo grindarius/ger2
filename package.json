@@ -2,12 +2,21 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "ger2",
   "version": "0.1.0",
-  "description": "university registration, redefined",
   "private": true,
+  "type": "module",
+  "description": "university registration, redefined",
   "keywords": [
     "university"
   ],
-  "author": "Bhattarapong Somwong",
+  "homepage": "https://github.com/grindarius/ger2",
+  "bugs": {
+    "url": "https://github.com/grindarius/ger2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/ger2.git"
+  },
+  "author": "Bhattarapong Somwong <numbbutt34685@gmail.com>",
   "license": "MIT",
   "scripts": {
     "docker-up": "docker compose up -d",
@@ -20,9 +29,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
+    "@dotenvx/dotenvx": "^1.6.4",
     "@tsconfig/node-lts": "^20.1.3",
     "@tsconfig/strictest": "^2.0.5",
     "@types/node": "^20.11.30",
+    "tsx": "^4.16.5",
     "typescript": "~5.4.5"
   }
 }

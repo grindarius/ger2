@@ -1,17 +1,28 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "ger2-website",
-  "description": "university registration, redefined",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "website of ger2",
+  "homepage": "https://github.com/grindarius/ger2",
+  "bugs": {
+    "url": "https://github.com/grindarius/ger2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/ger2.git"
+  },
+  "author": "Bhattarapong Somwong <numbbutt34685@gmail.com>",
+  "license": "MIT",
   "engines": {
     "node": "^18.17.0 || ^20.3.0 || >=21.0.0"
   },
   "engines-annotation": "Mostly required by sharp which needs a Node-API v9 compatible runtime",
-  "private": true,
   "trustedDependencies": [
     "sharp"
   ],
   "trustedDependencies-annotation": "Needed for bun to allow running install scripts",
-  "type": "module",
   "scripts": {
     "build": "qwik build",
     "build.client": "vite build",
@@ -26,19 +37,6 @@
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
     "qwik": "qwik"
-  },
-  "devDependencies": {
-    "@builder.io/qwik": "1.5.3",
-    "@builder.io/qwik-city": "1.5.3",
-    "@playwright/test": "1.43.1",
-    "autoprefixer": "^10.4.19",
-    "drizzle-kit": "^0.20.17",
-    "lucia": "^3.2.0",
-    "lucia-auth-postgres-keydb-session-adapter": "workspace:^",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
-    "vite": "^5.2.11",
-    "vite-tsconfig-paths": "4.3.2"
   },
   "dependencies": {
     "@lucia-auth/adapter-postgresql": "^3.1.2",
@@ -57,5 +55,18 @@
     "ulidx": "^2.3.0",
     "undici": "^6.15.0",
     "zod": "^3.23.6"
+  },
+  "devDependencies": {
+    "@builder.io/qwik": "1.5.3",
+    "@builder.io/qwik-city": "1.5.3",
+    "@playwright/test": "1.43.1",
+    "autoprefixer": "^10.4.19",
+    "drizzle-kit": "^0.20.17",
+    "lucia": "^3.2.0",
+    "lucia-auth-postgres-keydb-session-adapter": "workspace:^",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "vite": "^5.2.11",
+    "vite-tsconfig-paths": "4.3.2"
   }
 }
