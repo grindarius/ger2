@@ -4,9 +4,13 @@
   "compilerOptions": {
     "outDir": "./dist",
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"]
+    "lib": [
+      "esnext",
+      "dom"
+    ]
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./drizzle.config.ts"
   ]
 }
