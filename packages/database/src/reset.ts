@@ -12,7 +12,7 @@ for (const tablename of tablenames) {
   consola.info('-', tablename.tablename)
   // could have been that stuff around $1 template literal is wrapped in single quote, not double qoute.
   // That's why we cannot use $1 template literal normally. Because table name needs to be double-quoted.
-  await sql`drop table if exists ${sql(tablename)} cascade`
+  await sql`drop table if exists ${sql(tablename.tablename)} cascade`
 }
 
 consola.info('Successfully removed all tables in public schema\n')
