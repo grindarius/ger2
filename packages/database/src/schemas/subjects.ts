@@ -1,7 +1,6 @@
 import { relations } from 'drizzle-orm'
 import { integer, pgTable, text, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
-import { majorStudyPlans } from './major-study-plans.js'
 import { majorSubjects } from './major-subjects.js'
 import { openingSubjects } from './opening-subjects.js'
 
@@ -20,6 +19,5 @@ export const subjects = pgTable('subjects', {
 
 export const subjectsRelations = relations(subjects, ({ many }) => ({
   majorSubjects: many(majorSubjects),
-  openingSubjects: many(openingSubjects),
-  majorStudyPlans: many(majorStudyPlans)
+  openingSubjects: many(openingSubjects)
 }))
