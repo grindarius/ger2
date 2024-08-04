@@ -67,49 +67,22 @@ importers:
       lucia:
         specifier: ^3.1.1
         version: 3.1.1
-      tsx:
-        specifier: ^4.7.2
-        version: 4.7.2
 
-  packages/scripts:
+  packages/scripts/seed:
     dependencies:
-      chalk:
-        specifier: ^5.3.0
-        version: 5.3.0
-      dayjs:
-        specifier: ^1.11.11
-        version: 1.11.11
-      dotenv-flow:
-        specifier: ^4
-        version: 4.1.0
-      just-flatten-it:
-        specifier: ^5.2.0
-        version: 5.2.0
-      kysely:
-        specifier: ^0.27.3
-        version: 0.27.3
-      kysely-postgres-js:
-        specifier: ^2.0.0
-        version: 2.0.0(kysely@0.27.3)(postgres@3.4.3)
-      oslo:
-        specifier: ^1.1.3
-        version: 1.1.3
+      '@ger2/database':
+        specifier: workspace:*
+        version: link:../../database
+      drizzle-orm:
+        specifier: 0.32.1
+        version: 0.32.1(kysely@0.27.3)(postgres@3.4.4)
       postgres:
-        specifier: ^3.4.3
-        version: 3.4.3
-      ulidx:
-        specifier: ^2.3.0
-        version: 2.3.0
+        specifier: ^3.4.4
+        version: 3.4.4
     devDependencies:
-      '@faker-js/faker':
-        specifier: ^8.4.1
-        version: 8.4.1
-      '@types/dotenv-flow':
-        specifier: ^3.3.3
-        version: 3.3.3
-      tsx:
-        specifier: ^4.7.1
-        version: 4.7.1
+      consola:
+        specifier: ^3.2.3
+        version: 3.2.3
 
   packages/website:
     dependencies:
@@ -180,9 +153,6 @@ importers:
       lucia:
         specifier: ^3.2.0
         version: 3.2.0
-      lucia-auth-postgres-keydb-session-adapter:
-        specifier: workspace:^
-        version: link:../lucia-auth-postgres-keydb-session-adapter
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
@@ -843,10 +813,6 @@ packages:
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
-
-  '@faker-js/faker@8.4.1':
-    resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
 
   '@hono/node-server@1.11.1':
     resolution: {integrity: sha512-GW1Iomhmm1o4Z+X57xGby8A35Cu9UZLL7pSMdqDBkD99U5cywff8F+8hLk5aBTzNubnsFAvWQ/fZjNwPsEn9lA==}
@@ -1533,9 +1499,6 @@ packages:
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
-  '@types/dotenv-flow@3.3.3':
-    resolution: {integrity: sha512-aJjBsKw4bfGjvaRwrxBtEOfYZxCAq+LiFTpZ4DGTEK2b9eLVt/IAClapSxMfgV4Mi/2bIBKKjoTCO0lOh4ACLg==}
-
   '@types/estree-jsx@1.0.5':
     resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
 
@@ -1918,14 +1881,6 @@ packages:
   dot-prop@6.0.1:
     resolution: {integrity: sha512-tE7ztYzXHIeyvc7N+hR3oi7FIbf/NIjVP9hmAt3yMXzrQ072/fpjGLx2GxNxGxUl5V73MEqYzioOMoVhGMJ5cA==}
     engines: {node: '>=10'}
-
-  dotenv-flow@4.1.0:
-    resolution: {integrity: sha512-0cwP9jpQBQfyHwvE0cRhraZMkdV45TQedA8AAUZMsFzvmLcQyc1HPv+oX0OOYwLFjIlvgVepQ+WuQHbqDaHJZg==}
-    engines: {node: '>= 12.0.0'}
-
-  dotenv@16.3.1:
-    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
-    engines: {node: '>=12'}
 
   dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
@@ -2506,9 +2461,6 @@ packages:
   json-schema-typed@7.0.3:
     resolution: {integrity: sha512-7DE8mpG+/fVw+dTpjbxnx47TaMnDfOI1jwft9g1VybltZCduyRQPJPvc+zzKY9WPHxhPWczyFuYa6I8Mw4iU5A==}
 
-  just-flatten-it@5.2.0:
-    resolution: {integrity: sha512-fnRUzoIY/d523s+nIAL/RCQLlQi1gt73EBljCYg7pQaui+e2l/rHD1dFNXi8eG0TZ26nlCdrJ3jmczpWcvvfXw==}
-
   just-group-by@2.2.0:
     resolution: {integrity: sha512-brZocDSmkvDYc+FOr07GiTar4cp7K6OB9huVOrj5LX+iXfCe3hTvn2KGM811LE/SBQkCzuYDDEcG8HA/dKDrnw==}
 
@@ -2833,9 +2785,6 @@ packages:
   oslo@1.0.1:
     resolution: {integrity: sha512-esfzZry+HfGgK/GCYkg7BRlLd3RH5aHa08wgLJPYjENXybi0BvXxGk0LbUj+lXfz2TkjPDHe4rB/o6JxRLHxBg==}
 
-  oslo@1.1.3:
-    resolution: {integrity: sha512-hCz528UlNTiegplcyBg6AvG0HLNrnq06EJMp88Ze308GX1hszkb8u3puhNC4aqLMbYQ0hXpl+wQGnwxMtt5+5w==}
-
   oslo@1.2.0:
     resolution: {integrity: sha512-OoFX6rDsNcOQVAD2gQD/z03u4vEjWZLzJtwkmgfRF+KpQUXwdgEXErD7zNhyowmHwHefP+PM9Pw13pgpHMRlzw==}
 
@@ -2961,10 +2910,6 @@ packages:
   postcss@8.4.38:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
-
-  postgres@3.4.3:
-    resolution: {integrity: sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==}
-    engines: {node: '>=12'}
 
   postgres@3.4.4:
     resolution: {integrity: sha512-IbyN+9KslkqcXa8AO9fxpk97PA4pzewvpi2B3Dwy9u4zpV32QicaEdgmF3eSQUzdRk7ttDHQejNgAEr4XoeH4A==}
@@ -3213,16 +3158,6 @@ packages:
 
   tsx@4.16.5:
     resolution: {integrity: sha512-ArsiAQHEW2iGaqZ8fTA1nX0a+lN5mNTyuGRRO6OW3H/Yno1y9/t1f9YOI1Cfoqz63VAthn++ZYcbDP7jPflc+A==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-
-  tsx@4.7.1:
-    resolution: {integrity: sha512-8d6VuibXHtlN5E3zFkgY8u4DX7Y3Z27zvvPKVmLon/D4AjuKzarkUBTLDBgj9iTQ0hg5xM7c/mYiRVM+HETf0g==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-
-  tsx@4.7.2:
-    resolution: {integrity: sha512-BCNd4kz6fz12fyrgCTEdZHGJ9fWTGeUzXmQysh0RVocDY3h4frk05ZNCXSy4kIenF7y/QnrdiVpTsyNRn6vlAw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -3801,8 +3736,6 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
-  '@faker-js/faker@8.4.1': {}
-
   '@hono/node-server@1.11.1': {}
 
   '@hono/zod-validator@0.2.1(hono@4.3.2)(zod@3.23.6)':
@@ -4335,8 +4268,6 @@ snapshots:
     dependencies:
       '@types/ms': 0.7.34
 
-  '@types/dotenv-flow@3.3.3': {}
-
   '@types/estree-jsx@1.0.5':
     dependencies:
       '@types/estree': 1.0.5
@@ -4705,12 +4636,6 @@ snapshots:
   dot-prop@6.0.1:
     dependencies:
       is-obj: 2.0.0
-
-  dotenv-flow@4.1.0:
-    dependencies:
-      dotenv: 16.3.1
-
-  dotenv@16.3.1: {}
 
   dotenv@16.4.5: {}
 
@@ -5265,18 +5190,11 @@ snapshots:
 
   json-schema-typed@7.0.3: {}
 
-  just-flatten-it@5.2.0: {}
-
   just-group-by@2.2.0: {}
 
   kuler@2.0.0: {}
 
   ky@1.2.4: {}
-
-  kysely-postgres-js@2.0.0(kysely@0.27.3)(postgres@3.4.3):
-    dependencies:
-      kysely: 0.27.3
-      postgres: 3.4.3
 
   kysely-postgres-js@2.0.0(kysely@0.27.3)(postgres@3.4.4):
     dependencies:
@@ -5789,11 +5707,6 @@ snapshots:
       '@node-rs/argon2': 1.7.2
       '@node-rs/bcrypt': 1.9.2
 
-  oslo@1.1.3:
-    dependencies:
-      '@node-rs/argon2': 1.7.0
-      '@node-rs/bcrypt': 1.9.0
-
   oslo@1.2.0:
     dependencies:
       '@node-rs/argon2': 1.7.0
@@ -5907,8 +5820,6 @@ snapshots:
       nanoid: 3.3.7
       picocolors: 1.0.0
       source-map-js: 1.2.0
-
-  postgres@3.4.3: {}
 
   postgres@3.4.4: {}
 
@@ -6223,20 +6134,6 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       get-tsconfig: 4.7.6
-    optionalDependencies:
-      fsevents: 2.3.3
-
-  tsx@4.7.1:
-    dependencies:
-      esbuild: 0.19.11
-      get-tsconfig: 4.7.2
-    optionalDependencies:
-      fsevents: 2.3.3
-
-  tsx@4.7.2:
-    dependencies:
-      esbuild: 0.19.11
-      get-tsconfig: 4.7.2
     optionalDependencies:
       fsevents: 2.3.3
 

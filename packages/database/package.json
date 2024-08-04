@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "ger2-database",
+  "name": "@ger2/database",
   "version": "0.1.0",
   "private": true,
   "type": "module",

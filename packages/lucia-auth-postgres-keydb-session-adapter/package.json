@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "lucia-auth-postgres-keydb-session-adapter",
+  "name": "@ger2/lucia-auth-postgres-keydb-session-adapter",
   "version": "0.1.0",
   "private": true,
   "type": "module",
