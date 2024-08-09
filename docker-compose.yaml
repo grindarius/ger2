@@ -21,10 +21,9 @@ services:
       - 3792:9090
 
   keydb:
-    image: eqalpha/keydb:alpine
+    image: redis:7-alpine
     container_name: ger2-keydb-server
-    restart: always
-    command: keydb-server --appendonly no
+    command: redis-server --appendonly no
     ports:
       - 11329:6379
     volumes:

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@ger2/seeds",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "seed related data for the database",
+  "homepage": "https://github.com/grindarius/ger2",
+  "bugs": {
+    "url": "https://github.com/grindarius/ger2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/ger2.git"
+  },
+  "author": "Bhattarapong Somwong <numbbutt34685@gmail.com>",
+  "license": "MIT",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "seed": "dotenvx run -- pnpm tsx ./src/seed.ts"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@ger2/database": "workspace:*",
+    "drizzle-orm": "^0.32.1",
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "consola": "^3.2.3"
+  }
+}
