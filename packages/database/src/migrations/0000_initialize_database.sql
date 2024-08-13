@@ -5,7 +5,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- CREATE TYPE "public"."opening_subject_status" AS ENUM('open', 'open-only-disenroll', 'closed');
+ CREATE TYPE "public"."opening_subject_status" AS ENUM('open', 'open-only-for-disenrollment', 'closed');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -17,7 +17,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- CREATE TYPE "public"."room_type" AS ENUM('study', 'lab', 'conferences', 'others');
+ CREATE TYPE "public"."room_type" AS ENUM('study', 'lab', 'conference', 'other');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

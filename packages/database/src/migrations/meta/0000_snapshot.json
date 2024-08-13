@@ -1,5 +1,5 @@
 {
-  "id": "59bc0bd4-0c11-4a6c-84d8-f82153479512",
+  "id": "eb9ce049-1c96-496d-814f-f8a1a7f80153",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -2044,7 +2044,7 @@
       "schema": "public",
       "values": [
         "open",
-        "open-only-disenroll",
+        "open-only-for-disenrollment",
         "closed"
       ]
     },
@@ -2063,8 +2063,8 @@
       "values": [
         "study",
         "lab",
-        "conferences",
-        "others"
+        "conference",
+        "other"
       ]
     },
     "public.transaction_status": {

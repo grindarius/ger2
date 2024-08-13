@@ -54,3 +54,90 @@ export const studentsRelations = relations(students, ({ many }) => ({
   openingSubjectAdditionalStudents: many(openingSubjectAdditionalStudents),
   assignments: many(assignments)
 }))
+
+export type Studying = {
+  type: 'Studying'
+}
+
+export type RestingForTreatment = {
+  type: 'RestingForTreatment'
+  semester_id: string
+}
+
+export type Resting = {
+  type: 'Resting'
+  semester_id: string
+}
+
+export type ForcedToRest = {
+  type: 'ForcedToRest'
+  semester_id: string
+}
+
+export type RetiredByInsufficientGrades = {
+  type: 'RetiredByInsufficientGrades'
+  retired_at: string
+}
+
+export type RetiredByNotPaying = {
+  type: 'RetiredByNotPaying'
+  retired_at: string
+}
+
+export type RetiredByNotSigning = {
+  type: 'RetiredByNotSigning'
+  retired_at: string
+}
+
+export type RetiredBySigningButNotPaying = {
+  type: 'RetiredBySigningButNotPaying'
+  retired_at: string
+}
+
+export type RetiredByRunningOutOfTimeToStudy = {
+  type: 'RetiredByRunningOutOfTimeToStudy'
+  retired_at: string
+}
+
+export type RetiredByHavingInsufficientEnglishGrades = {
+  type: 'RetiredByHavingInsufficientEnglishGrades'
+  retired_at: string
+}
+
+export type Resigned = {
+  type: 'Resigned'
+  resigned_at: string
+  reason: string
+}
+
+export type Fired = {
+  type: 'Fired'
+  fired_at: string
+  reason: string
+}
+
+export type Deceased = {
+  type: 'Deceased'
+  deceased_at: string
+}
+
+export type Graduated = {
+  type: 'Graduated'
+  graduated_at: string
+}
+
+export type StudentStatus =
+  | Studying
+  | RestingForTreatment
+  | Resting
+  | ForcedToRest
+  | RetiredByInsufficientGrades
+  | RetiredByNotPaying
+  | RetiredByNotSigning
+  | RetiredBySigningButNotPaying
+  | RetiredByRunningOutOfTimeToStudy
+  | RetiredByHavingInsufficientEnglishGrades
+  | Resigned
+  | Fired
+  | Deceased
+  | Graduated

@@ -1,6 +1,6 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
 
-export const OPENING_SUBJECT_STATUS = ['open', 'open-only-disenroll', 'closed'] as const
+export const OPENING_SUBJECT_STATUS = ['open', 'open-only-for-disenrollment', 'closed'] as const
 
 /**
  * Stores possible status of an opening subject.

@@ -1,6 +1,6 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
 
-export const ROOM_TYPE = ['study', 'lab', 'conferences', 'others'] as const
+export const ROOM_TYPE = ['study', 'lab', 'conference', 'other'] as const
 
 /**
  * Stores types of rooms a building can have.
