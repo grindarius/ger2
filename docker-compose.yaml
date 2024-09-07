@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: groonga/pgroonga:latest-alpine-16
+    image: paradedb/paradedb:latest
     container_name: ger2-postgres-server
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -20,7 +20,7 @@ services:
     ports:
       - 3792:9090
 
-  keydb:
+  redis:
     image: redis:7-alpine
     container_name: ger2-keydb-server
     command: redis-server --appendonly no
