@@ -120,7 +120,7 @@ pub async fn handler(
 
     let Some(major_row) = row else {
         return Err(HttpError::QueryNotFound {
-            field: "major_id",
+            field: "major_id".to_string(),
             value: path.major_id,
         });
     };

@@ -1,5 +1,6 @@
+use std::sync::LazyLock;
+
 use axum::{middleware, routing::get, Router};
-use once_cell::sync::Lazy;
 use tower_http::trace::TraceLayer;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -56,7 +57,7 @@ async fn main() {
         );
 
     let app = Router::new()
-        .route("/", get(crate::routes::hello_world::handler))
+        .route("/", get(crate::routes::healthcheck::handler))
         .merge(SwaggerUi::new("/docs").url("/api-docs/openapi.json", ApiDoc::openapi()))
         .merge(routes)
         .layer(middleware::from_fn(require_apikey_middleware))
@@ -72,13 +73,13 @@ async fn main() {
         .with_state(state)
         .fallback(global_not_found);
 
-    let listener = tokio::net::TcpListener::bind(Lazy::force(&API_URL))
+    let listener = tokio::net::TcpListener::bind(LazyLock::force(&API_URL))
         .await
         .unwrap();
 
     tracing::info!(
         "listening on {}",
-        Lazy::force(&environment_variables::FULL_API_URL)
+        LazyLock::force(&environment_variables::FULL_API_URL)
     );
     tracing::info!(
         "documentation server started at http://{}/docs",

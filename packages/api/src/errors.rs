@@ -40,8 +40,8 @@ impl ErrorResponse {
 
 pub enum HttpError {
     InternalServerError { cause: String },
-    QueryNotFound { field: &'static str, value: String },
-    InvalidQueryParameterEmpty { field: &'static str },
+    QueryNotFound { field: String, value: String },
+    InvalidQueryParameterEmpty { field: String },
 }
 
 impl IntoResponse for HttpError {

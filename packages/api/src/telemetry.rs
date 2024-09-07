@@ -1,10 +1,10 @@
+use std::sync::LazyLock;
 use std::time::Duration;
 
 use axum::{
     extract::{OriginalUri, Request},
     response::Response,
 };
-use once_cell::sync::Lazy;
 use tracing::{field, Span};
 use tracing_appender::non_blocking::WorkerGuard;
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
@@ -16,13 +16,13 @@ pub fn init_telemetry() -> WorkerGuard {
     let env_filter = EnvFilter::try_from_default_env().unwrap_or(
         format!(
             "{}=debug,tower_http=info,axum::rejection=trace",
-            Lazy::force(&APP_NAME)
+            LazyLock::force(&APP_NAME)
         )
         .into(),
     );
     let (non_blocking_writer, guard) = tracing_appender::non_blocking(std::io::stdout());
     let formatting_layer =
-        BunyanFormattingLayer::new(Lazy::force(&APP_NAME).into(), non_blocking_writer);
+        BunyanFormattingLayer::new(LazyLock::force(&APP_NAME).into(), non_blocking_writer);
 
     let subscriber = Registry::default()
         .with(env_filter)

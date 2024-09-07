@@ -1,3 +1,3 @@
-pub mod hello_world;
+pub mod healthcheck;
 pub mod me;
 pub mod programs;

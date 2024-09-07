@@ -1,5 +1,6 @@
+use std::sync::LazyLock;
+
 use axum::{extract::Request, http::StatusCode, middleware::Next, response::Response};
-use once_cell::sync::Lazy;
 
 use crate::environment_variables::{SWAGGER_API_KEY, SWAGGER_API_KEY_NAME};
 
@@ -9,7 +10,7 @@ pub async fn require_apikey_middleware(
 ) -> Result<Response, StatusCode> {
     let headers = request.headers();
 
-    match headers.get(Lazy::force(&SWAGGER_API_KEY_NAME)) {
+    match headers.get(LazyLock::force(&SWAGGER_API_KEY_NAME)) {
         Some(header) => {
             if header == SWAGGER_API_KEY.as_str() {
                 tracing::info!("require_apikey_middleware: correct swagger api key given");

@@ -3,7 +3,7 @@ use serde::Serialize;
 use utoipa::ToSchema;
 
 #[derive(Serialize, ToSchema)]
-pub struct GetHelloWorldResponseBody {
+pub struct GetHealthcheckResponseBody {
     message: &'static str,
 }
 
@@ -11,7 +11,7 @@ pub struct GetHelloWorldResponseBody {
     get,
     path = "/",
     tag = "misc",
-    operation_id = "hello_world",
+    operation_id = "healthcheck",
     responses(
         (
             status = 200,
@@ -21,8 +21,8 @@ pub struct GetHelloWorldResponseBody {
         )
     )
 )]
-pub async fn handler() -> Json<GetHelloWorldResponseBody> {
-    Json(GetHelloWorldResponseBody {
-        message: "ger axum api is running",
+pub async fn handler() -> Json<GetHealthcheckResponseBody> {
+    Json(GetHealthcheckResponseBody {
+        message: "ger2 api is up and running",
     })
 }

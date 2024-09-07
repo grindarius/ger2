@@ -36,34 +36,3 @@ where
         Option::deserialize(deserializer).map(Into::into)
     }
 }
-
-impl<T: TS> TS for Patch<T> {
-    fn name() -> String {
-        unreachable!();
-    }
-
-    fn name_with_type_args(args: Vec<String>) -> String {
-        assert_eq!(
-            args.len(),
-            1,
-            "called Patch::name_with_type_args with {} args",
-            args.len()
-        );
-        format!("{} | null | undefined", args[0])
-    }
-
-    fn inline() -> String {
-        format!("{} | null | undefined", T::inline())
-    }
-
-    fn dependencies() -> Vec<ts_rs::Dependency>
-    where
-        Self: 'static,
-    {
-        vec![]
-    }
-
-    fn transparent() -> bool {
-        true
-    }
-}

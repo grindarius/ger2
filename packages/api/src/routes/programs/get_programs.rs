@@ -10,7 +10,10 @@ use serde::Serialize;
 use ts_rs::TS;
 use utoipa::ToSchema;
 
-use crate::{errors::HttpError, macros::top_level_array_ts_type, state::SharedState};
+use crate::{
+    errors::{HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE},
+    state::SharedState,
+};
 
 #[derive(Serialize, ToSchema)]
 #[serde(transparent)]
@@ -21,8 +24,6 @@ impl Default for GetProgramsResponseBody {
         Self(vec![GetProgramsResponseBodyInner::default()])
     }
 }
-
-top_level_array_ts_type!(GetProgramsResponseBody, GetProgramsResponseBodyInner);
 
 #[derive(Serialize, ToSchema, TS, FromRow)]
 #[ts(export)]
@@ -75,9 +76,15 @@ impl Default for GetProgramsResponseBodyInner {
             example = json!(GetProgramsResponseBody::default())
         ),
         (
+            status = "4XX",
+            description = "user is wrong",
+            body = ErrorResponse
+        ),
+        (
             status = "5XX",
             description = "something is wrong on our end",
-            body = ErrorResponse
+            body = ErrorResponse,
+            example = json!(*EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE)
         )
     )
 )]
