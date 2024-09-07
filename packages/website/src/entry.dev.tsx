@@ -9,10 +9,9 @@
  * - More code is transferred to the browser than in SSR mode.
  * - Optimizer/Serialization/Deserialization code is not exercised!
  */
-import { type RenderOptions, type RenderResult, render } from '@builder.io/qwik'
-
+import { type RenderOptions, render } from '@builder.io/qwik'
 import Root from './root'
 
-export default async function(opts: RenderOptions): Promise<RenderResult> {
+export default async function (opts: RenderOptions) {
   return await render(document, <Root />, opts)
 }

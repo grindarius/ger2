@@ -1,12 +1,7 @@
 import { component$ } from '@builder.io/qwik'
-import {
-  QwikCityProvider,
-  RouterOutlet,
-  ServiceWorkerRegister
-} from '@builder.io/qwik-city'
-
+import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city'
+import { isDev } from '@builder.io/qwik/build'
 import { RouterHead } from './components/router-head/router-head'
-import { useThemeProvider } from './providers/theme-provider'
 
 import './global.css'
 
@@ -18,30 +13,16 @@ export default component$(() => {
    * Don't remove the `<head>` and `<body>` elements.
    */
 
-  useThemeProvider()
-
   return (
     <QwikCityProvider>
       <head>
-        <meta charSet="utf-8" />
-        <link rel="manifest" href="/manifest.json" />
+        <meta charset="utf-8" />
+        {!isDev && <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.json`} />}
         <RouterHead />
-        <script dangerouslySetInnerHTML={`
-          // set to dark or light depends on prefers-color-scheme
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            localStorage.setItem('theme', 'ger2-dark')
-          }
-
-          if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-            localStorage.setItem('theme', 'ger2-light')
-          }
-
-          document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'ger2-dark')`}
-        />
       </head>
       <body lang="en">
         <RouterOutlet />
-        <ServiceWorkerRegister />
+        {!isDev && <ServiceWorkerRegister />}
       </body>
     </QwikCityProvider>
   )
