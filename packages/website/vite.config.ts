@@ -14,7 +14,13 @@ errorOnDuplicatesPkgDeps(devDependencies, dependencies)
 
 export default defineConfig((_config): UserConfig => {
   return {
-    plugins: [qwikCity(), qwikVite(), tsconfigPaths()],
+    plugins: [
+      qwikCity({
+        trailingSlash: false
+      }),
+      qwikVite(),
+      tsconfigPaths()
+    ],
     optimizeDeps: {
       exclude: []
     },
@@ -22,7 +28,9 @@ export default defineConfig((_config): UserConfig => {
       headers: {
         // Don't cache the server response in dev mode
         'Cache-Control': 'public, max-age=0'
-      }
+      },
+      host: '127.0.0.1',
+      port: 5173
     },
     preview: {
       headers: {
