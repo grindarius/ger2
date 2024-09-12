@@ -41,6 +41,7 @@
   "devDependencies": {
     "@builder.io/qwik": "^1.8.0",
     "@builder.io/qwik-city": "^1.8.0",
+    "@types/leaflet": "^1.9.6",
     "autoprefixer": "^10.4.14",
     "daisyui": "^4.12.10",
     "postcss": "^8.4.31",
@@ -49,5 +50,8 @@
     "undici": "*",
     "vite": "5.3.5",
     "vite-tsconfig-paths": "^4.3.2"
+  },
+  "dependencies": {
+    "leaflet": "1.9.4"
   }
 }
