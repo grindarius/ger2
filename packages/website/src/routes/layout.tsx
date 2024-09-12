@@ -17,7 +17,7 @@ export default component$(() => {
   return (
     <div class="drawer">
       <input id="drawer-toggler" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content bg-base-200 min-h-screen">
+      <div class="drawer-content bg-base-100 min-h-screen">
         <main class="min-h-screen drawer-content">
           <Slot />
           <label
