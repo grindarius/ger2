@@ -29,6 +29,27 @@ You need to install these programs to be able to run the project.
   brew install --cask docker
   ```
 
+- [dotenvx](https://dotenvx.com) for populating environment variables in testing
+  ```
+  brew install dotenvx/brew/dotenvx
+  ```
+
+## Running API
+
+The api is built using [axum](https://github.com/tokio-rs/axum). You can start by
+
+1. Make a copy of `.env.example` to `.env`
+
+2. Generate `SWAGGER_API_KEY` with this command in terminal.
+  ```
+  node -e "console.log(require('crypto').randomBytes(48).toString('base64'))"
+  ```
+
+3. Run the API with
+  ```
+  dotenvx run --env-file ./packages/api/.env -- cargo run -p ger2-api
+  ```
+
 ### Viewing database schema
 
 You can easily view the database schema with [schemaspy](https://github.com/schemaspy/schemaspy)

@@ -28,12 +28,12 @@ time = { version = "0.3", features = ["serde-human-readable", "local-offset"] }
 tokio = { version = "1", features = ["full"] }
 tokio-postgres = { version = "0.7", features = ["with-serde_json-1", "with-time-0_3", "with-geo-types-0_7"] }
 tower = "0.5"
-tower-http = { version = "0.5", features = ["trace"] }
+tower-http = { version = "0.6", features = ["trace"] }
 tracing = "0.1"
 tracing-appender = "0.2"
 tracing-bunyan-formatter = "0.3"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-ts-rs = "9"
+ts-rs = "10"
 ulid = { version = "1", features = ["serde"] }
 utoipa = { version = "4", features = ["axum_extras", "time", "decimal", "ulid"] }
 utoipa-swagger-ui = { version = "7", features = ["axum"] }
