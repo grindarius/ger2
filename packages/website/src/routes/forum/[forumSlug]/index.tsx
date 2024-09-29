@@ -7,7 +7,7 @@ export default component$(() => {
   return (
     <div>
       First page of a forum or a group. You can create a forum from the first page and here you can
-      browse posts inside the forum.
+      browse posts inside the forum. forum_id: {loc.params.forumSlug}
     </div>
   )
 })

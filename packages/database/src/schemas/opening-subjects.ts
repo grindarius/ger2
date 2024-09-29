@@ -25,8 +25,6 @@ export const openingSubjects = pgTable('opening_subjects', {
   semesterId: varchar('semester_id', { length: 26 })
     .notNull()
     .references(() => semesters.id),
-  subject_capacity: integer('subject_capicity').notNull(),
-  status: openingSubjectStatus('status').notNull(),
 
   /**
    * Some subject will have multiple professors open it for
@@ -36,6 +34,8 @@ export const openingSubjects = pgTable('opening_subjects', {
    * This will be a max + 1 for new subjects with same `subjectId` and `semesterId`.
    */
   groupIndex: integer('group_index').notNull().default(1),
+  subject_capacity: integer('subject_capicity').notNull(),
+  status: openingSubjectStatus('status').notNull(),
 
   /**
    * An object in json format with the minimum score as key in `f64`, and the grade in `String`
