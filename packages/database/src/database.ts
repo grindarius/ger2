@@ -6,6 +6,6 @@ export const client = postgres({
   user: process.env.PG_USER,
   password: process.env.PG_PASS,
   port: Number(process.env.PG_PORT),
-  max: 1,
+  max: 15,
   onnotice: () => {}
 })
