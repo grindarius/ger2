@@ -59,17 +59,6 @@ export class PgBytea<T extends ColumnBaseConfig<'buffer', 'PgBytea'>> extends Pg
   }
 }
 
-export interface PgByteaConfig<TMode extends 'buffer' | 'uint8array' = 'buffer' | 'uint8array'> {
-  mode?: TMode
-}
-
-export type Equal<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
-  ? true
-  : false
-
-export function bytea<TName extends string, TMode extends PgByteaConfig['mode'] & {}>(
-  name: TName,
-  config?: PgByteaConfig<TMode>
-): PgByteaBuilderInitial<TName> {
+export function bytea<TName extends string>(name: TName): PgByteaBuilderInitial<TName> {
   return new PgByteaBuilder(name)
 }
