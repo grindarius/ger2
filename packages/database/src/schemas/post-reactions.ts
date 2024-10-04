@@ -5,7 +5,7 @@ import { posts } from './posts.js'
 import { reactions } from './reactions.js'
 
 export const postReactions = pgTable(
-  'reply_reactions',
+  'post_reactions',
   {
     accountId: varchar('account_id', { length: 26 })
       .notNull()

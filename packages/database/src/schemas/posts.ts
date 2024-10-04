@@ -5,7 +5,6 @@ import { accounts } from './accounts.js'
 import { forums } from './forums.js'
 import { postReactions } from './post-reactions.js'
 import { replies } from './replies.js'
-import { replyReactions } from './reply-reactions.js'
 
 export const posts = pgTable('posts', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
@@ -31,6 +30,5 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
     references: [accounts.id]
   }),
   replies: many(replies),
-  replyReactions: many(replyReactions),
-  postReactions: many(postReactions)
+  reactions: many(postReactions)
 }))

@@ -3,6 +3,7 @@ import { index, pgTable, text, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accounts } from './accounts.js'
 import { posts } from './posts.js'
+import { replyReactions } from './reply-reactions.js'
 
 export const replies = pgTable(
   'replies',
@@ -23,7 +24,7 @@ export const replies = pgTable(
   })
 )
 
-export const repliesRelations = relations(replies, ({ one }) => ({
+export const repliesRelations = relations(replies, ({ one, many }) => ({
   parent: one(replies, {
     fields: [replies.parentId],
     references: [replies.id]
@@ -35,5 +36,6 @@ export const repliesRelations = relations(replies, ({ one }) => ({
   account: one(accounts, {
     fields: [replies.accountId],
     references: [accounts.id]
-  })
+  }),
+  reactions: many(replyReactions)
 }))

@@ -3,8 +3,10 @@ import { date, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accountNames } from './account-names.js'
 import { forums } from './forums.js'
+import { postReactions } from './post-reactions.js'
 import { posts } from './posts.js'
 import { professors } from './professors.js'
+import { reactions } from './reactions.js'
 import { replies } from './replies.js'
 import { replyReactions } from './reply-reactions.js'
 import { role } from './role.js'
@@ -47,6 +49,8 @@ export const accountsRelations = relations(accounts, ({ one, many }) => ({
   transactions: many(transactions),
   forums: many(forums),
   posts: many(posts),
+  postReactions: many(postReactions),
   replies: many(replies),
-  replyReactions: many(replyReactions)
+  replyReactions: many(replyReactions),
+  reactions: many(reactions)
 }))
