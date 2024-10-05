@@ -3,6 +3,8 @@ import {
   academicYearsRelations,
   accountNames,
   accountNamesRelations,
+  accounts,
+  accountsRelations,
   assignments,
   assignmentsRelations,
   buildings,
@@ -20,6 +22,8 @@ import {
   enrolledSubjectsRelations,
   faculties,
   facultiesRelations,
+  forums,
+  forumsRelations,
   majorStudyPlans,
   majorStudyPlansRelations,
   majorSubjectGroups,
@@ -39,10 +43,20 @@ import {
   openingSubjectStatus,
   openingSubjects,
   openingSubjectsRelations,
+  postReactions,
+  postReactionsRelations,
+  posts,
+  postsRelations,
   professors,
   professorsRelations,
   programs,
   programsRelations,
+  reactions,
+  reactionsRelations,
+  replies,
+  repliesRelations,
+  replyReactions,
+  replyReactionsRelations,
   role,
   roomType,
   rooms,
@@ -81,6 +95,9 @@ export const db = drizzle(client, {
     accountNames,
     accountNamesRelations,
 
+    accounts,
+    accountsRelations,
+
     assignments,
     assignmentsRelations,
 
@@ -106,6 +123,9 @@ export const db = drizzle(client, {
 
     faculties,
     facultiesRelations,
+
+    forums,
+    forumsRelations,
 
     majorStudyPlans,
     majorStudyPlansRelations,
@@ -136,11 +156,26 @@ export const db = drizzle(client, {
     openingSubjects,
     openingSubjectsRelations,
 
+    postReactions,
+    postReactionsRelations,
+
+    posts,
+    postsRelations,
+
     professors,
     professorsRelations,
 
     programs,
     programsRelations,
+
+    reactions,
+    reactionsRelations,
+
+    replies,
+    repliesRelations,
+
+    replyReactions,
+    replyReactionsRelations,
 
     role,
 
