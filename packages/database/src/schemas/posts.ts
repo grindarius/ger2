@@ -1,5 +1,5 @@
-import { relations } from 'drizzle-orm'
-import { pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core'
+import { relations, sql } from 'drizzle-orm'
+import { bigint, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accounts } from './accounts.js'
 import { forums } from './forums.js'
@@ -17,6 +17,7 @@ export const posts = pgTable('posts', {
     .references(() => forums.id),
   content: text('content').notNull().default(''),
   lastActiveAt: timestamp('last_active_at', { mode: 'string' }).notNull().defaultNow(),
+  views: bigint('views', { mode: 'bigint' }).notNull().default(sql`'0'::bigint`),
   ...TIMESTAMP_COLUMNS
 })
 

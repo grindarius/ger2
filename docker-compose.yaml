@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: paradedb/paradedb:latest
+    image: groonga/pgroonga:latest-alpine-16
     container_name: ger2-postgres-server
     volumes:
       - postgres_data:/var/lib/postgresql/data

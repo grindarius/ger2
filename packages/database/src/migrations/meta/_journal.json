@@ -8,6 +8,34 @@
       "when": 1723490568942,
       "tag": "0000_initialize_database",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1728161755049,
+      "tag": "0001_add_forum_related_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1728162068619,
+      "tag": "0002_add_views_column",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1728162213829,
+      "tag": "0003_change_default_view_count_value",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1728162866489,
+      "tag": "0004_add_pgroonga_index",
+      "breakpoints": true
     }
   ]
 }

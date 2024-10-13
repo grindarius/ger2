@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "pgroonga_account_names_index" ON "account_names" USING pgroonga ("first_name","middle_name","last_name");
