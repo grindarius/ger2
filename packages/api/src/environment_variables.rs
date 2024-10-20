@@ -16,4 +16,4 @@ required_envs!(
     AWS_REGION
 );
 
-optional_envs!(AWS_ENDPOINT_URL);
+optional_envs!(AWS_ENDPOINT_URL, STORAGE_EMULATOR_ENABLED);

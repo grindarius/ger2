@@ -1,5 +1,13 @@
 import { relations } from 'drizzle-orm'
-import { integer, interval, numeric, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
+import {
+  index,
+  integer,
+  interval,
+  numeric,
+  pgTable,
+  uniqueIndex,
+  varchar
+} from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { academicYears } from './academic-years.js'
 import { degrees } from './degrees.js'
@@ -42,7 +50,8 @@ export const majors = pgTable(
   t => ({
     majorsFacultyIdProgramIdDegreeIdAcademicYearIdIndex: uniqueIndex(
       'majors_faculty_id_program_id_degree_id_academic_year_id_index'
-    ).on(t.facultyId, t.programId, t.degreeId, t.academicYearId)
+    ).on(t.facultyId, t.programId, t.degreeId, t.academicYearId),
+    pgroongaMajorsIndex: index('pgroonga_majors_index').using('pgroonga', t.name)
   })
 )
 

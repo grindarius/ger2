@@ -10,18 +10,15 @@ repository = "https://github.com/grindarius/ger2"
 
 [dependencies]
 argon2 = "0.5"
-aws-config = { version = "1", features = ["behavior-version-latest"] }
-aws-credential-types = { version = "1", features = ["hardcoded-credentials"] }
-aws-sdk-s3 = { version = "1", features = ["behavior-version-latest"] }
-aws-types = "1"
 axum = { version = "0.7", features = ["multipart", "macros"] }
 deadpool-postgres = "0.14"
+gcloud-sdk = { version = "0.25", features = ["google-rest-storage-v1"] }
 geo-types = { version = "0.7", features = ["serde"] }
 paste = "1"
 postgres-from-row = "0.5"
 postgres-types = { version = "0.2", features = ["derive", "serde-1", "with-time-0_3", "with-geo-types-0_7", "serde_json-1"] }
 rust_decimal = { version = "1", features = ["serde-with-float", "serde-with-str", "db-tokio-postgres"] }
-sea-query = { version = "0.31", features = ["derive", "thread-safe", "backend-postgres", "with-time", "with-json", "with-rust_decimal"] }
+sea-query = { version = "0.32", features = ["derive", "thread-safe", "backend-postgres", "with-time", "with-json", "with-rust_decimal"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 time = { version = "0.3", features = ["serde-human-readable", "local-offset"] }

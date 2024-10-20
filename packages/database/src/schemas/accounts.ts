@@ -1,5 +1,5 @@
 import { relations, sql } from 'drizzle-orm'
-import { date, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
+import { date, index, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accountNames } from './account-names.js'
 import { forums } from './forums.js'
@@ -38,7 +38,8 @@ export const accounts = pgTable(
     accountsEmailUniqueIndex: uniqueIndex('accounts_email_unique_index').using(
       'btree',
       sql`lower(${t.email})`
-    )
+    ),
+    pgroongaAccountsIndex: index('pgroonga_accounts_index').using('pgroonga', t.username)
   })
 )
 

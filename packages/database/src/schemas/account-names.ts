@@ -19,8 +19,8 @@ export const accountNames = pgTable(
      */
     nameLanguage: varchar('name_language', { length: 2 }).notNull(),
     firstName: text('first_name').notNull(),
-    middleName: text('middle_name').notNull(),
-    lastName: text('last_name').notNull(),
+    middleName: text('middle_name').notNull().default(''),
+    lastName: text('last_name').notNull().default(''),
     ...TIMESTAMP_COLUMNS
   },
   t => ({

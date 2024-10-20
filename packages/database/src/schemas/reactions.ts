@@ -8,7 +8,7 @@ import { replyReactions } from './reply-reactions.js'
 export const reactions = pgTable('reactions', {
   id: varchar('id', { length: 26 }).notNull().primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
-  slug: varchar('slug', { length: 128 }).notNull().unique(),
+  slug: varchar('slug', { length: 32 }).notNull().unique(),
   icon: text('icon').notNull(),
   score: integer('score'),
   accountId: varchar('account_id', { length: 26 }).references(() => accounts.id),

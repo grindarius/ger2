@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
+import { index, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { calendarEvents } from './calendar-events.js'
 
@@ -28,7 +28,8 @@ export const calendarEventTypes = pgTable(
   t => ({
     calendarEventTypesNameSlugUniqueIndex: uniqueIndex(
       'calendar_event_types_name_slug_unique_index'
-    ).on(t.name, t.slug)
+    ).on(t.name, t.slug),
+    pgroongaCalendarEventsIndex: index('pgroonga_calendar_events_index').using('pgroonga', t.name)
   })
 )
 

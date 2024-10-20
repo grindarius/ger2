@@ -20,6 +20,20 @@ services:
     ports:
       - 3792:9090
 
+  google-cloud-storage:
+    image: fsouza/fake-gcs-server:latest
+    container_name: ger2-gcs-mock
+    ports:
+      - 4443:4443
+    command: [ "-scheme", "http", "-port", "4443", "-public-host", "gcs:4443" ]
+    volumes:
+      - ./scripts/seed/src/gcs/ger2/:/data/ger2/
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4443/storage/v1/b/"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+
   redis:
     image: redis:7-alpine
     container_name: ger2-keydb-server
