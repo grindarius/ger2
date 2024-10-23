@@ -1,14 +1,14 @@
-use aws_sdk_s3::Client;
 use deadpool_postgres::Pool;
+use gcloud_sdk::GoogleRestApi;
 
 #[derive(Clone)]
 pub struct SharedState {
     pub pool: Pool,
-    pub s3: Client,
+    pub gcs: GoogleRestApi,
 }
 
 impl SharedState {
-    pub fn new(pool: Pool, s3: aws_sdk_s3::Client) -> Self {
-        Self { pool, s3 }
+    pub fn new(pool: Pool, gcs: GoogleRestApi) -> Self {
+        Self { pool, gcs }
     }
 }

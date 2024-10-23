@@ -1,6 +1,7 @@
 use std::sync::LazyLock;
 
 use axum::{middleware, routing::get, Router};
+use gcloud_sdk::GoogleRestApi;
 use tower_http::trace::TraceLayer;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -11,7 +12,6 @@ use crate::{
     openapi::apidoc::ApiDoc,
     openapi::apikey_middleware::require_apikey_middleware,
     pool::init_pool,
-    s3::init_s3,
     state::SharedState,
     telemetry::{init_telemetry, make_span, on_request, on_response},
 };
@@ -25,7 +25,6 @@ mod macros;
 mod openapi;
 mod pool;
 mod routes;
-mod s3;
 mod state;
 mod telemetry;
 
@@ -37,11 +36,13 @@ async fn main() {
     // database setup
     let pool = init_pool();
 
-    // S3 setup
-    let s3 = init_s3();
+    // Google Cloud Storage setup
+    let google_cloud_client = GoogleRestApi::new()
+        .await
+        .expect("Failed to initialize Google Cloud API Client");
 
     // App state setup
-    let state = SharedState::new(pool, s3);
+    let state = SharedState::new(pool, google_cloud_client);
 
     let routes = Router::new()
         .route(
