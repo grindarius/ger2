@@ -20,13 +20,13 @@
     "test": "tsx ./test/index.test.ts"
   },
   "dependencies": {
-    "dayjs": "^1.11.10",
-    "ioredis": "^5.3.2",
+    "dayjs": "^1.11.13",
+    "ioredis": "^5.4.1",
     "postgres": "^3.4.4",
-    "redis": "^4.6.13"
+    "redis": "^4.7.0"
   },
   "devDependencies": {
-    "@lucia-auth/adapter-test": "^5.0.1",
-    "lucia": "^3.1.1"
+    "@lucia-auth/adapter-test": "^5.0.2",
+    "lucia": "^3.2.2"
   }
 }

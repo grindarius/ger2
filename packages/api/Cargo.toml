@@ -32,5 +32,5 @@ tracing-bunyan-formatter = "0.3"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 ts-rs = "10"
 ulid = { version = "1", features = ["serde"] }
-utoipa = { version = "4", features = ["axum_extras", "time", "decimal", "ulid"] }
-utoipa-swagger-ui = { version = "7", features = ["axum"] }
+utoipa = { version = "5", features = ["axum_extras", "time", "decimal", "ulid"] }
+utoipa-swagger-ui = { version = "8", features = ["axum"] }
