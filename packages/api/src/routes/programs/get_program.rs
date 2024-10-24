@@ -11,7 +11,10 @@ use ts_rs::TS;
 use utoipa::{IntoParams, ToSchema};
 
 use crate::{
-    errors::{HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE, EXAMPLE_NOT_FOUND_RESPONSE},
+    errors::{
+        ErrorResponse, HttpError, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE,
+        EXAMPLE_NOT_FOUND_RESPONSE,
+    },
     state::SharedState,
 };
 

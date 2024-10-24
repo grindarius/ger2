@@ -13,14 +13,12 @@ pub async fn require_apikey_middleware(
     match headers.get(LazyLock::force(&SWAGGER_API_KEY_NAME)) {
         Some(header) => {
             if header == SWAGGER_API_KEY.as_str() {
-                tracing::info!("require_apikey_middleware: correct swagger api key given");
+                tracing::info!("Correct swagger api key given");
                 let response = next.run(request).await;
 
                 Ok(response)
             } else {
-                tracing::error!(
-                    "require_apikey_middleware error: swagger header present but incorrect api key"
-                );
+                tracing::warn!("Swagger header present but incorrect api key");
                 Err(StatusCode::UNAUTHORIZED)
             }
         }

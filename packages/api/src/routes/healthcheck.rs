@@ -2,6 +2,8 @@ use axum::Json;
 use serde::Serialize;
 use utoipa::ToSchema;
 
+use crate::errors::{ErrorResponse, EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE};
+
 #[derive(Serialize, ToSchema)]
 pub struct GetHealthcheckResponseBody {
     message: &'static str,
@@ -16,8 +18,14 @@ pub struct GetHealthcheckResponseBody {
         (
             status = 200,
             description = "If server is up. This should always be served.",
-            body = GetHelloWorldResponseBody,
+            body = GetHealthcheckResponseBody,
             example = json!({ "message": "ger2 api running" })
+        ),
+        (
+            status = "5XX",
+            description = "Something goes wrong",
+            body = ErrorResponse,
+            example = json!(*EXAMPLE_INTERNAL_SERVER_ERROR_RESPONSE)
         )
     )
 )]
