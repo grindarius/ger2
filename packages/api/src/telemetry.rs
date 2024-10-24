@@ -15,7 +15,7 @@ use crate::environment_variables::APP_NAME;
 pub fn init_telemetry() -> WorkerGuard {
     let env_filter = EnvFilter::try_from_default_env().unwrap_or(
         format!(
-            "{}=debug,tower_http=info,axum::rejection=trace",
+            "{}=info,tower_http=info,axum::rejection=trace",
             LazyLock::force(&APP_NAME)
         )
         .into(),
