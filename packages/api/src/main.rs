@@ -16,7 +16,6 @@ use crate::{
     telemetry::{init_telemetry, make_span, on_request, on_response},
 };
 
-mod cloud_storage;
 mod database;
 mod environment_variables;
 mod errors;
