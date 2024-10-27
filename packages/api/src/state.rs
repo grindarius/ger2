@@ -19,6 +19,10 @@ impl SharedState {
         Self { pool, gcs }
     }
 
+    /// Constructs new google storage configuration per request based on the current environment
+    /// variable, meaning it will connect to local fake google cloud storage client docker with
+    /// `STORAGE_EMULATOR_ENABLED` environment variable is set to `1`. Or else it will use default
+    /// token generator function for production environment instead.
     pub async fn create_google_storage_config(&self) -> Result<Configuration, GoogleCloudError> {
         let emulator_enabled = LazyLock::force(&STORAGE_EMULATOR_ENABLED).as_ref();
 

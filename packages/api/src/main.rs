@@ -16,7 +16,6 @@ use crate::{
     telemetry::{init_telemetry, make_span, on_request, on_response},
 };
 
-mod database;
 mod environment_variables;
 mod errors;
 mod json;
@@ -24,6 +23,7 @@ mod macros;
 mod openapi;
 mod pool;
 mod routes;
+mod schema;
 mod state;
 mod telemetry;
 
