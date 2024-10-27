@@ -12,24 +12,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
-  s3mock:
-    image: adobe/s3mock
-    container_name: ger2-s3-mock
-    environment:
-      - initialBuckets=ger2
-    ports:
-      - 3792:9090
-
   google-cloud-storage:
     image: fsouza/fake-gcs-server:latest
     container_name: ger2-gcs-mock
     ports:
       - 4443:4443
-    command: [ "-scheme", "http", "-port", "4443", "-public-host", "gcs:4443" ]
+    command: [ "-scheme", "http", "-port", "4443" ]
     volumes:
       - ./packages/scripts/seed/src/gcs/ger2/:/data/ger2/
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4443/storage/v1/b/"]
+      test: ["CMD", "wget", "--spider", "http://localhost:4443/storage/v1/b/"]
       interval: 5s
       timeout: 10s
       retries: 3
