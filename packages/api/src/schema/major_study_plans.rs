@@ -3,8 +3,9 @@ use sea_query::Iden;
 #[derive(Iden)]
 pub enum MajorStudyPlans {
     Table,
+    Id,
     MajorId,
     SemesterId,
-    Description,
-    SubjectId,
+    AdditionalTitle,
+    AdditionalSubjectId,
 }

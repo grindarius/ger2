@@ -11,7 +11,7 @@ pub enum TransactionType {
     #[iden = "enroll-subject"]
     EnrollSubject,
 
-    #[iden = "enroll-subject"]
+    #[iden = "move-subject"]
     MoveSubject,
 }
 

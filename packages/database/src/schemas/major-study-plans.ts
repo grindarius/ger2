@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, varchar } from 'drizzle-orm/pg-core'
+import { pgTable, text, varchar } from 'drizzle-orm/pg-core'
 import { majors } from './majors.js'
 import { semesters } from './semesters.js'
 
@@ -15,8 +15,8 @@ export const majorStudyPlans = pgTable('major_study_plans', {
   semesterId: varchar('semester_id', { length: 26 })
     .notNull()
     .references(() => semesters.id),
-  description: varchar('additional_title', { length: 256 }),
-  subjectId: varchar('additional_subject_id', { length: 32 })
+  additionalTitle: text('additional_title'),
+  additionalSubjectId: varchar('additional_subject_id', { length: 26 })
 })
 
 export const majorStudyPlansRelations = relations(majorStudyPlans, ({ one }) => ({
