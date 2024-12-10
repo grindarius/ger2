@@ -22,9 +22,7 @@ export const subjects = pgTable(
     credit: integer('credit').notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaSubjectNameIndex: index('pgroonga_subject_name_index').using('pgroonga', t.name)
-  })
+  t => [index('pgroonga_subject_name_index').using('pgroonga', t.name)]
 )
 
 export const subjectsRelations = relations(subjects, ({ many }) => ({

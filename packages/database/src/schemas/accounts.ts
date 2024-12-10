@@ -34,13 +34,10 @@ export const accounts = pgTable(
     birthdate: date('birthdate', { mode: 'string' }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    accountsEmailUniqueIndex: uniqueIndex('accounts_email_unique_index').using(
-      'btree',
-      sql`lower(${t.email})`
-    ),
-    pgroongaAccountsIndex: index('pgroonga_accounts_index').using('pgroonga', t.username)
-  })
+  t => [
+    uniqueIndex('accounts_email_unique_index').using('btree', sql`lower(${t.email})`),
+    index('pgroonga_accounts_index').using('pgroonga', t.username)
+  ]
 )
 
 export const accountsRelations = relations(accounts, ({ one, many }) => ({

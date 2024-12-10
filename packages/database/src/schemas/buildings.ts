@@ -19,9 +19,7 @@ export const buildings = pgTable(
     }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaBuildingsIndex: index('pgroonga_buildings_index').using('pgroonga', t.name)
-  })
+  t => [index('pgroonga_buildings_index').using('pgroonga', t.name)]
 )
 
 export const buildingsRelations = relations(buildings, ({ many }) => ({

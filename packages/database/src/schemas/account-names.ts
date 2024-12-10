@@ -23,14 +23,9 @@ export const accountNames = pgTable(
     lastName: text('last_name').notNull().default(''),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaAccountNameIndex: index('pgroonga_account_names_index').using(
-      'pgroonga',
-      t.firstName,
-      t.middleName,
-      t.lastName
-    )
-  })
+  t => [
+    index('pgroonga_account_names_index').using('pgroonga', t.firstName, t.middleName, t.lastName)
+  ]
 )
 
 export const accountNamesRelations = relations(accountNames, ({ one }) => ({

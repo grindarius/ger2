@@ -31,9 +31,7 @@ export const rooms = pgTable(
     floor: integer('floor').notNull().default(1),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaRoomsIndex: index('pgroonga_rooms_index').using('pgroonga', t.name, t.type)
-  })
+  t => [index('pgroonga_rooms_index').using('pgroonga', t.name, t.type)]
 )
 
 export const roomsRelations = relations(rooms, ({ one, many }) => ({

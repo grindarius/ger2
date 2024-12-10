@@ -24,9 +24,7 @@ export const assignments = pgTable(
     percentage: numeric('percentage', { precision: 5, scale: 2 }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaAssignmentsIndex: index('pgroonga_assignments_index').using('pgroonga', t.name)
-  })
+  t => [index('pgroonga_assignments_index').using('pgroonga', t.name)]
 )
 
 export const assignmentsRelations = relations(assignments, ({ one, many }) => ({

@@ -19,9 +19,7 @@ export const replies = pgTable(
     content: text('content').notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    repliesParentIdIndex: index('replies_parent_id_index').on(t.parentId)
-  })
+  t => [index('replies_parent_id_index').on(t.parentId)]
 )
 
 export const repliesRelations = relations(replies, ({ one, many }) => ({

@@ -21,9 +21,7 @@ export const studentAssignments = pgTable(
     score: numeric('score', { precision: 6, scale: 3 }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pk: primaryKey({ columns: [t.assignmentId, t.studentId] })
-  })
+  t => [primaryKey({ columns: [t.assignmentId, t.studentId] })]
 )
 
 export const studentAssignmentsRelations = relations(studentAssignments, ({ one }) => ({

@@ -14,9 +14,7 @@ export const degrees = pgTable(
     name: varchar('name', { length: 512 }).notNull().unique(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaDegreesIndex: index('pgroonga_degrees_index').using('pgroonga', t.name)
-  })
+  t => [index('pgroonga_degrees_index').using('pgroonga', t.name)]
 )
 
 export const degreesRelations = relations(degrees, ({ many }) => ({

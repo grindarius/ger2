@@ -47,12 +47,15 @@ export const majors = pgTable(
     minimum_credit: integer('minimum_credit').notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    majorsFacultyIdProgramIdDegreeIdAcademicYearIdIndex: uniqueIndex(
-      'majors_faculty_id_program_id_degree_id_academic_year_id_index'
-    ).on(t.facultyId, t.programId, t.degreeId, t.academicYearId),
-    pgroongaMajorsIndex: index('pgroonga_majors_index').using('pgroonga', t.name)
-  })
+  t => [
+    uniqueIndex('majors_faculty_id_program_id_degree_id_academic_year_id_index').on(
+      t.facultyId,
+      t.programId,
+      t.degreeId,
+      t.academicYearId
+    ),
+    index('pgroonga_majors_index').using('pgroonga', t.name)
+  ]
 )
 
 export const majorsRelations = relations(majors, ({ one, many }) => ({

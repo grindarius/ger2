@@ -21,9 +21,7 @@ export const majorSubjectGroups = pgTable(
     minimumCredit: numeric('minimum_credit', { precision: 4, scale: 1 }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    majorSubjectGroupsParentIdIndex: index('major_subject_groups_parent_id_index').on(t.parentId)
-  })
+  t => [index('major_subject_groups_parent_id_index').on(t.parentId)]
 )
 
 export const majorSubjectGroupsRelations = relations(majorSubjectGroups, ({ one, many }) => ({

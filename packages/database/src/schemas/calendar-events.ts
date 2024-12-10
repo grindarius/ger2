@@ -22,9 +22,7 @@ export const calendarEvents = pgTable(
     timezone: varchar('timezone', { length: 128 }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pk: primaryKey({ columns: [t.calendarEventTypeId, t.semesterId] })
-  })
+  t => [primaryKey({ columns: [t.calendarEventTypeId, t.semesterId] })]
 )
 
 export const calendarEventsRelations = relations(calendarEvents, ({ one }) => ({

@@ -14,9 +14,7 @@ export const programs = pgTable(
     name: varchar('name', { length: 256 }).notNull().unique(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaProgramsIndex: index('pgroonga_programs_index').using('pgroonga', t.name)
-  })
+  t => [index('pgroonga_programs_index').using('pgroonga', t.name)]
 )
 
 export const programsRelations = relations(programs, ({ many }) => ({

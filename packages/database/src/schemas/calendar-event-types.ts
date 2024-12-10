@@ -25,12 +25,10 @@ export const calendarEventTypes = pgTable(
     slug: varchar('slug', { length: 30 }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    calendarEventTypesNameSlugUniqueIndex: uniqueIndex(
-      'calendar_event_types_name_slug_unique_index'
-    ).on(t.name, t.slug),
-    pgroongaCalendarEventsIndex: index('pgroonga_calendar_events_index').using('pgroonga', t.name)
-  })
+  t => [
+    uniqueIndex('calendar_event_types_name_slug_unique_index').on(t.name, t.slug),
+    index('pgroonga_calendar_events_index').using('pgroonga', t.name)
+  ]
 )
 
 export const calendarEventTypesRelations = relations(calendarEventTypes, ({ many }) => ({

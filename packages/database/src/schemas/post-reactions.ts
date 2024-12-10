@@ -17,9 +17,7 @@ export const postReactions = pgTable(
       .notNull()
       .references(() => posts.id)
   },
-  t => ({
-    pk: primaryKey({ columns: [t.accountId, t.reactionId, t.postId] })
-  })
+  t => [primaryKey({ columns: [t.accountId, t.reactionId, t.postId] })]
 )
 
 export const postReactionsRelations = relations(postReactions, ({ one }) => ({

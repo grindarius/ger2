@@ -18,9 +18,7 @@ export const forums = pgTable(
     color: bytea('color').notNull(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaForumsIndex: index('pgroonga_forums_index').using('pgroonga', t.name)
-  })
+  t => [index('pgroonga_forums_index').using('pgroonga', t.name)]
 )
 
 export const forumsRelations = relations(forums, ({ one, many }) => ({

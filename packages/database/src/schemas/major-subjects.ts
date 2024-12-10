@@ -18,9 +18,7 @@ export const majorSubjects = pgTable(
       .notNull()
       .references(() => subjects.id)
   },
-  t => ({
-    pk: primaryKey({ columns: [t.subjectId, t.majorSubjectGroupId] })
-  })
+  t => [primaryKey({ columns: [t.subjectId, t.majorSubjectGroupId] })]
 )
 
 export const majorSubjectsRelations = relations(majorSubjects, ({ one }) => ({

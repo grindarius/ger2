@@ -22,9 +22,7 @@ export const posts = pgTable(
     views: bigint('views', { mode: 'bigint' }).notNull().default(sql`'0'::bigint`),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaPostsIndex: index('pgroonga_posts_index').using('pgroonga', t.name, t.content)
-  })
+  t => [index('pgroonga_posts_index').using('pgroonga', t.name, t.content)]
 )
 
 export const postsRelations = relations(posts, ({ one, many }) => ({

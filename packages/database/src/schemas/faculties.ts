@@ -14,9 +14,7 @@ export const faculties = pgTable(
     name: varchar('name', { length: 256 }).notNull().unique(),
     ...TIMESTAMP_COLUMNS
   },
-  t => ({
-    pgroongaFacultiesIndex: index('pgroonga_faculties_index').using('pgroonga', t.name)
-  })
+  t => [index('pgroonga_faculties_index').using('pgroonga', t.name)]
 )
 
 export const facultiesRelations = relations(faculties, ({ many }) => ({
