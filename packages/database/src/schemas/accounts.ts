@@ -2,6 +2,7 @@ import { relations, sql } from 'drizzle-orm'
 import { date, index, pgTable, uniqueIndex, varchar } from 'drizzle-orm/pg-core'
 import { TIMESTAMP_COLUMNS } from '../utils.js'
 import { accountNames } from './account-names.js'
+import { accountType } from './account-type.js'
 import { forums } from './forums.js'
 import { postReactions } from './post-reactions.js'
 import { posts } from './posts.js'
@@ -9,7 +10,6 @@ import { professors } from './professors.js'
 import { reactions } from './reactions.js'
 import { replies } from './replies.js'
 import { replyReactions } from './reply-reactions.js'
-import { role } from './role.js'
 import { students } from './students.js'
 import { transactions } from './transactions.js'
 
@@ -30,7 +30,7 @@ export const accounts = pgTable(
     username: varchar('username', { length: 30 }).notNull().unique(),
     email: varchar('email', { length: 320 }).notNull().unique(),
     password: varchar('password', { length: 256 }).notNull(),
-    role: role('role').notNull(),
+    accountType: accountType('account_type').notNull(),
     birthdate: date('birthdate', { mode: 'string' }).notNull(),
     ...TIMESTAMP_COLUMNS
   },
