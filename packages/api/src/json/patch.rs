@@ -1,5 +1,4 @@
 use serde::{Deserialize, Deserializer};
-use ts_rs::TS;
 
 /// Patch type to contain 3 states of json
 ///
