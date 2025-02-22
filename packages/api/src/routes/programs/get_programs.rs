@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use axum::{
     extract::State,
     http::{header::CACHE_CONTROL, HeaderMap, StatusCode},
@@ -88,7 +90,9 @@ impl Default for GetProgramsResponseBodyInner {
         )
     )
 )]
-pub async fn handler(State(state): State<SharedState>) -> Result<impl IntoResponse, HttpError> {
+pub async fn handler(
+    State(state): State<Arc<SharedState>>,
+) -> Result<impl IntoResponse, HttpError> {
     let client = state.pool.get().await.unwrap();
 
     let querystring = r##"

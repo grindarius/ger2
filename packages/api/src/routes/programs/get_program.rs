@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use axum::{
     extract::{Path, State},
     response::IntoResponse,
@@ -96,7 +98,7 @@ impl Default for GetProgramResponseBody {
 )]
 pub async fn handler(
     Path(path): Path<GetProgramRequestParams>,
-    State(state): State<SharedState>,
+    State(state): State<Arc<SharedState>>,
 ) -> Result<impl IntoResponse, HttpError> {
     let client = state.pool.get().await?;
 

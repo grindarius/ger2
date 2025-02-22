@@ -8,7 +8,6 @@ use gcloud_sdk::{
 
 use crate::environment_variables::STORAGE_EMULATOR_ENABLED;
 
-#[derive(Clone)]
 pub struct SharedState {
     pub pool: Pool,
     pub gcs: GoogleRestApi,

@@ -1,4 +1,4 @@
-use std::sync::LazyLock;
+use std::sync::{Arc, LazyLock};
 
 use axum::{middleware, routing::get, Router};
 use gcloud_sdk::GoogleRestApi;
@@ -41,7 +41,7 @@ async fn main() {
         .expect("Failed to initialize Google Cloud API Client");
 
     // App state setup
-    let state = SharedState::new(pool, google_cloud_client);
+    let state = Arc::new(SharedState::new(pool, google_cloud_client));
 
     let routes = Router::new()
         .route(

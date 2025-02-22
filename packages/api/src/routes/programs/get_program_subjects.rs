@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use axum::{
     extract::{Path, State},
     response::IntoResponse,
@@ -154,7 +156,7 @@ pub struct GetProgramSubjectsResponseBodySubject {
 )]
 pub async fn handler(
     Path(path): Path<GetProgramSubjectsRequestParams>,
-    State(state): State<SharedState>,
+    State(state): State<Arc<SharedState>>,
 ) -> Result<impl IntoResponse, HttpError> {
     let client = state.pool.get().await?;
 
